@@ -7,12 +7,18 @@ import Layout from '../layouts/Layout.astro';
 		<!-- Hero Section -->
 		<section class="hero">
 			<div class="container">
-				<h1 class="name">Yuki Tachi</h1>
-				<p class="japanese-name">（和名：たち ゆうき）</p>
-				<p class="title">Individual Business Owner / Software Engineer</p>
-				<p class="company">Donut Service</p>
-
-				<p class="tagline">"Nurturing people who nurture software"</p>
+				<div class="hero-top">
+					<div class="profile-image-container">
+						<img src="/profile.jpg" alt="Yuki Tachi" class="profile-image">
+					</div>
+					<div class="hero-header">
+						<h1 class="name">Yuki Tachi</h1>
+						<p class="japanese-name">（和名：たち ゆうき）</p>
+						<p class="title">Individual Business Owner / Software Engineer</p>
+						<p class="company">Donut Service</p>
+						<p class="tagline">"Nurturing people who nurture software"</p>
+					</div>
+				</div>
 
 				<p class="hero-description">
 					半導体（シリコン）からAI-クラウドまでをカバーする<br>
@@ -542,6 +548,38 @@ import Layout from '../layouts/Layout.astro';
 		border-bottom: 2px solid var(--color-accent);
 	}
 
+	.hero-top {
+		display: flex;
+		align-items: flex-start;
+		gap: 2rem;
+		justify-content: center;
+		margin-bottom: 3rem;
+	}
+
+	.profile-image-container {
+		flex-shrink: 0;
+	}
+
+	.profile-image {
+		width: 200px;
+		height: 200px;
+		object-fit: cover;
+		border-radius: 8px;
+		border: 4px solid var(--color-accent);
+		box-shadow: 0 0 40px rgba(0, 217, 255, 0.3);
+		transition: all 0.3s ease;
+	}
+
+	.profile-image:hover {
+		transform: scale(1.05);
+		box-shadow: 0 0 60px rgba(0, 217, 255, 0.5);
+	}
+
+	.hero-header {
+		text-align: left;
+		flex: 0 1 auto;
+	}
+
 	.hero::after {
 		content: '';
 		position: absolute;
@@ -564,7 +602,7 @@ import Layout from '../layouts/Layout.astro';
 	}
 
 	.name {
-		font-size: 4rem;
+		font-size: 3rem;
 		font-weight: 700;
 		margin: 0 0 0.5rem;
 		letter-spacing: -0.02em;
@@ -575,43 +613,43 @@ import Layout from '../layouts/Layout.astro';
 	}
 
 	.japanese-name {
-		font-size: 1.1rem;
-		margin: 0 0 2rem;
+		font-size: 0.9rem;
+		margin: 0 0 1rem;
 		opacity: 0.7;
 		font-weight: 300;
 	}
 
 	.title {
-		font-size: 1.5rem;
-		margin: 0 0 0.5rem;
+		font-size: 1.1rem;
+		margin: 0 0 0.3rem;
 		opacity: 1;
 		font-weight: 500;
 	}
 
 	.company {
-		font-size: 1.25rem;
-		margin: 0 0 2rem;
+		font-size: 1.1rem;
+		margin: 0 0 1rem;
 		color: var(--color-accent);
 		font-weight: 600;
 	}
 
 	.tagline {
-		font-size: 1.5rem;
-		margin: 2rem 0;
+		font-size: 1.1rem;
+		margin: 0.5rem 0 0;
 		font-style: italic;
 		opacity: 0.9;
 		color: var(--color-accent);
 	}
 
 	.hero-description {
-		font-size: 1.25rem;
-		margin: 2rem auto;
+		font-size: 1.1rem;
+		margin: 0 auto 3rem;
 		max-width: 800px;
 		line-height: 1.8;
 	}
 
 	.tech-layers {
-		margin: 3rem auto;
+		margin: 0 auto 3rem;
 		max-width: 900px;
 		text-align: left;
 		background: rgba(0, 0, 0, 0.3);
@@ -635,15 +673,15 @@ import Layout from '../layouts/Layout.astro';
 	}
 
 	.philosophy {
-		font-size: 1.1rem;
-		margin: 3rem auto 2rem;
+		font-size: 1rem;
+		margin: 0 auto 3rem;
 		max-width: 700px;
 		line-height: 1.8;
 		opacity: 0.9;
 	}
 
 	.cta-buttons {
-		margin-top: 3rem;
+		margin: 0;
 		display: flex;
 		gap: 1.5rem;
 		justify-content: center;
@@ -1232,6 +1270,21 @@ import Layout from '../layouts/Layout.astro';
 			padding: 5rem 0 4rem;
 		}
 
+		.hero-top {
+			flex-direction: column;
+			align-items: center;
+			gap: 1.5rem;
+		}
+
+		.hero-header {
+			text-align: center;
+		}
+
+		.profile-image {
+			width: 180px;
+			height: 180px;
+		}
+
 		.name {
 			font-size: 2.5rem;
 		}
@@ -1300,6 +1353,11 @@ import Layout from '../layouts/Layout.astro';
 	}
 
 	@media (max-width: 480px) {
+		.profile-image {
+			width: 150px;
+			height: 150px;
+		}
+
 		.name {
 			font-size: 2rem;
 		}
