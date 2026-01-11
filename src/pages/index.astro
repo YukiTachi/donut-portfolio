@@ -8,49 +8,276 @@ import Layout from '../layouts/Layout.astro';
 		<section class="hero">
 			<div class="container">
 				<h1 class="name">Yuki Tachi</h1>
-				<p class="title">個人事業主 / ソフトウェアエンジニア</p>
+				<p class="japanese-name">（和名：たち ゆうき）</p>
+				<p class="title">Individual Business Owner / Software Engineer</p>
+				<p class="company">Donut Service</p>
+
+				<p class="tagline">"Nurturing people who nurture software"</p>
+
+				<p class="hero-description">
+					半導体（シリコン）からAI-クラウドまでをカバーする<br>
+					唯一無二のフルスタックエンジニア
+				</p>
+
+				<div class="tech-layers">
+					<div class="tech-layer">
+						<span class="layer-label">Hardware Layer:</span>
+						<span>Verilog-HDL, SystemC, Synopsys DC/FV/PT</span>
+					</div>
+					<div class="tech-layer">
+						<span class="layer-label">System Layer:</span>
+						<span>C, C++, Shell</span>
+					</div>
+					<div class="tech-layer">
+						<span class="layer-label">Application Layer:</span>
+						<span>C#, Java, Kotlin, PHP, Javascript</span>
+					</div>
+					<div class="tech-layer">
+						<span class="layer-label">UI Layer:</span>
+						<span>Flutter</span>
+					</div>
+					<div class="tech-layer">
+						<span class="layer-label">Cloud Layer:</span>
+						<span>Lambda(Python)</span>
+					</div>
+				</div>
+
+				<p class="philosophy">
+					ソフトウェア開発は長期戦。<br>
+					エンジニアの心身の健康が、持続可能な開発の基盤になる。
+				</p>
+
+				<div class="cta-buttons">
+					<a href="#products" class="cta-button primary">View Projects</a>
+					<a href="#contact" class="cta-button secondary">Contact</a>
+				</div>
 			</div>
 		</section>
 
-		<!-- Profile Section -->
-		<section class="profile">
+		<!-- About Section -->
+		<section class="about" id="about">
 			<div class="container">
-				<div class="profile-card">
+				<div class="section-card">
 					<div class="terminal-header">
 						<span class="terminal-dots">
 							<span></span><span></span><span></span>
 						</span>
-						<span class="terminal-title">portfolio.sh</span>
+						<span class="terminal-title">about.md</span>
 					</div>
-					<h2><span class="prompt">$</span> cat profile.json</h2>
-					<div class="profile-grid">
-						<div class="profile-item">
-							<h3>会社</h3>
-							<p>Donut Service（2017年独立）</p>
+					<h2><span class="prompt">$</span> cat about.md</h2>
+
+					<div class="about-content">
+						<div class="about-text">
+							<p>
+								2017年、Sony での14年間の経験を経て、Donut Service を立ち上げました。<br>
+								大企業での開発経験を通じて、エンジニアのウェルビーイングの重要性を実感。<br>
+								より自由に「人を育てる」アプローチを追求したいと考え、独立を決意しました。
+							</p>
+
+							<p class="highlight">
+								<strong>「ソフトウェア開発は長期的な育成プロセス」</strong>
+							</p>
+
+							<p>
+								短期的な成果を追うのではなく、長期的な視点で丁寧に育てていく。<br>
+								そのためには、開発者自身が健康で、持続可能な状態であることが不可欠です。
+							</p>
+
+							<p>
+								現在は、フルスタック開発を行いながら、<br>
+								エンジニア向けの認知トレーニングプラットフォーム「BrainSync」を開発しています。<br>
+								認知科学の知見を活用し、エンジニアが長く健康的に開発を続けられる環境づくりを目指しています。
+							</p>
 						</div>
-						<div class="profile-item">
-							<h3>経歴</h3>
-							<p>Sony 14年 → 独立</p>
-						</div>
-						<div class="profile-item">
-							<h3>専門分野</h3>
-							<p>フルスタック開発</p>
-							<ul>
-								<li>Python</li>
-								<li>Flutter</li>
-								<li>PHP</li>
-								<li>Docker</li>
-								<li>AWS</li>
-							</ul>
-						</div>
-						<div class="profile-item">
-							<h3>経験</h3>
-							<p>FreeBSD: 25年</p>
+
+						<div class="philosophy-box">
+							<h3>Philosophy</h3>
+							<p>
+								Viktor Frankl の思想に影響を受けています。<br>
+								「刺激と反応の間には空間がある。その空間にこそ、私たちの選択の自由がある。」
+							</p>
+							<p>
+								ソフトウェア開発においても、目の前の課題に反射的に対応するのではなく、<br>
+								一歩引いて考える「間」を大切にしています。
+							</p>
+							<p>
+								毎朝1〜2時間の散歩（約16,000歩）が、その「間」を作る習慣になっています。<br>
+								川崎の街や多摩川を歩きながら、その日の開発の構想を練る時間が、最も創造的な時間です。
+							</p>
 						</div>
 					</div>
 				</div>
+			</div>
+		</section>
 
-				<div class="products-card">
+		<!-- Experience Section -->
+		<section class="experience" id="experience">
+			<div class="container">
+				<div class="section-card">
+					<div class="terminal-header">
+						<span class="terminal-dots">
+							<span></span><span></span><span></span>
+						</span>
+						<span class="terminal-title">experience.json</span>
+					</div>
+					<h2><span class="prompt">></span> cat experience.json</h2>
+
+					<div class="timeline">
+						<div class="timeline-item">
+							<div class="timeline-period">2017年〜現在</div>
+							<div class="timeline-content">
+								<h3>Donut Service</h3>
+								<p class="role">Individual Business Owner / Software Engineer</p>
+
+								<div class="work-distribution">
+									<h4>現在の活動配分</h4>
+									<ul>
+										<li>70% クライアントワーク</li>
+										<li>20% BrainSync開発</li>
+										<li>10% その他プロジェクト</li>
+									</ul>
+								</div>
+
+								<div class="main-work">
+									<h4>主な業務</h4>
+									<ul>
+										<li>顧客管理システム開発</li>
+										<li>GitHub Copilot 活用支援・設定構築</li>
+										<li>フルスタック開発（Python, Flutter, PHP, Docker）</li>
+										<li>技術コンサルティング</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+
+						<div class="timeline-item">
+							<div class="timeline-period">2003年〜2017年（14年間）</div>
+							<div class="timeline-content">
+								<h3>Sony Corporation</h3>
+								<p class="role">Hardware/Software Engineer</p>
+								<p>
+									大規模プロジェクトでの開発経験を通じて、<br>
+									システム設計、チーム開発、長期的な保守運用の重要性を学びました。
+								</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="numbers-grid">
+						<div class="number-item">
+							<div class="number">47年</div>
+							<div class="number-label">生後</div>
+						</div>
+						<div class="number-item">
+							<div class="number">25年</div>
+							<div class="number-label">FreeBSD サーバー運用</div>
+						</div>
+						<div class="number-item">
+							<div class="number">14年</div>
+							<div class="number-label">Sony 勤務</div>
+						</div>
+						<div class="number-item">
+							<div class="number">8年</div>
+							<div class="number-label">ドーナツソフトウェア</div>
+						</div>
+						<div class="number-item">
+							<div class="number">16,000</div>
+							<div class="number-label">平均歩数/日</div>
+						</div>
+						<div class="number-item">
+							<div class="number">30,000m</div>
+							<div class="number-label">最長踏破記録</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Skills Section -->
+		<section class="skills" id="skills">
+			<div class="container">
+				<div class="section-card">
+					<div class="terminal-header">
+						<span class="terminal-dots">
+							<span></span><span></span><span></span>
+						</span>
+						<span class="terminal-title">skills.ts</span>
+					</div>
+					<h2><span class="prompt">></span> list --skills --detailed</h2>
+
+					<div class="skills-content">
+						<div class="skill-category">
+							<h3>Languages</h3>
+							<ul class="skill-list">
+								<li>C/C++（25年）- システムプログラミング</li>
+								<li>PHP（20年）- Web開発、WordPress、カスタムCMS</li>
+								<li>Dart/Flutter（3年）- モバイルアプリ、デスクトップアプリ</li>
+								<li>Python - Web開発、データ処理、AI/ML</li>
+								<li>その他: C#, Java, Kotlin, Javascript, Perl, Shell</li>
+								<li>Hardware Description: Verilog-HDL, SystemC</li>
+								<li>Physical Synthesis Tools: Synopsys DC/FV/PT</li>
+							</ul>
+						</div>
+
+						<div class="skill-category">
+							<h3>Infrastructure</h3>
+							<ul class="skill-list">
+								<li>FreeBSD（25年）- システム管理、サーバー運用</li>
+								<li>Docker - コンテナ化、開発環境構築</li>
+								<li>AWS - EC2, S3, Lambda（Graviton2/ARM64）</li>
+							</ul>
+						</div>
+
+						<div class="skill-category">
+							<h3>Server Management</h3>
+							<ul class="skill-list">
+								<li>Webサーバー: Nginx, Apache</li>
+								<li>メールサーバー: Postfix, Dovecot</li>
+								<li>データベースサーバー: PostgreSQL, MySQL, MariaDB</li>
+								<li>セキュリティ: SPF, DKIM, DMARC, SSL/TLS, Fail2ban</li>
+								<li>システム監視・運用</li>
+							</ul>
+						</div>
+
+						<div class="skill-category">
+							<h3>Development Environment</h3>
+							<ul class="skill-list">
+								<li>Vim/Neovim（25年）</li>
+								<li>VSCode/Cursor</li>
+								<li>Claude Code</li>
+								<li>GitHub Copilot</li>
+								<li>Git/GitHub</li>
+								<li>WezTerm/tmux</li>
+							</ul>
+						</div>
+
+						<div class="skill-category">
+							<h3>Specialized Areas</h3>
+							<ul class="skill-list">
+								<li>認知科学 × エンジニアリング - n-backトレーニング、認知負荷の可視化</li>
+								<li>データベース設計 - 日本食品標準成分表2020年版データベース化</li>
+								<li>教育カリキュラム - toio を活用したプログラミング教育</li>
+							</ul>
+						</div>
+
+						<div class="skill-category">
+							<h3>Current Interests</h3>
+							<ul class="skill-list">
+								<li>ローカルAI環境の構築（NVIDIA DGX Spark検討中）</li>
+								<li>ESG経営とウェルビーイング施策</li>
+								<li>持続可能な開発プラクティス</li>
+								<li>認知科学の最新研究</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Products Section -->
+		<section class="products" id="products">
+			<div class="container">
+				<div class="section-card">
 					<div class="terminal-header">
 						<span class="terminal-dots">
 							<span></span><span></span><span></span>
@@ -58,23 +285,175 @@ import Layout from '../layouts/Layout.astro';
 						<span class="terminal-title">products.js</span>
 					</div>
 					<h2><span class="prompt">></span> list --products</h2>
+
 					<div class="products-list">
-						<a href="https://donut-service.com/" target="_blank" rel="noopener noreferrer" class="product">
+						<a href="https://donut-service.com/" target="_blank" rel="noopener noreferrer" class="product-card">
 							<h3>BrainSync</h3>
-							<p>エンジニア向け認知トレーニングプラットフォーム</p>
+							<p class="product-subtitle">エンジニア向け認知トレーニングプラットフォーム</p>
+							<p class="product-description">
+								ソフトウェアエンジニアの認知機能を持続可能にするための「脳のパーソナルトレーニングスタジオ」。
+								長時間のコーディングやデバッグは、認知的に大きな負荷がかかります。
+								BrainSyncは、n-backトレーニングやその他の科学的手法を用いて、
+								エンジニアの集中力、ワーキングメモリ、認知的柔軟性を向上させます。
+							</p>
+							<p class="tech-stack">Flutter, Python, Docker</p>
 						</a>
-						<a href="https://5meals.donut-software.com/" target="_blank" rel="noopener noreferrer" class="product">
+
+						<a href="https://5meals.donut-software.com/" target="_blank" rel="noopener noreferrer" class="product-card">
 							<h3>5ive Meals</h3>
-							<p>栄養管理システム</p>
+							<p class="product-subtitle">食事・栄養管理システム</p>
+							<p class="product-description">
+								エンジニアの健康を食事面からサポート。
+								日本食品標準成分表2020年版（2,538食品）を完全データベース化し、
+								栄養バランスの可視化と管理を実現。
+								開発者自身が健康であることが、良いソフトウェアを生み出す基盤。
+								食事は最も基本的でありながら、最も重要な要素です。
+							</p>
+							<p class="tech-stack">WinterCMS, Docker, Python, PostgreSQL</p>
 						</a>
-						<div class="product">
-							<h3>toio教育カリキュラム</h3>
-							<p>toioを活用した教育プログラム</p>
+
+						<div class="product-card">
+							<h3>toio 教育カリキュラム</h3>
+							<p class="product-subtitle">小学生向けプログラミング教育</p>
+							<p class="product-description">
+								toio（ソニーの知育ロボット）を活用した、
+								体験型プログラミング学習カリキュラムの開発。
+								「考える」前に「触れる」ことで、
+								プログラミングの本質的な楽しさを伝えることを重視しています。
+							</p>
+						</div>
+
+						<div class="product-card">
+							<h3>その他</h3>
+							<p class="product-description">
+								スライドエディタアプリケーション、顧客管理システム、各種業務効率化ツール
+							</p>
 						</div>
 					</div>
 				</div>
 			</div>
 		</section>
+
+		<!-- Life Section -->
+		<section class="life" id="life">
+			<div class="container">
+				<div class="section-card">
+					<div class="terminal-header">
+						<span class="terminal-dots">
+							<span></span><span></span><span></span>
+						</span>
+						<span class="terminal-title">life.md</span>
+					</div>
+					<h2><span class="prompt">$</span> cat life.md</h2>
+
+					<div class="life-content">
+						<div class="life-section">
+							<h3>Daily Routine</h3>
+							<p>
+								朝、川崎の街を1〜2時間歩くことから一日が始まります。<br>
+								約16,000歩の散歩が、思考を整理し、その日の開発の構想を練る時間になっています。
+							</p>
+							<p>
+								週末は Starbucks で Bill Evans や Miles Davis を聴きながらコーディング。<br>
+								ジャズのリズムとコードのリズムがシンクロする瞬間があります。
+							</p>
+						</div>
+
+						<div class="life-section">
+							<h3>Interests</h3>
+							<div class="interests-grid">
+								<div class="interest-item">
+									<h4>音楽</h4>
+									<p>ジャズ（Bill Evans, Miles Davis）<br>作業中のBGMは常にジャズ</p>
+								</div>
+								<div class="interest-item">
+									<h4>読書</h4>
+									<p>哲学（Viktor Frankl『夜と霧』等）<br>認知科学<br>イノベーション理論（『独創はひらめかない』等）</p>
+								</div>
+								<div class="interest-item">
+									<h4>コレクション</h4>
+									<p>アナログとデジタルの接点に魅力を感じる</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="life-section">
+							<h3>Work-Life Balance</h3>
+							<div class="balance-info">
+								<p>平日: クライアントワーク + 開発</p>
+								<p>週末: 個人プロジェクト + リサーチ</p>
+								<p>毎日: 散歩 + 読書</p>
+								<p class="balance-quote">
+									「休む」ことも開発の一部。<br>
+									長期的に走り続けるための、意図的な余白。
+								</p>
+							</div>
+						</div>
+
+						<div class="life-section">
+							<h3>Location</h3>
+							<p>
+								川崎市を拠点に、リモートワークとクライアントサイトのバランスを大切に。<br>
+								毎日の創造的な散歩と意図的な人とのつながりを大切にしています。
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Contact Section -->
+		<section class="contact" id="contact">
+			<div class="container">
+				<div class="section-card">
+					<div class="terminal-header">
+						<span class="terminal-dots">
+							<span></span><span></span><span></span>
+						</span>
+						<span class="terminal-title">contact.sh</span>
+					</div>
+					<h2><span class="prompt">$</span> ./contact.sh</h2>
+
+					<div class="contact-content">
+						<p class="contact-intro">
+							新しいプロジェクトのご相談、<br>
+							技術的な議論、コラボレーション、<br>
+							お気軽にお声がけください。
+						</p>
+
+						<div class="contact-interests">
+							<h3>特に以下のような分野に興味があります：</h3>
+							<ul>
+								<li>エンジニアのウェルビーイング</li>
+								<li>認知科学の応用</li>
+								<li>持続可能な開発プラクティス</li>
+								<li>教育×テクノロジー</li>
+							</ul>
+						</div>
+
+						<div class="contact-info">
+							<div class="contact-item">
+								<span class="contact-label">Email:</span>
+								<a href="mailto:yuki.tachi@donut-service.com">yuki.tachi@donut-service.com</a>
+							</div>
+							<div class="contact-item">
+								<span class="contact-label">Location:</span>
+								<span>川崎市、神奈川県</span>
+							</div>
+						</div>
+
+						<div class="contact-quote">
+							<p>
+								"Between stimulus and response there is a space.<br>
+								In that space is our power to choose our response."<br>
+								— Viktor Frankl
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
 		<!-- Floating Geometric Shapes -->
 		<div class="geometric-shapes">
 			<div class="shape hexagon"></div>
@@ -196,34 +575,124 @@ import Layout from '../layouts/Layout.astro';
 	}
 
 	.japanese-name {
-		font-size: 1.75rem;
-		margin: 0 0 1.5rem;
-		opacity: 0.85;
+		font-size: 1.1rem;
+		margin: 0 0 2rem;
+		opacity: 0.7;
 		font-weight: 300;
-		font-family: 'JetBrains Mono', 'Courier New', monospace;
-		color: var(--color-accent);
 	}
 
 	.title {
-		font-size: 1.25rem;
-		margin: 0;
-		opacity: 0.9;
-		font-weight: 400;
-		border: 1px solid var(--color-accent);
-		display: inline-block;
-		padding: 0.5rem 1.5rem;
-		border-radius: 4px;
-		background: rgba(0, 217, 255, 0.05);
+		font-size: 1.5rem;
+		margin: 0 0 0.5rem;
+		opacity: 1;
+		font-weight: 500;
 	}
 
-	/* Profile Section */
-	.profile {
+	.company {
+		font-size: 1.25rem;
+		margin: 0 0 2rem;
+		color: var(--color-accent);
+		font-weight: 600;
+	}
+
+	.tagline {
+		font-size: 1.5rem;
+		margin: 2rem 0;
+		font-style: italic;
+		opacity: 0.9;
+		color: var(--color-accent);
+	}
+
+	.hero-description {
+		font-size: 1.25rem;
+		margin: 2rem auto;
+		max-width: 800px;
+		line-height: 1.8;
+	}
+
+	.tech-layers {
+		margin: 3rem auto;
+		max-width: 900px;
+		text-align: left;
+		background: rgba(0, 0, 0, 0.3);
+		padding: 2rem;
+		border: 1px solid var(--color-border);
+		border-left: 4px solid var(--color-accent);
+	}
+
+	.tech-layer {
+		margin: 0.75rem 0;
+		font-family: 'JetBrains Mono', 'Courier New', monospace;
+		font-size: 0.95rem;
+		line-height: 1.8;
+	}
+
+	.layer-label {
+		color: var(--color-accent);
+		font-weight: 700;
+		display: inline-block;
+		min-width: 150px;
+	}
+
+	.philosophy {
+		font-size: 1.1rem;
+		margin: 3rem auto 2rem;
+		max-width: 700px;
+		line-height: 1.8;
+		opacity: 0.9;
+	}
+
+	.cta-buttons {
+		margin-top: 3rem;
+		display: flex;
+		gap: 1.5rem;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+
+	.cta-button {
+		padding: 1rem 2.5rem;
+		font-size: 1.1rem;
+		font-weight: 600;
+		text-decoration: none;
+		border-radius: 4px;
+		transition: all 0.3s ease;
+		font-family: 'JetBrains Mono', 'Courier New', monospace;
+	}
+
+	.cta-button.primary {
+		background: var(--color-accent);
+		color: var(--color-primary);
+		border: 2px solid var(--color-accent);
+	}
+
+	.cta-button.primary:hover {
+		background: transparent;
+		color: var(--color-accent);
+		transform: translateY(-2px);
+		box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3);
+	}
+
+	.cta-button.secondary {
+		background: transparent;
+		color: var(--color-accent);
+		border: 2px solid var(--color-accent);
+	}
+
+	.cta-button.secondary:hover {
+		background: var(--color-accent);
+		color: var(--color-primary);
+		transform: translateY(-2px);
+		box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3);
+	}
+
+	/* Common Section Styles */
+	section {
 		padding: 4rem 0;
 		background: var(--color-bg);
 	}
 
-	.profile-card,
-	.products-card {
+	.section-card {
 		background: var(--color-bg-alt);
 		border-radius: 0;
 		padding: 3rem;
@@ -234,8 +703,7 @@ import Layout from '../layouts/Layout.astro';
 		transition: all 0.3s ease;
 	}
 
-	.profile-card::before,
-	.products-card::before {
+	.section-card::before {
 		content: '';
 		position: absolute;
 		top: 0;
@@ -245,8 +713,7 @@ import Layout from '../layouts/Layout.astro';
 		background: linear-gradient(180deg, var(--color-accent) 0%, var(--color-accent-2) 100%);
 	}
 
-	.profile-card:hover,
-	.products-card:hover {
+	.section-card:hover {
 		box-shadow: 0 0 50px rgba(0, 217, 255, 0.2);
 		border-color: var(--color-accent);
 	}
@@ -332,81 +799,202 @@ import Layout from '../layouts/Layout.astro';
 		font-weight: bold;
 	}
 
-	.profile-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-		gap: 2.5rem;
+	/* About Section */
+	.about-content {
+		line-height: 1.8;
 	}
 
-	.profile-item {
+	.about-text p {
+		margin: 1.5rem 0;
+		color: var(--color-text);
+	}
+
+	.highlight {
+		margin: 2rem 0;
+		padding: 1.5rem;
+		background: rgba(0, 217, 255, 0.1);
+		border-left: 4px solid var(--color-accent);
+		text-align: center;
+	}
+
+	.highlight strong {
+		color: var(--color-accent);
+		font-size: 1.2rem;
+	}
+
+	.philosophy-box {
+		margin-top: 3rem;
+		padding: 2rem;
+		background: var(--color-primary);
+		border: 1px solid var(--color-border);
+		border-left: 4px solid var(--color-accent-2);
+	}
+
+	.philosophy-box h3 {
+		color: var(--color-accent-2);
+		font-size: 1.3rem;
+		margin: 0 0 1.5rem;
+		font-family: 'JetBrains Mono', 'Courier New', monospace;
+	}
+
+	.philosophy-box p {
+		margin: 1rem 0;
+	}
+
+	/* Experience Section */
+	.timeline {
+		margin: 2rem 0;
+	}
+
+	.timeline-item {
+		margin-bottom: 3rem;
+		padding-left: 2rem;
+		border-left: 2px solid var(--color-border);
 		position: relative;
+	}
+
+	.timeline-item::before {
+		content: '';
+		position: absolute;
+		left: -6px;
+		top: 0;
+		width: 10px;
+		height: 10px;
+		background: var(--color-accent);
+		border-radius: 50%;
+	}
+
+	.timeline-period {
+		color: var(--color-accent);
+		font-size: 0.9rem;
+		font-weight: 700;
+		margin-bottom: 0.5rem;
+		font-family: 'JetBrains Mono', 'Courier New', monospace;
+	}
+
+	.timeline-content h3 {
+		font-size: 1.5rem;
+		color: var(--color-text);
+		margin: 0 0 0.5rem;
+	}
+
+	.role {
+		color: var(--color-accent-2);
+		font-size: 1.1rem;
+		margin: 0 0 1.5rem;
+		font-weight: 600;
+	}
+
+	.work-distribution,
+	.main-work {
+		margin: 1.5rem 0;
+	}
+
+	.work-distribution h4,
+	.main-work h4 {
+		color: var(--color-accent);
+		font-size: 1rem;
+		margin: 0 0 0.75rem;
+		font-family: 'JetBrains Mono', 'Courier New', monospace;
+	}
+
+	.work-distribution ul,
+	.main-work ul {
+		list-style: none;
+		padding: 0;
+	}
+
+	.work-distribution li,
+	.main-work li {
+		margin: 0.5rem 0;
+		padding-left: 1.5rem;
+		position: relative;
+	}
+
+	.work-distribution li::before,
+	.main-work li::before {
+		content: '▹';
+		position: absolute;
+		left: 0;
+		color: var(--color-accent);
+	}
+
+	.numbers-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+		gap: 2rem;
+		margin-top: 3rem;
+	}
+
+	.number-item {
+		text-align: center;
 		padding: 1.5rem;
 		background: var(--color-primary);
 		border: 1px solid var(--color-border);
 		transition: all 0.3s ease;
 	}
 
-	.profile-item::after {
-		content: '';
-		position: absolute;
-		top: 0;
-		right: 0;
-		width: 0;
-		height: 0;
-		border-style: solid;
-		border-width: 0 30px 30px 0;
-		border-color: transparent var(--color-accent) transparent transparent;
-		opacity: 0;
-		transition: opacity 0.3s ease;
-	}
-
-	.profile-item:hover {
+	.number-item:hover {
 		border-color: var(--color-accent);
 		transform: translateY(-4px);
 		box-shadow: 0 4px 20px rgba(0, 217, 255, 0.15);
 	}
 
-	.profile-item:hover::after {
-		opacity: 1;
-	}
-
-	.profile-item h3 {
-		font-size: 0.9rem;
-		color: var(--color-accent);
-		margin: 0 0 1rem;
+	.number {
+		font-size: 2.5rem;
 		font-weight: 700;
-		text-transform: uppercase;
-		letter-spacing: 0.15em;
+		color: var(--color-accent);
+		margin-bottom: 0.5rem;
 		font-family: 'JetBrains Mono', 'Courier New', monospace;
 	}
 
-	.profile-item h3::before {
-		content: '// ';
+	.number-label {
+		font-size: 0.9rem;
 		color: var(--color-text-light);
-		opacity: 0.6;
 	}
 
-	.profile-item p {
+	/* Skills Section */
+	.skills-content {
+		display: grid;
+		gap: 2.5rem;
+	}
+
+	.skill-category {
+		padding: 1.5rem;
+		background: var(--color-primary);
+		border: 1px solid var(--color-border);
+		border-left: 4px solid var(--color-accent);
+		transition: all 0.3s ease;
+	}
+
+	.skill-category:hover {
+		border-color: var(--color-accent);
+		box-shadow: 0 4px 20px rgba(0, 217, 255, 0.15);
+	}
+
+	.skill-category h3 {
+		color: var(--color-accent);
+		font-size: 1.2rem;
+		margin: 0 0 1rem;
+		font-family: 'JetBrains Mono', 'Courier New', monospace;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+	}
+
+	.skill-list {
+		list-style: none;
+		padding: 0;
 		margin: 0;
-		color: var(--color-text);
-		font-size: 1rem;
+	}
+
+	.skill-list li {
+		margin: 0.75rem 0;
+		padding-left: 1.5rem;
+		position: relative;
 		line-height: 1.8;
 	}
 
-	.profile-item ul {
-		margin: 0.75rem 0 0;
-		padding-left: 1.5rem;
-		color: var(--color-text);
-		list-style: none;
-	}
-
-	.profile-item li {
-		margin: 0.5rem 0;
-		position: relative;
-		padding-left: 1rem;
-	}
-
-	.profile-item li::before {
+	.skill-list li::before {
 		content: '▹';
 		position: absolute;
 		left: 0;
@@ -417,13 +1005,12 @@ import Layout from '../layouts/Layout.astro';
 	/* Products Section */
 	.products-list {
 		display: grid;
-		gap: 2rem;
+		gap: 2.5rem;
 	}
 
-	.product {
-		padding: 2rem;
+	.product-card {
+		padding: 2.5rem;
 		background: var(--color-primary);
-		border-radius: 0;
 		border: 1px solid var(--color-border);
 		border-left: 4px solid var(--color-accent);
 		position: relative;
@@ -432,48 +1019,211 @@ import Layout from '../layouts/Layout.astro';
 		display: block;
 		text-decoration: none;
 		color: inherit;
-		cursor: pointer;
 	}
 
-	.product::before {
+	.product-card::before {
 		content: '';
 		position: absolute;
 		top: 0;
 		left: -100%;
 		width: 100%;
 		height: 100%;
-		background: linear-gradient(
-			90deg,
-			transparent,
-			rgba(0, 217, 255, 0.1),
-			transparent
-		);
+		background: linear-gradient(90deg, transparent, rgba(0, 217, 255, 0.1), transparent);
 		transition: left 0.5s ease;
 	}
 
-	.product:hover {
+	.product-card:hover {
 		border-color: var(--color-accent);
 		transform: translateX(8px);
 		box-shadow: -4px 4px 20px rgba(0, 217, 255, 0.2);
 	}
 
-	.product:hover::before {
+	.product-card:hover::before {
 		left: 100%;
 	}
 
-	.product h3 {
-		font-size: 1.5rem;
-		margin: 0 0 0.75rem;
+	.product-card h3 {
+		font-size: 1.8rem;
+		margin: 0 0 0.5rem;
 		color: var(--color-accent);
 		font-weight: 700;
 		font-family: 'JetBrains Mono', 'Courier New', monospace;
 	}
 
-	.product p {
-		margin: 0;
-		color: var(--color-text-light);
-		font-size: 1rem;
+	.product-subtitle {
+		color: var(--color-accent-2);
+		font-size: 1.1rem;
+		margin: 0 0 1.5rem;
+		font-weight: 600;
+	}
+
+	.product-description {
+		margin: 1rem 0;
+		color: var(--color-text);
 		line-height: 1.8;
+	}
+
+	.tech-stack {
+		margin-top: 1.5rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--color-border);
+		color: var(--color-accent);
+		font-family: 'JetBrains Mono', 'Courier New', monospace;
+		font-size: 0.9rem;
+	}
+
+	/* Life Section */
+	.life-content {
+		display: grid;
+		gap: 3rem;
+	}
+
+	.life-section h3 {
+		color: var(--color-accent);
+		font-size: 1.3rem;
+		margin: 0 0 1.5rem;
+		font-family: 'JetBrains Mono', 'Courier New', monospace;
+	}
+
+	.life-section p {
+		margin: 1rem 0;
+		line-height: 1.8;
+	}
+
+	.interests-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: 2rem;
+		margin-top: 1.5rem;
+	}
+
+	.interest-item {
+		padding: 1.5rem;
+		background: var(--color-primary);
+		border: 1px solid var(--color-border);
+		transition: all 0.3s ease;
+	}
+
+	.interest-item:hover {
+		border-color: var(--color-accent);
+		transform: translateY(-4px);
+	}
+
+	.interest-item h4 {
+		color: var(--color-accent-2);
+		font-size: 1.1rem;
+		margin: 0 0 0.75rem;
+	}
+
+	.interest-item p {
+		margin: 0;
+		font-size: 0.95rem;
+		line-height: 1.6;
+	}
+
+	.balance-info {
+		padding: 2rem;
+		background: var(--color-primary);
+		border: 1px solid var(--color-border);
+		border-left: 4px solid var(--color-accent-2);
+	}
+
+	.balance-info p {
+		margin: 0.75rem 0;
+		font-family: 'JetBrains Mono', 'Courier New', monospace;
+	}
+
+	.balance-quote {
+		margin-top: 1.5rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--color-border);
+		color: var(--color-accent);
+		font-style: italic;
+	}
+
+	/* Contact Section */
+	.contact-content {
+		max-width: 800px;
+		margin: 0 auto;
+	}
+
+	.contact-intro {
+		font-size: 1.2rem;
+		text-align: center;
+		margin: 0 0 3rem;
+		line-height: 1.8;
+	}
+
+	.contact-interests {
+		margin: 3rem 0;
+		padding: 2rem;
+		background: var(--color-primary);
+		border: 1px solid var(--color-border);
+		border-left: 4px solid var(--color-accent);
+	}
+
+	.contact-interests h3 {
+		color: var(--color-accent);
+		font-size: 1.1rem;
+		margin: 0 0 1rem;
+		font-family: 'JetBrains Mono', 'Courier New', monospace;
+	}
+
+	.contact-interests ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.contact-interests li {
+		margin: 0.75rem 0;
+		padding-left: 1.5rem;
+		position: relative;
+	}
+
+	.contact-interests li::before {
+		content: '▹';
+		position: absolute;
+		left: 0;
+		color: var(--color-accent);
+	}
+
+	.contact-info {
+		margin: 3rem 0;
+	}
+
+	.contact-item {
+		margin: 1.5rem 0;
+		font-size: 1.1rem;
+	}
+
+	.contact-label {
+		color: var(--color-accent);
+		font-weight: 700;
+		display: inline-block;
+		min-width: 100px;
+		font-family: 'JetBrains Mono', 'Courier New', monospace;
+	}
+
+	.contact-item a {
+		color: var(--color-text);
+		text-decoration: none;
+		transition: color 0.3s ease;
+	}
+
+	.contact-item a:hover {
+		color: var(--color-accent);
+	}
+
+	.contact-quote {
+		margin-top: 4rem;
+		padding: 2rem;
+		background: var(--color-primary);
+		border: 1px solid var(--color-border);
+		text-align: center;
+		font-style: italic;
+		color: var(--color-text-light);
+		line-height: 2;
 	}
 
 	/* Responsive Design */
@@ -487,52 +1237,57 @@ import Layout from '../layouts/Layout.astro';
 		}
 
 		.japanese-name {
-			font-size: 1.25rem;
-		}
-
-		.title {
 			font-size: 1rem;
 		}
 
-		.profile-card,
-		.products-card {
+		.title {
+			font-size: 1.2rem;
+		}
+
+		.company {
+			font-size: 1.1rem;
+		}
+
+		.tagline {
+			font-size: 1.2rem;
+		}
+
+		.hero-description {
+			font-size: 1.1rem;
+		}
+
+		.tech-layers {
+			padding: 1.5rem;
+		}
+
+		.tech-layer {
+			font-size: 0.85rem;
+		}
+
+		.layer-label {
+			display: block;
+			margin-bottom: 0.25rem;
+		}
+
+		.section-card {
 			padding: 2rem;
 		}
 
 		h2 {
-			font-size: 1.5rem;
+			font-size: 1.3rem;
 		}
 
-		.profile-grid {
+		.numbers-grid {
+			grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+			gap: 1rem;
+		}
+
+		.interests-grid {
 			grid-template-columns: 1fr;
-			gap: 2rem;
 		}
 
 		.container {
 			padding: 0 1.5rem;
-		}
-
-		.profile-item {
-			padding: 1.25rem;
-		}
-	}
-
-	@media (max-width: 480px) {
-		.name {
-			font-size: 2rem;
-		}
-
-		.japanese-name {
-			font-size: 1rem;
-		}
-
-		.title {
-			font-size: 0.9rem;
-		}
-
-		.profile-card,
-		.products-card {
-			padding: 1.5rem;
 		}
 
 		.terminal-header {
@@ -542,6 +1297,57 @@ import Layout from '../layouts/Layout.astro';
 		.geometric-shapes {
 			display: none;
 		}
+	}
+
+	@media (max-width: 480px) {
+		.name {
+			font-size: 2rem;
+		}
+
+		.title {
+			font-size: 1rem;
+		}
+
+		.company {
+			font-size: 1rem;
+		}
+
+		.tagline {
+			font-size: 1.1rem;
+		}
+
+		.hero-description {
+			font-size: 1rem;
+		}
+
+		.section-card {
+			padding: 1.5rem;
+		}
+
+		.terminal-header {
+			padding: 0.5rem 0.75rem;
+		}
+
+		.tech-layers {
+			padding: 1rem;
+		}
+
+		.cta-buttons {
+			flex-direction: column;
+		}
+
+		.cta-button {
+			width: 100%;
+		}
+
+		.number {
+			font-size: 2rem;
+		}
+	}
+
+	/* Smooth Scrolling */
+	html {
+		scroll-behavior: smooth;
 	}
 
 	/* Floating Geometric Shapes */
