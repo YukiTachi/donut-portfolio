@@ -1,0 +1,56 @@
+name: Deploy to FreeBSD
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build Astro site
+      run: npm run build
+
+    - name: Setup SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy_key
+        chmod 600 ~/.ssh/deploy_key
+        ssh-keyscan -H ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
+
+    - name: Deploy to FreeBSD server (staging)
+      run: |
+        rsync -avz --delete \
+          -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
+          dist/ \
+          ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/home/deploy/donut-portfolio-dist/
+
+    - name: Move to production and reload Nginx
+      run: |
+        ssh -i ~/.ssh/deploy_key \
+          -o StrictHostKeyChecking=no \
+          ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
+          "sudo rsync -av --delete /home/deploy/donut-portfolio-dist/ /usr/local/www/donut-software/ && sudo service nginx reload"
+
+    - name: Deployment notification
+      if: success()
+      run: echo "✅ Deployment successful! Site is live at https://donut-software.com"
+
+    - name: Deployment failure notification
+      if: failure()
+      run: echo "❌ Deployment failed! Check the logs above."
