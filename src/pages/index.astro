@@ -187,7 +187,7 @@ import Layout from '../layouts/Layout.astro';
 							<div class="number-label">ドーナツソフトウェア</div>
 						</div>
 						<div class="number-item">
-							<div class="number">16,000</div>
+							<div class="number">16,000歩</div>
 							<div class="number-label">平均歩数/日</div>
 						</div>
 						<div class="number-item">
@@ -979,11 +979,12 @@ import Layout from '../layouts/Layout.astro';
 	}
 
 	.number {
-		font-size: 2.5rem;
+		font-size: 2rem;
 		font-weight: 700;
 		color: var(--color-accent);
 		margin-bottom: 0.5rem;
 		font-family: 'JetBrains Mono', 'Courier New', monospace;
+		word-break: break-word;
 	}
 
 	.number-label {
