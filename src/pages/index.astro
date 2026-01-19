@@ -467,7 +467,19 @@ import Layout from '../layouts/Layout.astro';
 			<div class="shape circle"></div>
 			<div class="shape square"></div>
 		</div>
-	</main>
+  </main>
+  <script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script is:inline>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
+        }
+      });
+    }
+  </script>
 </Layout>
 
 <style>
