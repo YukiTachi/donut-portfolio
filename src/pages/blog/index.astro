@@ -1,0 +1,197 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+// ブログ記事を全取得
+const allPosts = await getCollection('blog', ({ data }) => {
+  return data.draft !== true; // 下書きを除外
+});
+
+// 日付順にソート（新しい順）
+const sortedPosts = allPosts.sort((a, b) => 
+  b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<Layout>
+  <main class="blog-page">
+    <div class="container">
+      <div class="blog-header">
+        <h1>Blog</h1>
+        <p>技術、開発、ウェルビーイングについて</p>
+        <a href="/" class="back-link">← Back to Home</a>
+      </div>
+
+      <div class="posts-grid">
+        {sortedPosts.map((post) => (
+          <article class="post-card">
+            <a href={`/blog/${post.slug}/`}>
+              {post.data.image && (
+                <img src={post.data.image} alt={post.data.title} class="post-image" />
+              )}
+              <div class="post-content">
+                <h2>{post.data.title}</h2>
+                <p class="post-description">{post.data.description}</p>
+                <div class="post-meta">
+                  <time>{new Date(post.data.pubDate).toLocaleDateString('ja-JP', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}</time>
+                  <span class="author">by {post.data.author}</span>
+                </div>
+                {post.data.tags && (
+                  <div class="tags">
+                    {post.data.tags.map((tag) => (
+                      <span class="tag">{tag}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  :root {
+    --color-primary: #0a0e27;
+    --color-secondary: #1a1f3a;
+    --color-accent: #00d9ff;
+    --color-text: #e4e4e7;
+    --color-text-light: #a1a1aa;
+    --color-bg: #0f1419;
+    --color-bg-alt: #161b22;
+    --color-border: #30363d;
+  }
+
+  .blog-page {
+    min-height: 100vh;
+    background: var(--color-bg);
+    color: var(--color-text);
+    padding: 4rem 0;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .blog-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .blog-header h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 0 0 1rem;
+    background: linear-gradient(135deg, #ffffff 0%, var(--color-accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .blog-header p {
+    font-size: 1.2rem;
+    color: var(--color-text-light);
+    margin: 0 0 2rem;
+  }
+
+  .back-link {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    transition: all 0.3s ease;
+  }
+
+  .back-link:hover {
+    text-decoration: underline;
+  }
+
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+  }
+
+  .post-card {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .post-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 217, 255, 0.2);
+  }
+
+  .post-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .post-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .post-content {
+    padding: 1.5rem;
+  }
+
+  .post-content h2 {
+    font-size: 1.5rem;
+    margin: 0 0 0.75rem;
+    color: var(--color-accent);
+  }
+
+  .post-description {
+    color: var(--color-text-light);
+    margin: 0 0 1rem;
+    line-height: 1.6;
+  }
+
+  .post-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    margin-bottom: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    background: rgba(0, 217, 255, 0.1);
+    color: var(--color-accent);
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  @media (max-width: 768px) {
+    .blog-header h1 {
+      font-size: 2rem;
+    }
+
+    .posts-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
