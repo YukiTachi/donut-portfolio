@@ -14,7 +14,16 @@ const { post } = Astro.props;
 const { Content } = await post.render();
 ---
 
-<Layout>
+<Layout
+  title={`${post.data.title} - Yuki Tachi Blog`}
+  description={post.data.description}
+  canonical={`/blog/${post.slug}/`}
+  ogType="article"
+  ogImage={post.data.image || '/profile.jpg'}
+  author={post.data.author}
+  publishedTime={post.data.pubDate.toISOString()}
+  tags={post.data.tags}
+>
   <main class="blog-post-page">
     <article class="container">
       <div class="post-header">

@@ -8,12 +8,18 @@ const allPosts = await getCollection('blog', ({ data }) => {
 });
 
 // 日付順にソート（新しい順）
-const sortedPosts = allPosts.sort((a, b) => 
+const sortedPosts = allPosts.sort((a, b) =>
   b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 ---
 
-<Layout>
+<Layout
+  title="Blog - Yuki Tachi | 技術、開発、ウェルビーイング"
+  description="フルスタックエンジニアYuki Tachiのブログ。技術、開発プロセス、エンジニアのウェルビーイングについて発信しています。"
+  canonical="/blog/"
+  ogType="website"
+  ogImage="/profile.jpg"
+>
   <main class="blog-page">
     <div class="container">
       <div class="blog-header">
