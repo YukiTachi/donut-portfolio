@@ -2,7 +2,7 @@ backend:
   name: git-gateway
   branch: main
 
-site_url: https://donut-software.com
+site_url: https://lively-alfajores-2237c7.netlify.app
 
 media_folder: "public/blog-images"
 public_folder: "/blog-images"
