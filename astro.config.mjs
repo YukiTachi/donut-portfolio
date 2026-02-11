@@ -7,6 +7,7 @@ export default defineConfig({
   site: 'https://donut-software.com',
   integrations: [sitemap()],
   server: {
+    host: '0.0.0.0', // すべてのネットワークインターフェースでリッスン
     proxy: {
       // Netlify Identity プロキシ
       '/.netlify/identity': {
