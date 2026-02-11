@@ -19,8 +19,12 @@
         }
       });
       // Decap CMSとの連携
+      // 開発環境ではプロキシを使用、本番環境では直接Netlifyにアクセス
+      const isDev = window.location.hostname !== 'donut-software.com';
       window.netlifyIdentity.init({
-        APIUrl: "https://lively-alfajores-2237c7.netlify.app/.netlify/identity"
+        APIUrl: isDev
+          ? window.location.origin + "/.netlify/identity"
+          : "https://lively-alfajores-2237c7.netlify.app/.netlify/identity"
       });
     }
   </script>
