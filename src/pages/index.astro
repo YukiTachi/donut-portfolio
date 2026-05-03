@@ -1,1515 +1,1615 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const PROFILE = {
+  email: 'yuki.tachi@donut-service.com',
+  location: '川崎市、神奈川県',
+};
+
+const STORY = [
+  '2017 年、Sony での 14 年間の経験を経て、Donut Service を立ち上げました。',
+  '大企業での開発経験を通じて、エンジニアのウェルビーイングの重要性を実感。',
+  'より自由に「人を育てる」アプローチを追求したいと考え、独立を決意しました。',
+  '現在は、フルスタック開発を行いながら、エンジニア向けの認知トレーニングプラットフォーム「BrainSync」を開発しています。',
+  '認知科学の知見を活用し、エンジニアが長く健康的に開発を続けられる環境づくりを目指しています。',
+];
+
+const STATS = [
+  { value: '48', unit: '年', label: '生後', en: 'Years lived' },
+  { value: '25', unit: '年', label: 'FreeBSD 運用', en: 'Years on FreeBSD' },
+  { value: '14', unit: '年', label: 'Sony 勤務', en: 'Years at Sony' },
+  { value: '9', unit: '年', label: 'Donut Service', en: 'Years independent' },
+  { value: '16,000', unit: '歩', label: '平均歩数 / 日', en: 'Steps per day' },
+  { value: '30,000', unit: 'm', label: '最長踏破記録', en: 'Longest walk' },
+];
+
+const STACK_LAYERS = [
+  { layer: 'Hardware',    label: 'Hardware Layer',    items: ['Verilog-HDL', 'SystemC', 'Synopsys DC/FV/PT'] },
+  { layer: 'System',      label: 'System Layer',      items: ['C', 'C++', 'Shell'] },
+  { layer: 'Application', label: 'Application Layer', items: ['C#', 'Java', 'Kotlin', 'PHP', 'JavaScript', 'TypeScript'] },
+  { layer: 'UI',          label: 'UI Layer',          items: ['Flutter'] },
+  { layer: 'Cloud',       label: 'Cloud Layer',       items: ['Lambda (Python)'] },
+];
+
+const EXPERIENCE = [
+  {
+    period: '2017 — 現在',
+    org: 'Donut Service',
+    role: 'Individual Business Owner / Software Engineer',
+    allocation: [
+      { pct: 70, label: 'クライアントワーク' },
+      { pct: 20, label: 'BrainSync 開発' },
+      { pct: 10, label: 'その他プロジェクト' },
+    ],
+    work: [
+      '顧客管理システム開発',
+      'AI 活用支援・設定構築',
+      'フルスタック開発（Python, Flutter, PHP, Docker）',
+      '技術コンサルティング',
+    ],
+  },
+  {
+    period: '2003 — 2017（14 年間）',
+    org: 'Sony Corporation',
+    role: 'Hardware / Software Engineer',
+    summary: '大規模プロジェクトでの開発経験を通じて、システム設計、チーム開発、長期的な保守運用の重要性を学びました。',
+  },
+];
+
+const SKILL_CATEGORIES = [
+  {
+    title: 'Languages',
+    titleJa: '言語',
+    items: [
+      { name: 'C/C++', years: 25, desc: 'システムプログラミング' },
+      { name: 'PHP', years: 20, desc: 'Web開発、WordPress、カスタムCMS' },
+      { name: 'Dart/Flutter', years: 3, desc: 'モバイルアプリ、デスクトップアプリ' },
+      { name: 'Python', desc: 'Web開発、データ処理、AI/ML' },
+      { name: 'C#, Java, Kotlin, JavaScript, TypeScript, Perl, Shell' },
+      { name: 'Hardware Description: Verilog-HDL, SystemC' },
+      { name: 'Physical Synthesis Tools: Synopsys DC/FV/PT' },
+    ],
+  },
+  {
+    title: 'Infrastructure',
+    titleJa: 'インフラ',
+    items: [
+      { name: 'FreeBSD', years: 25, desc: 'システム管理、サーバー運用' },
+      { name: 'Docker', desc: 'コンテナ化、開発環境構築' },
+      { name: 'AWS', desc: 'EC2, S3, Lambda (Graviton2/ARM64)' },
+    ],
+  },
+  {
+    title: 'Server Management',
+    titleJa: 'サーバー運用',
+    items: [
+      { name: 'Web Server', desc: 'Nginx, Apache' },
+      { name: 'Mail Server', desc: 'Postfix, Dovecot' },
+      { name: 'Database', desc: 'PostgreSQL, MySQL, MariaDB' },
+      { name: 'Security', desc: 'SPF, DKIM, DMARC, SSL/TLS, Fail2ban' },
+      { name: 'システム監視・運用' },
+    ],
+  },
+  {
+    title: 'Development Environment',
+    titleJa: '開発環境',
+    items: [
+      { name: 'Vim / Neovim', years: 25 },
+      { name: 'VSCode / Cursor' },
+      { name: 'Claude Code' },
+      { name: 'GitHub Copilot' },
+      { name: 'Git / GitHub' },
+      { name: 'WezTerm / tmux' },
+    ],
+  },
+  {
+    title: 'Specialized Areas',
+    titleJa: '専門領域',
+    items: [
+      { name: '認知科学 × エンジニアリング', desc: 'n-back トレーニング、認知負荷の可視化' },
+      { name: 'データベース設計', desc: '日本食品標準成分表 2020 年版データベース化' },
+      { name: '教育カリキュラム', desc: 'toio を活用したプログラミング教育' },
+    ],
+  },
+  {
+    title: 'Current Interests',
+    titleJa: '現在の関心',
+    items: [
+      { name: 'ローカル AI 環境の構築', desc: 'NVIDIA DGX Spark 検討中' },
+      { name: 'ESG 経営とウェルビーイング施策' },
+      { name: '持続可能な開発プラクティス' },
+      { name: '認知科学の最新研究' },
+    ],
+  },
+];
+
+const PRODUCTS = [
+  {
+    name: 'BrainSync',
+    tagline: 'エンジニア向け認知トレーニングプラットフォーム',
+    description: 'ソフトウェアエンジニアの認知機能を持続可能にするための「脳のパーソナルトレーニングスタジオ」。n-back トレーニングをはじめ科学的手法を用いて、集中力・ワーキングメモリ・認知的柔軟性を向上させる。',
+    stack: ['Flutter', 'Python', 'Docker'],
+  },
+  {
+    name: '5ive Meals',
+    tagline: '食事・栄養管理システム',
+    description: 'エンジニアの健康を食事面からサポート。日本食品標準成分表 2020 年版（2,538 食品）を完全データベース化し、栄養バランスの可視化と管理を実現。',
+    stack: ['WinterCMS', 'Docker', 'Python', 'PostgreSQL'],
+  },
+  {
+    name: 'toio 教育カリキュラム',
+    tagline: '小学生向けプログラミング教育',
+    description: 'toio（ソニーの知育ロボット）を活用した、体験型プログラミング学習カリキュラムの開発。「考える」前に「触れる」ことで、プログラミングの本質的な楽しさを伝える。',
+    stack: [],
+  },
+  {
+    name: 'その他',
+    tagline: 'Other tools',
+    description: 'スライドエディタアプリケーション、顧客管理システム、各種業務効率化ツール',
+    stack: [],
+  },
+];
+
+const LIFE_INTERESTS = [
+  { ja: '音楽', en: 'Music', body: 'ジャズ（Bill Evans, Miles Davis）。作業中の BGM は常にジャズ。' },
+  { ja: '読書', en: 'Reading', body: '哲学（Viktor Frankl『夜と霧』等）、認知科学、イノベーション理論（『独創はひらめかない』等）。' },
+  { ja: 'コレクション', en: 'Collecting', body: 'アナログとデジタルの接点に魅力を感じる。' },
+];
+
+const LIFE_BALANCE = [
+  { k: '平日', v: 'クライアントワーク + 開発' },
+  { k: '週末', v: '個人プロジェクト + リサーチ' },
+  { k: '毎日', v: '散歩 + 読書' },
+];
+
+const CONTACT_TOPICS = [
+  'エンジニアのウェルビーイング',
+  '認知科学の応用',
+  '持続可能な開発プラクティス',
+  '教育 × テクノロジー',
+];
+
+// --- Walk chart ---
+const days = Array.from({ length: 30 }, (_, i) => {
+  const dow = i % 7;
+  const variance = (Math.sin(i * 1.3) * 2200) + (dow === 6 ? 2400 : 0);
+  return Math.round(16400 + variance);
+});
+const maxStep = Math.max(...days);
+const minStep = Math.min(...days);
+const avgStep = Math.round(days.reduce((a, b) => a + b, 0) / days.length);
+const maxIdx = days.indexOf(maxStep);
+const W = 720, H = 240;
+const points = days.map((v, i) => {
+  const x = (i / (days.length - 1)) * W;
+  const y = H - ((v - (minStep - 1000)) / (maxStep - (minStep - 1000))) * H;
+  return [x, y];
+});
+const linePath = points.map(([x, y], i) => (i === 0 ? `M${x},${y}` : `L${x},${y}`)).join(' ');
+const areaPath = `${linePath} L${W},${H} L0,${H} Z`;
+const lineLen = 2200;
+
+// --- Hero title spans ---
+type Letter = { ch: string; delay: number; italic?: boolean; highlight?: boolean };
+const buildSpans = (text: string, baseDelay: number, opts: { italic?: boolean; highlight?: boolean } = {}): Letter[] =>
+  Array.from(text).map((ch, i) => ({
+    ch: ch === ' ' ? '\u00A0' : ch,
+    delay: (baseDelay + i) * 0.04,
+    italic: opts.italic,
+    highlight: opts.highlight,
+  }));
+const titlePart1 = buildSpans('ものをつくり、', 0);
+const titleHighlight = buildSpans('人', 7, { italic: true, highlight: true });
+const titlePart2 = buildSpans('をつくる。', 8);
+
+const META_RAIL = [
+  { mono: '舘 勇紀', text: 'Yuki Tachi' },
+  { mono: 'est. 1978', text: '48 years lived' },
+  { mono: 'donut service', text: 'Independent · 9 years' },
+  { mono: 'kawasaki, jp', text: 'Tamagawa daily' },
+];
+
+const NAV_LINKS = [
+  ['#about', 'About'],
+  ['#walk', 'Walk'],
+  ['#stack', 'Stack'],
+  ['#brainsync', 'BrainSync'],
+  ['#contact', 'Contact'],
+];
+
+const BRAINSYNC_REASONS = [
+  { n: '01', t: 'なぜ今か', body: 'AI コーディング時代、人間の認知が最後のボトルネック。長時間のコードレビューと意思決定で、エンジニアの認知負荷は過去最大。' },
+  { n: '02', t: 'なぜ舘か', body: 'Sony 14 年・独立 9 年。Hardware から Cloud までの全体観 × Frankl 哲学 × 認知科学への深い関心。' },
+  { n: '03', t: 'なぜ今、話すか', body: 'プロダクトはアルファ。早期パートナー・投資家との対話を始めたい段階。長期視点での共創を歓迎。' },
+];
+
+const BRAINSYNC_META = [
+  { k: 'Target', v: '全ソフトウェアエンジニア' },
+  { k: 'Method', v: '認知科学 × トレーニング' },
+  { k: 'Stack', v: 'Flutter, Python, Docker' },
+];
 ---
 
 <Layout
-	title="Yuki Tachi - Individual Business Owner / Software Engineer | Donut Service"
-	description="半導体（シリコン）からAI-クラウドまでをカバーする唯一無二のフルスタックエンジニア。エンジニアのウェルビーイングと持続可能な開発を追求。"
-	canonical="/"
-	ogType="website"
-	ogImage="/profile.jpg"
+  title="Yuki Tachi - Individual Business Owner / Software Engineer | Donut Service"
+  description="半導体（シリコン）からAI-クラウドまでをカバーする唯一無二のフルスタックエンジニア。エンジニアのウェルビーイングと持続可能な開発を追求。"
+  canonical="/"
+  ogType="website"
+  ogImage="/profile.jpg"
 >
-	<main>
-		<!-- Hero Section -->
-		<section class="hero">
-			<div class="container">
-				<div class="hero-top">
-					<div class="profile-image-container">
-						<img src="/profile.jpg" alt="Yuki Tachi" class="profile-image">
-					</div>
-					<div class="hero-header">
-						<h1 class="name">Yuki Tachi</h1>
-						<p class="japanese-name">（和名：たち ゆうき）</p>
-						<p class="title">Individual Business Owner / Software Engineer</p>
-						<p class="company">Donut Service</p>
-						<p class="tagline">"Nurturing people who nurture software"</p>
-					</div>
-				</div>
+  <!-- NAV -->
+  <nav class="rnav" id="rnav">
+    <div class="rnav__brand">
+      <span class="rnav__logo">y</span>
+      <span class="rnav__name">Tachi</span>
+    </div>
+    <div class="rnav__links">
+      {NAV_LINKS.map(([href, label]) => (
+        <a href={href}>{label}</a>
+      ))}
+      <a href="/blog/">Blog</a>
+    </div>
+    <a href="#contact" class="rnav__cta">Contact <span>→</span></a>
+  </nav>
 
-				<p class="hero-description">
-					半導体（シリコン）からAI-クラウドまでをカバーする<br>
-					唯一無二のフルスタックエンジニア
-				</p>
+  <main>
+    <!-- HERO -->
+    <section id="top" class="hero" data-parallax>
+      <div class="hero__glow hero__glow--accent" data-parallax-layer="1"></div>
+      <div class="hero__glow hero__glow--green" data-parallax-layer="-1"></div>
 
-				<div class="tech-layers">
-					<div class="tech-layer">
-						<span class="layer-label">Hardware Layer:</span>
-						<span>Verilog-HDL, SystemC, Synopsys DC/FV/PT</span>
-					</div>
-					<div class="tech-layer">
-						<span class="layer-label">System Layer:</span>
-						<span>C, C++, Shell</span>
-					</div>
-					<div class="tech-layer">
-						<span class="layer-label">Application Layer:</span>
-						<span>C#, Java, Kotlin, PHP, JavaScript, TypeScript</span>
-					</div>
-					<div class="tech-layer">
-						<span class="layer-label">UI Layer:</span>
-						<span>Flutter</span>
-					</div>
-					<div class="tech-layer">
-						<span class="layer-label">Cloud Layer:</span>
-						<span>Lambda(Python)</span>
-					</div>
-				</div>
+      <div class="hero__inner">
+        <div class="badge">
+          <span class="badge__dot"></span>
+          新しいプロジェクトの相談を歓迎しています
+        </div>
 
-				<p class="philosophy">
-					ソフトウェア開発は長期戦。<br>
-					エンジニアの心身の健康が、持続可能な開発の基盤になる。
-				</p>
+        <div class="hero__grid">
+          <div>
+            <h1 class="hero__title">
+              <span class="hero__line">
+                {titlePart1.map((l) => (
+                  <span class="reveal-letter" style={`animation-delay:${l.delay}s`}>{l.ch}</span>
+                ))}
+              </span>
+              <span class="hero__line">
+                <span class="hero__hi">
+                  {titleHighlight.map((l) => (
+                    <span class={`reveal-letter${l.italic ? ' is-italic' : ''}${l.highlight ? ' is-hi' : ''}`} style={`animation-delay:${l.delay}s`}>{l.ch}</span>
+                  ))}
+                  <svg class="hero__squiggle" width="120" height="14" viewBox="0 0 120 14" aria-hidden="true">
+                    <path d="M2,8 Q30,2 60,7 T118,6" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" />
+                  </svg>
+                </span>
+                {titlePart2.map((l) => (
+                  <span class="reveal-letter" style={`animation-delay:${l.delay}s`}>{l.ch}</span>
+                ))}
+              </span>
+            </h1>
 
-				<div class="cta-buttons">
-					<a href="#products" class="cta-button primary">View Projects</a>
-					<a href="/blog" class="cta-button secondary">Blog</a>
-					<a href="#contact" class="cta-button secondary">Contact</a>
-				</div>
-			</div>
-		</section>
+            <p class="hero__lede">
+              舘 勇紀 — Donut Service / Software 代表。半導体から AI クラウドまで横断するフルスタックエンジニア。
+              毎朝 16,000 歩を歩きながら、エンジニアのウェルビーイングを支えるプロダクトを作っています。
+            </p>
 
-		<!-- About Section -->
-		<section class="about" id="about">
-			<div class="container">
-				<div class="section-card">
-					<div class="terminal-header">
-						<span class="terminal-dots">
-							<span></span><span></span><span></span>
-						</span>
-						<span class="terminal-title">about.md</span>
-					</div>
-					<h2><span class="prompt">$</span> cat about.md</h2>
+            <div class="hero__cta">
+              <a href="#brainsync" class="btn btn--solid" data-cursor="hover">
+                View BrainSync <span class="btn__arrow">↗</span>
+              </a>
+              <a href="#about" class="btn btn--ghost" data-cursor="hover">About me</a>
+            </div>
+          </div>
 
-					<div class="about-content">
-						<div class="about-text">
-							<p>
-								2017年、Sony での14年間の経験を経て、Donut Service を立ち上げました。<br>
-								大企業での開発経験を通じて、エンジニアのウェルビーイングの重要性を実感。<br>
-								より自由に「人を育てる」アプローチを追求したいと考え、独立を決意しました。
-							</p>
+          <div class="hero__portrait-wrap">
+            <div class="portrait" data-cursor="hover" data-parallax-layer="0.6">
+              <div class="portrait__bg" data-parallax-layer="0.6"></div>
+              <img src="/profile.jpg" alt="Yuki Tachi" class="portrait__img" data-parallax-layer="-2" />
+              <div class="portrait__tag portrait__tag--bl">
+                <div class="portrait__tag-eyebrow">Now · 2026</div>
+                <div class="portrait__tag-text">BrainSync を開発中</div>
+              </div>
+              <div class="portrait__tag portrait__tag--tr">
+                <div class="portrait__tag-eyebrow">Today's walk</div>
+                <div class="portrait__tag-big">17,420 <span>steps</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-							<p class="highlight">
-								<strong>「ソフトウェア開発は長期的な育成プロセス」</strong>
-							</p>
+        <div class="meta-rail">
+          {META_RAIL.map((m) => (
+            <div>
+              <div class="meta-rail__mono">{m.mono}</div>
+              <div class="meta-rail__text">{m.text}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
 
-							<p>
-								短期的な成果を追うのではなく、長期的な視点で丁寧に育てていく。<br>
-								そのためには、開発者自身が健康で、持続可能な状態であることが不可欠です。
-							</p>
+    <!-- PHILOSOPHY MARQUEE -->
+    <section class="philo">
+      <div class="philo__track">
+        {[0, 1].map(() => (
+          <div class="philo__group">
+            <span>Slow software.</span>
+            <span class="philo__sep">※</span>
+            <span class="philo__faded">Healthy minds.</span>
+            <span class="philo__sep">※</span>
+            <span>急がず、深く、長く。</span>
+            <span class="philo__sep">※</span>
+          </div>
+        ))}
+      </div>
+    </section>
 
-							<p>
-								現在は、フルスタック開発を行いながら、<br>
-								エンジニア向けの認知トレーニングプラットフォーム「BrainSync」を開発しています。<br>
-								認知科学の知見を活用し、エンジニアが長く健康的に開発を続けられる環境づくりを目指しています。
-							</p>
-						</div>
+    <!-- ABOUT -->
+    <section id="about" class="section about" data-reveal>
+      <div class="section__inner">
+        <header class="section__header">
+          <div class="section__eyebrow">01 / About</div>
+          <h2 class="section__title">独立して9年。</h2>
+          <div class="section__sub">14年勤めた Sony を辞めた理由は、ものづくりから人創りへ。</div>
+        </header>
 
-						<div class="philosophy-box">
-							<h3>Philosophy</h3>
-							<p>
-								Viktor Frankl の思想に影響を受けています。<br>
-								「刺激と反応の間には空間がある。その空間にこそ、私たちの選択の自由がある。」
-							</p>
-							<p>
-								ソフトウェア開発においても、目の前の課題に反射的に対応するのではなく、<br>
-								一歩引いて考える「間」を大切にしています。
-							</p>
-							<p>
-								毎朝1〜2時間の散歩（約16,000歩）が、その「間」を作る習慣になっています。<br>
-								川崎の街や多摩川を歩きながら、その日の開発の構想を練る時間が、最も創造的な時間です。
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+        <div class="about__grid">
+          <div>
+            <div class="about__quote">
+              「短期的な成果を追うのではなく、長期的な視点で丁寧に育てていく。そのためには、開発者自身が健康で、持続可能な状態であることが不可欠です。」
+            </div>
+            <div class="about__attrib">— Yuki Tachi · Founder, Donut Service</div>
+          </div>
+          <div>
+            {STORY.map((line) => (
+              <p class="about__p">{line}</p>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
 
-		<!-- Experience Section -->
-		<section class="experience" id="experience">
-			<div class="container">
-				<div class="section-card">
-					<div class="terminal-header">
-						<span class="terminal-dots">
-							<span></span><span></span><span></span>
-						</span>
-						<span class="terminal-title">experience.json</span>
-					</div>
-					<h2><span class="prompt">></span> cat experience.json</h2>
+    <!-- WALK -->
+    <section id="walk" class="section walk" data-reveal>
+      <div class="section__inner">
+        <header class="section__header">
+          <div class="section__eyebrow">02 / The walk</div>
+          <h2 class="section__title">毎朝、16,000 歩。</h2>
+          <div class="section__sub">認知科学が示す「間」の力。</div>
+        </header>
 
-					<div class="timeline">
-						<div class="timeline-item">
-							<div class="timeline-period">2017年〜現在</div>
-							<div class="timeline-content">
-								<h3>Donut Service</h3>
-								<p class="role">Individual Business Owner / Software Engineer</p>
+        <div class="walk__grid">
+          <div>
+            <p class="walk__p walk__p--lead">
+              朝、川崎の街を <em>1〜2 時間</em> 歩くことから一日が始まる。
+              約 <em>16,000 歩</em> の散歩が、思考を整理し、その日の開発の構想を練る時間になる。
+            </p>
+            <p class="walk__p">
+              Viktor Frankl の「刺激と反応の間にある空間」を、文字どおり身体で実装する習慣。
+              多摩川を歩きながら、最も創造的な時間が生まれる。
+            </p>
+            <p class="walk__p">
+              週末はカフェで Bill Evans や Miles Davis を聴きながらコーディング。
+              ジャズのリズムとコードのリズムがシンクロする瞬間がある。
+            </p>
+          </div>
 
-								<div class="work-distribution">
-									<h4>現在の活動配分</h4>
-									<ul>
-										<li>70% クライアントワーク</li>
-										<li>20% BrainSync開発</li>
-										<li>10% その他プロジェクト</li>
-									</ul>
-								</div>
+          <div class="chart" data-cursor="hover">
+            <div class="chart__head">
+              <div>
+                <div class="chart__eyebrow">Last 30 days · steps</div>
+                <div class="chart__big">
+                  <span data-countup={avgStep.toString()}>{avgStep.toLocaleString()}</span>
+                  <span class="chart__big-sub">avg / day</span>
+                </div>
+              </div>
+              <div class="chart__legend">
+                <div>peak <span class="chart__peak">{maxStep.toLocaleString()}</span></div>
+                <div>low <span class="chart__low">{minStep.toLocaleString()}</span></div>
+              </div>
+            </div>
 
-								<div class="main-work">
-									<h4>主な業務</h4>
-									<ul>
-										<li>顧客管理システム開発</li>
-										<li>GitHub Copilot 活用支援・設定構築</li>
-										<li>フルスタック開発（Python, Flutter, PHP, Docker）</li>
-										<li>技術コンサルティング</li>
-									</ul>
-								</div>
-							</div>
-						</div>
+            <svg class="chart__svg" viewBox={`0 0 ${W} ${H + 40}`} preserveAspectRatio="none" aria-hidden="true">
+              {[0, 0.25, 0.5, 0.75, 1].map((g) => (
+                <line x1={0} x2={W} y1={H * g} y2={H * g} stroke="rgba(34,26,63,0.18)" stroke-dasharray="2 4" />
+              ))}
+              <defs>
+                <linearGradient id="walkGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="var(--c-accent)" stop-opacity="0.35" />
+                  <stop offset="100%" stop-color="var(--c-accent)" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+              <path class="chart__area" d={areaPath} fill="url(#walkGrad)" />
+              <path class="chart__line" d={linePath} stroke="var(--c-accent)" stroke-width="2" fill="none" stroke-linejoin="round" style={`stroke-dasharray:${lineLen};stroke-dashoffset:${lineLen};`} />
+              {points.map(([x, y], i) => (
+                <circle class="chart__dot" cx={x} cy={y} r={i === maxIdx ? 5 : 2.5} fill={i === maxIdx ? 'var(--c-accent)' : 'var(--c-ink)'} style={`transition-delay:${i * 0.02 + 1.5}s`} />
+              ))}
+              <text x="0" y={H + 24} class="chart__axis">30 DAYS AGO</text>
+              <text x={W} y={H + 24} class="chart__axis chart__axis--end">TODAY</text>
+            </svg>
+          </div>
+        </div>
 
-						<div class="timeline-item">
-							<div class="timeline-period">2003年〜2017年（14年間）</div>
-							<div class="timeline-content">
-								<h3>Sony Corporation</h3>
-								<p class="role">Hardware/Software Engineer</p>
-								<p>
-									大規模プロジェクトでの開発経験を通じて、<br>
-									システム設計、チーム開発、長期的な保守運用の重要性を学びました。
-								</p>
-							</div>
-						</div>
-					</div>
+        <div class="stats">
+          {STATS.map((s) => (
+            <div class="stat-card" data-cursor="hover">
+              <div class="stat-card__num">
+                <span data-countup={s.value}>{s.value}</span><span class="stat-card__unit">{s.unit}</span>
+              </div>
+              <div class="stat-card__label">{s.label}</div>
+              <div class="stat-card__en">{s.en}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
 
-					<div class="numbers-grid">
-						<div class="number-item">
-							<div class="number">47年</div>
-							<div class="number-label">生後</div>
-						</div>
-						<div class="number-item">
-							<div class="number">25年</div>
-							<div class="number-label">FreeBSD サーバー運用</div>
-						</div>
-						<div class="number-item">
-							<div class="number">14年</div>
-							<div class="number-label">Sony 勤務</div>
-						</div>
-						<div class="number-item">
-							<div class="number">8年</div>
-							<div class="number-label">ドーナツソフトウェア</div>
-						</div>
-						<div class="number-item">
-							<div class="number">16,000歩</div>
-							<div class="number-label">平均歩数/日</div>
-						</div>
-						<div class="number-item">
-							<div class="number">30,000m</div>
-							<div class="number-label">最長踏破記録</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+    <!-- STACK -->
+    <section id="stack" class="section stack">
+      <div class="section__inner">
+        <header class="section__header">
+          <div class="section__eyebrow">03 / The stack</div>
+          <h2 class="section__title">シリコンから、クラウドまで。</h2>
+          <div class="section__sub">5 つのレイヤーを、ひとつの頭で。</div>
+        </header>
 
-		<!-- Skills Section -->
-		<section class="skills" id="skills">
-			<div class="container">
-				<div class="section-card">
-					<div class="terminal-header">
-						<span class="terminal-dots">
-							<span></span><span></span><span></span>
-						</span>
-						<span class="terminal-title">skills.ts</span>
-					</div>
-					<h2><span class="prompt">></span> list --skills --detailed</h2>
+        <div class="stack__list">
+          <div class="stack__rail" aria-hidden="true"></div>
+          {STACK_LAYERS.map((row, i) => (
+            <div class="stack__row" data-reveal="left" style={`transition-delay:${i * 0.08}s`}>
+              <div class="stack__num" data-cursor="hover">0{i + 1}</div>
+              <div class="stack__title">
+                <div class="stack__name">{row.layer}</div>
+                <div class="stack__layer">L{STACK_LAYERS.length - i} · {row.label}</div>
+              </div>
+              <div class="stack__items">
+                {row.items.map((it) => <span class="chip">{it}</span>)}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
 
-					<div class="skills-content">
-						<div class="skill-category">
-							<h3>Languages</h3>
-							<ul class="skill-list">
-								<li>C/C++（25年）- システムプログラミング</li>
-								<li>PHP（20年）- Web開発、WordPress、カスタムCMS</li>
-								<li>Dart/Flutter（3年）- モバイルアプリ、デスクトップアプリ</li>
-								<li>Python - Web開発、データ処理、AI/ML</li>
-								<li>その他: C#, Java, Kotlin, JavaScript, TypeScript, Perl, Shell</li>
-								<li>Hardware Description: Verilog-HDL, SystemC</li>
-								<li>Physical Synthesis Tools: Synopsys DC/FV/PT</li>
-							</ul>
-						</div>
+    <!-- EXPERIENCE -->
+    <section class="section experience">
+      <div class="section__inner">
+        <header class="section__header section__header--dark">
+          <div class="section__eyebrow">04 / Experience</div>
+          <h2 class="section__title">Two chapters.</h2>
+          <div class="section__sub">Sony 14年 → Donut 9年。</div>
+        </header>
 
-						<div class="skill-category">
-							<h3>Infrastructure</h3>
-							<ul class="skill-list">
-								<li>FreeBSD（25年）- システム管理、サーバー運用</li>
-								<li>Docker - コンテナ化、開発環境構築</li>
-								<li>AWS - EC2, S3, Lambda（Graviton2/ARM64）</li>
-							</ul>
-						</div>
+        <div class="exp__grid">
+          {EXPERIENCE.map((e, i) => (
+            <div class={`exp__card${i === 0 ? ' exp__card--accent' : ''}`} data-cursor="hover">
+              <div class="exp__period">{e.period}</div>
+              <h3 class="exp__org">{e.org}</h3>
+              <div class="exp__role">{e.role}</div>
+              {e.summary && <p class="exp__summary">{e.summary}</p>}
+              {e.allocation && (
+                <>
+                  <div class="exp__bar">
+                    {e.allocation.map((a, j) => (
+                      <div style={`flex:${a.pct};background:${j === 0 ? 'var(--c-cream)' : j === 1 ? 'rgba(244,237,224,0.5)' : 'rgba(244,237,224,0.25)'}`}></div>
+                    ))}
+                  </div>
+                  <div class="exp__alloc">
+                    {e.allocation.map((a) => (
+                      <div>
+                        <div class="exp__alloc-pct">{a.pct}%</div>
+                        <div class="exp__alloc-label">{a.label}</div>
+                      </div>
+                    ))}
+                  </div>
+                  <ul class="exp__work">
+                    {e.work && e.work.map((w, j) => (
+                      <li><span class="exp__work-num">0{j + 1}</span>{w}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
 
-						<div class="skill-category">
-							<h3>Server Management</h3>
-							<ul class="skill-list">
-								<li>Webサーバー: Nginx, Apache</li>
-								<li>メールサーバー: Postfix, Dovecot</li>
-								<li>データベースサーバー: PostgreSQL, MySQL, MariaDB</li>
-								<li>セキュリティ: SPF, DKIM, DMARC, SSL/TLS, Fail2ban</li>
-								<li>システム監視・運用</li>
-							</ul>
-						</div>
+    <!-- SKILLS -->
+    <section class="section skills">
+      <div class="section__inner">
+        <header class="section__header">
+          <div class="section__eyebrow">05 / Skills</div>
+          <h2 class="section__title">25年積み上げた、技術。</h2>
+        </header>
 
-						<div class="skill-category">
-							<h3>Development Environment</h3>
-							<ul class="skill-list">
-								<li>Vim/Neovim（25年）</li>
-								<li>VSCode/Cursor</li>
-								<li>Claude Code</li>
-								<li>GitHub Copilot</li>
-								<li>Git/GitHub</li>
-								<li>WezTerm/tmux</li>
-							</ul>
-						</div>
+        <div class="skills__grid">
+          <div class="skills__tabs" role="tablist">
+            {SKILL_CATEGORIES.map((c, i) => (
+              <button
+                type="button"
+                class={`skills__tab${i === 0 ? ' is-active' : ''}`}
+                data-tab={i}
+                data-cursor="hover"
+                role="tab"
+                aria-selected={i === 0 ? 'true' : 'false'}
+              >
+                <span class="skills__tab-num">{String(i + 1).padStart(2, '0')}</span>
+                <span class="skills__tab-body">
+                  <span class="skills__tab-title">{c.title}</span>
+                  <span class="skills__tab-ja">{c.titleJa}</span>
+                </span>
+                <span class="skills__tab-arrow">→</span>
+              </button>
+            ))}
+          </div>
 
-						<div class="skill-category">
-							<h3>Specialized Areas</h3>
-							<ul class="skill-list">
-								<li>認知科学 × エンジニアリング - n-backトレーニング、認知負荷の可視化</li>
-								<li>データベース設計 - 日本食品標準成分表2020年版データベース化</li>
-								<li>教育カリキュラム - toio を活用したプログラミング教育</li>
-							</ul>
-						</div>
+          <div class="skills__panels">
+            {SKILL_CATEGORIES.map((c, i) => (
+              <div class={`skills__panel${i === 0 ? ' is-active' : ''}`} data-panel={i} role="tabpanel">
+                <div class="skills__panel-eyebrow">0{i + 1} · {c.titleJa}</div>
+                <h3 class="skills__panel-title">{c.title}</h3>
+                <ul class="skills__items">
+                  {c.items.map((it, j) => (
+                    <li>
+                      <span class="skills__item-num">{String(j + 1).padStart(2, '0')}</span>
+                      <div class="skills__item-body">
+                        <div class="skills__item-name">{it.name}</div>
+                        {(it as any).desc && <div class="skills__item-desc">{(it as any).desc}</div>}
+                      </div>
+                      {(it as any).years && <div class="skills__item-years">{(it as any).years}y</div>}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
 
-						<div class="skill-category">
-							<h3>Current Interests</h3>
-							<ul class="skill-list">
-								<li>ローカルAI環境の構築（NVIDIA DGX Spark検討中）</li>
-								<li>ESG経営とウェルビーイング施策</li>
-								<li>持続可能な開発プラクティス</li>
-								<li>認知科学の最新研究</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+    <!-- BRAINSYNC -->
+    <section id="brainsync" class="section brainsync">
+      <div class="section__inner">
+        <header class="section__header">
+          <div class="section__eyebrow">06 / Featured product</div>
+          <h2 class="section__title">BrainSync.</h2>
+          <div class="section__sub">エンジニアの「脳のパーソナルトレーニングスタジオ」。</div>
+        </header>
 
-		<!-- Products Section -->
-		<section class="products" id="products">
-			<div class="container">
-				<div class="section-card">
-					<div class="terminal-header">
-						<span class="terminal-dots">
-							<span></span><span></span><span></span>
-						</span>
-						<span class="terminal-title">products.js</span>
-					</div>
-					<h2><span class="prompt">></span> list --products</h2>
+        <div class="bs__hero">
+          <svg class="bs__neural" viewBox="0 0 600 600" aria-hidden="true">
+            {Array.from({ length: 14 }).map((_, i) => (
+              <circle cx={300 + Math.cos(i / 14 * Math.PI * 2) * 200} cy={300 + Math.sin(i / 14 * Math.PI * 2) * 200} r="3" fill="var(--c-accent)" />
+            ))}
+            {Array.from({ length: 14 }).flatMap((_, i) =>
+              Array.from({ length: 14 }).map((_, j) => i < j ? (
+                <line
+                  x1={300 + Math.cos(i / 14 * Math.PI * 2) * 200} y1={300 + Math.sin(i / 14 * Math.PI * 2) * 200}
+                  x2={300 + Math.cos(j / 14 * Math.PI * 2) * 200} y2={300 + Math.sin(j / 14 * Math.PI * 2) * 200}
+                  stroke="var(--c-accent)" stroke-width="0.5"
+                />
+              ) : null)
+            )}
+          </svg>
 
-					<div class="products-list">
-						<a href="https://donut-service.com/" target="_blank" rel="noopener noreferrer" class="product-card">
-							<h3>BrainSync</h3>
-							<p class="product-subtitle">エンジニア向け認知トレーニングプラットフォーム</p>
-							<p class="product-description">
-								ソフトウェアエンジニアの認知機能を持続可能にするための「脳のパーソナルトレーニングスタジオ」。
-								長時間のコーディングやデバッグは、認知的に大きな負荷がかかります。
-								BrainSyncは、n-backトレーニングやその他の科学的手法を用いて、
-								エンジニアの集中力、ワーキングメモリ、認知的柔軟性を向上させます。
-							</p>
-							<p class="tech-stack">Flutter, Python, Docker</p>
-						</a>
+          <div class="bs__hero-left">
+            <div class="bs__badge">
+              <span class="bs__badge-dot"></span>
+              In active development · 2026
+            </div>
+            <h3 class="bs__title">BrainSync</h3>
+            <div class="bs__tag">{PRODUCTS[0].tagline}</div>
+            <p class="bs__desc">
+              ソフトウェアエンジニアの認知機能を持続可能にするための「脳のパーソナルトレーニングスタジオ」。n-back トレーニングをはじめ科学的手法を用いて、集中力・ワーキングメモリ・認知的柔軟性を向上させる。
+            </p>
 
-						<a href="https://5meals.donut-software.com/" target="_blank" rel="noopener noreferrer" class="product-card">
-							<h3>5ive Meals</h3>
-							<p class="product-subtitle">食事・栄養管理システム</p>
-							<p class="product-description">
-								エンジニアの健康を食事面からサポート。
-								日本食品標準成分表2020年版（2,538食品）を完全データベース化し、
-								栄養バランスの可視化と管理を実現。
-								開発者自身が健康であることが、良いソフトウェアを生み出す基盤。
-								食事は最も基本的でありながら、最も重要な要素です。
-							</p>
-							<p class="tech-stack">WinterCMS, Docker, Python, PostgreSQL</p>
-						</a>
+            <div class="bs__meta">
+              {BRAINSYNC_META.map((m) => (
+                <div>
+                  <div class="bs__meta-k">{m.k}</div>
+                  <div class="bs__meta-v">{m.v}</div>
+                </div>
+              ))}
+            </div>
+          </div>
 
-						<div class="product-card">
-							<h3>toio 教育カリキュラム</h3>
-							<p class="product-subtitle">小学生向けプログラミング教育</p>
-							<p class="product-description">
-								toio（ソニーの知育ロボット）を活用した、
-								体験型プログラミング学習カリキュラムの開発。
-								「考える」前に「触れる」ことで、
-								プログラミングの本質的な楽しさを伝えることを重視しています。
-							</p>
-						</div>
+          <div class="bs__hero-right">
+            <div class="bs__mock" data-cursor="hover">
+              <div class="bs__mock-head">
+                <div>
+                  <div class="bs__mock-eyebrow">Session 24 · Today</div>
+                  <div class="bs__mock-title">n-back · 3</div>
+                </div>
+                <div class="bs__mock-score">87<span>%</span></div>
+              </div>
+              <div class="bs__mock-grid" id="bs-grid">
+                {Array.from({ length: 9 }).map((_, i) => (
+                  <div class="bs__cell" data-cell={i}></div>
+                ))}
+              </div>
+              <div class="bs__mock-metrics">
+                {[
+                  { label: 'Focus', v: 78, c: 'accent' },
+                  { label: 'WM', v: 91, c: 'cream' },
+                  { label: 'Flex', v: 65, c: 'muted' },
+                ].map((m) => (
+                  <div>
+                    <div class="bs__metric-label">{m.label}</div>
+                    <div class="bs__metric-bar"><div class={`bs__metric-fill bs__metric-fill--${m.c}`} style={`width:${m.v}%`}></div></div>
+                    <div class="bs__metric-num">{m.v}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div class="bs__mock-caption">↑ UI mock — actual product in development</div>
+          </div>
+        </div>
 
-						<div class="product-card">
-							<h3>その他</h3>
-							<p class="product-description">
-								スライドエディタアプリケーション、顧客管理システム、各種業務効率化ツール
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+        <div class="bs__reasons">
+          {BRAINSYNC_REASONS.map((c) => (
+            <div class="bs__reason" data-cursor="hover">
+              <div class="bs__reason-head">
+                <span class="bs__reason-num">{c.n}</span>
+                <h4 class="bs__reason-title">{c.t}</h4>
+              </div>
+              <p class="bs__reason-body">{c.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
 
-		<!-- Life Section -->
-		<section class="life" id="life">
-			<div class="container">
-				<div class="section-card">
-					<div class="terminal-header">
-						<span class="terminal-dots">
-							<span></span><span></span><span></span>
-						</span>
-						<span class="terminal-title">life.md</span>
-					</div>
-					<h2><span class="prompt">$</span> cat life.md</h2>
+    <!-- OTHER PRODUCTS -->
+    <section class="section other">
+      <div class="section__inner">
+        <div class="other__head">
+          <h3 class="other__title">Other work.</h3>
+          <div class="other__eyebrow">07 / archive</div>
+        </div>
+        <div class="other__grid">
+          {PRODUCTS.slice(1).map((p, i) => (
+            <div class="other__card" data-cursor="hover">
+              <div class="other__num">0{i + 2}</div>
+              <h4 class="other__name">{p.name}</h4>
+              <div class="other__tag">{p.tagline}</div>
+              <p class="other__body">{p.description}</p>
+              {p.stack.length > 0 && (
+                <div class="other__stack">
+                  {p.stack.map((s) => <span class="chip chip--xs">{s}</span>)}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
 
-					<div class="life-content">
-						<div class="life-section">
-							<h3>Daily Routine</h3>
-							<p>
-								朝、川崎の街を1〜2時間歩くことから一日が始まります。<br>
-								約16,000歩の散歩が、思考を整理し、その日の開発の構想を練る時間になっています。
-							</p>
-							<p>
-								週末は Starbucks で Bill Evans や Miles Davis を聴きながらコーディング。<br>
-								ジャズのリズムとコードのリズムがシンクロする瞬間があります。
-							</p>
-						</div>
+    <!-- LIFE -->
+    <section class="section life">
+      <div class="section__inner">
+        <header class="section__header">
+          <div class="section__eyebrow">08 / Off-screen</div>
+          <h2 class="section__title">コードの外で。</h2>
+        </header>
 
-						<div class="life-section">
-							<h3>Interests</h3>
-							<div class="interests-grid">
-								<div class="interest-item">
-									<h4>音楽</h4>
-									<p>ジャズ（Bill Evans, Miles Davis）<br>作業中のBGMは常にジャズ</p>
-								</div>
-								<div class="interest-item">
-									<h4>読書</h4>
-									<p>哲学（Viktor Frankl『夜と霧』等）<br>認知科学<br>イノベーション理論（『独創はひらめかない』等）</p>
-								</div>
-								<div class="interest-item">
-									<h4>コレクション</h4>
-									<p>アナログとデジタルの接点に魅力を感じる</p>
-								</div>
-							</div>
-						</div>
+        <div class="life__grid">
+          {LIFE_INTERESTS.map((it, i) => (
+            <div class={`life__card life__card--${i}`} data-cursor="hover">
+              <div class="life__num">0{i + 1} / {it.en}</div>
+              <h4 class="life__title">{it.ja}</h4>
+              <p class="life__body">{it.body}</p>
+            </div>
+          ))}
+        </div>
 
-						<div class="life-section">
-							<h3>Work-Life Balance</h3>
-							<div class="balance-info">
-								<p>平日: クライアントワーク + 開発</p>
-								<p>週末: 個人プロジェクト + リサーチ</p>
-								<p>毎日: 散歩 + 読書</p>
-								<p class="balance-quote">
-									「休む」ことも開発の一部。<br>
-									長期的に走り続けるための、意図的な余白。
-								</p>
-							</div>
-						</div>
+        <div class="life__quote">
+          <div>
+            <div class="life__quote-eyebrow">09 / Philosophy</div>
+            <div class="life__quote-text">
+              "Between stimulus and response there is a space. In that space is our power to choose our response."
+            </div>
+            <div class="life__quote-attrib">— Viktor E. Frankl</div>
+          </div>
+          <div class="life__balance">
+            {LIFE_BALANCE.map((b) => (
+              <div>
+                <div class="life__balance-k">{b.k}</div>
+                <div class="life__balance-v">{b.v}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
 
-						<div class="life-section">
-							<h3>Location</h3>
-							<p>
-								川崎市を拠点に、リモートワークとクライアントサイトのバランスを大切に。<br>
-								毎日の創造的な散歩と意図的な人とのつながりを大切にしています。
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+    <!-- CONTACT -->
+    <section id="contact" class="section contact">
+      <div class="contact__rings" aria-hidden="true">
+        <div></div><div></div><div></div>
+      </div>
+      <div class="section__inner">
+        <div class="section__eyebrow contact__eyebrow">10 / Contact</div>
+        <h2 class="contact__title">話しましょう。</h2>
+        <p class="contact__lede">
+          新しいプロジェクト、技術的な議論、コラボレーションのご相談を、お気軽に。
+        </p>
 
-		<!-- Contact Section -->
-		<section class="contact" id="contact">
-			<div class="container">
-				<div class="section-card">
-					<div class="terminal-header">
-						<span class="terminal-dots">
-							<span></span><span></span><span></span>
-						</span>
-						<span class="terminal-title">contact.sh</span>
-					</div>
-					<h2><span class="prompt">$</span> ./contact.sh</h2>
+        <div class="contact__grid">
+          <div>
+            <div class="contact__head">Direct</div>
+            <a href={`mailto:${PROFILE.email}`} class="contact__email" data-cursor="hover">
+              {PROFILE.email}
+            </a>
+            <ul class="contact__meta">
+              <li>📍 {PROFILE.location}</li>
+              <li>🕐 通常 24 時間以内に返信</li>
+              <li>💬 日本語 / English どちらでも</li>
+            </ul>
+          </div>
+          <div>
+            <div class="contact__head">関心領域</div>
+            {CONTACT_TOPICS.map((t, i) => (
+              <div class="contact__topic">
+                <span class="contact__topic-num">0{i + 1}</span>{t}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
 
-					<div class="contact-content">
-						<p class="contact-intro">
-							新しいプロジェクトのご相談、<br>
-							技術的な議論、コラボレーション、<br>
-							お気軽にお声がけください。
-						</p>
-
-						<div class="contact-interests">
-							<h3>特に以下のような分野に興味があります：</h3>
-							<ul>
-								<li>エンジニアのウェルビーイング</li>
-								<li>認知科学の応用</li>
-								<li>持続可能な開発プラクティス</li>
-								<li>教育×テクノロジー</li>
-							</ul>
-						</div>
-
-						<div class="contact-info">
-							<div class="contact-item">
-								<span class="contact-label">Email:</span>
-								<a href="mailto:yuki.tachi@donut-service.com">yuki.tachi@donut-service.com</a>
-							</div>
-							<div class="contact-item">
-								<span class="contact-label">Location:</span>
-								<span>川崎市、神奈川県</span>
-							</div>
-						</div>
-
-						<div class="contact-quote">
-							<p>
-								"Between stimulus and response there is a space.<br>
-								In that space is our power to choose our response."<br>
-								— Viktor Frankl
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<!-- Floating Geometric Shapes -->
-		<div class="geometric-shapes">
-			<div class="shape hexagon"></div>
-			<div class="shape triangle"></div>
-			<div class="shape circle"></div>
-			<div class="shape square"></div>
-		</div>
+    <footer class="rfooter">
+      <span>© 2026 Donut Service</span>
+      <span>Made with care in Kawasaki</span>
+      <span>Set in Fraunces, Inter, JetBrains Mono</span>
+    </footer>
   </main>
-  <script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
   <script is:inline>
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", user => {
-        if (!user) {
-          window.netlifyIdentity.on("login", () => {
-            document.location.href = "/admin/";
+    (function () {
+      // Skills tabs
+      const tabs = document.querySelectorAll('.skills__tab');
+      const panels = document.querySelectorAll('.skills__panel');
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          const idx = tab.getAttribute('data-tab');
+          tabs.forEach((t) => {
+            t.classList.toggle('is-active', t === tab);
+            t.setAttribute('aria-selected', t === tab ? 'true' : 'false');
           });
-        }
+          panels.forEach((p) => p.classList.toggle('is-active', p.getAttribute('data-panel') === idx));
+        });
       });
-    }
+
+      // Nav scrolled state
+      const nav = document.getElementById('rnav');
+      if (nav) {
+        const onS = () => nav.classList.toggle('is-scrolled', window.scrollY > 40);
+        onS();
+        window.addEventListener('scroll', onS, { passive: true });
+      }
+
+      // BrainSync n-back grid phase rotator
+      const cells = document.querySelectorAll('.bs__cell');
+      if (cells.length) {
+        const seq = [4, 1, 7, 3];
+        let phase = 0;
+        setInterval(() => {
+          cells.forEach((c) => c.classList.remove('is-on'));
+          const target = cells[seq[phase]];
+          if (target) target.classList.add('is-on');
+          phase = (phase + 1) % seq.length;
+        }, 1800);
+      }
+
+      // Hero parallax
+      const hero = document.querySelector('[data-parallax]');
+      if (hero && !window.matchMedia('(prefers-reduced-motion: reduce)').matches && !window.matchMedia('(pointer: coarse)').matches) {
+        const layers = hero.querySelectorAll('[data-parallax-layer]');
+        let target = { x: 0, y: 0 };
+        let cur = { x: 0, y: 0 };
+        hero.addEventListener('mousemove', (e) => {
+          const r = hero.getBoundingClientRect();
+          target.x = ((e.clientX - r.left - r.width / 2) / (r.width / 2)) * 8;
+          target.y = ((e.clientY - r.top - r.height / 2) / (r.height / 2)) * 8;
+        });
+        hero.addEventListener('mouseleave', () => { target = { x: 0, y: 0 }; });
+        const tick = () => {
+          cur.x += (target.x - cur.x) * 0.08;
+          cur.y += (target.y - cur.y) * 0.08;
+          layers.forEach((el) => {
+            const m = parseFloat(el.getAttribute('data-parallax-layer') || '1');
+            el.style.setProperty('--px', (cur.x * m) + 'px');
+            el.style.setProperty('--py', (cur.y * m) + 'px');
+          });
+          requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }
+
+      // Walk chart line draw
+      const line = document.querySelector('.chart__line');
+      const area = document.querySelector('.chart__area');
+      const dots = document.querySelectorAll('.chart__dot');
+      if (line) {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              line.classList.add('is-drawn');
+              if (area) area.classList.add('is-drawn');
+              dots.forEach((d) => d.classList.add('is-drawn'));
+              io.disconnect();
+            }
+          });
+        }, { threshold: 0.3 });
+        io.observe(line);
+      }
+    })();
   </script>
 </Layout>
 
 <style>
-	:root {
-		--color-primary: #0a0e27;
-		--color-secondary: #1a1f3a;
-		--color-accent: #00d9ff;
-		--color-accent-2: #0066ff;
-		--color-text: #e4e4e7;
-		--color-text-light: #a1a1aa;
-		--color-bg: #0f1419;
-		--color-bg-alt: #161b22;
-		--color-border: #30363d;
-		--spacing-unit: 1rem;
-	}
-
-	main {
-		font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-			'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-		color: var(--color-text);
-		line-height: 1.6;
-		background: var(--color-bg);
-		position: relative;
-		overflow-x: hidden;
-	}
-
-	/* Grid Background */
-	main::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background-image: linear-gradient(var(--color-border) 1.5px, transparent 1.5px),
-			linear-gradient(90deg, var(--color-border) 1.5px, transparent 1.5px);
-		background-size: 50px 50px;
-		opacity: 0.4;
-		z-index: 0;
-		pointer-events: none;
-	}
-
-	/* Scanline Effect */
-	main::after {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background: repeating-linear-gradient(
-			0deg,
-			rgba(0, 0, 0, 0.1),
-			rgba(0, 0, 0, 0.1) 1px,
-			transparent 1px,
-			transparent 2px
-		);
-		z-index: 0;
-		pointer-events: none;
-		opacity: 0.2;
-	}
-
-	.container {
-		max-width: 1200px;
-		margin: 0 auto;
-		padding: 0 2rem;
-		position: relative;
-		z-index: 1;
-	}
-
-	/* Hero Section */
-	.hero {
-		background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
-		color: white;
-		padding: 8rem 0 6rem;
-		text-align: center;
-		position: relative;
-		border-bottom: 2px solid var(--color-accent);
-	}
-
-	.hero-top {
-		display: flex;
-		align-items: flex-start;
-		gap: 2rem;
-		justify-content: center;
-		margin-bottom: 3rem;
-	}
-
-	.profile-image-container {
-		flex-shrink: 0;
-	}
-
-	.profile-image {
-		width: 200px;
-		height: 200px;
-		object-fit: cover;
-		border-radius: 8px;
-		border: 4px solid var(--color-accent);
-		box-shadow: 0 0 40px rgba(0, 217, 255, 0.3);
-		transition: all 0.3s ease;
-	}
-
-	.profile-image:hover {
-		transform: scale(1.05);
-		box-shadow: 0 0 60px rgba(0, 217, 255, 0.5);
-	}
-
-	.hero-header {
-		text-align: left;
-		flex: 0 1 auto;
-	}
-
-	.hero::after {
-		content: '';
-		position: absolute;
-		bottom: -2px;
-		left: 0;
-		right: 0;
-		height: 2px;
-		background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
-		animation: scan 3s ease-in-out infinite;
-	}
-
-	@keyframes scan {
-		0%,
-		100% {
-			opacity: 0.5;
-		}
-		50% {
-			opacity: 1;
-		}
-	}
-
-	.name {
-		font-size: 3rem;
-		font-weight: 700;
-		margin: 0 0 0.5rem;
-		letter-spacing: -0.02em;
-		background: linear-gradient(135deg, #ffffff 0%, var(--color-accent) 100%);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
-	}
-
-	.japanese-name {
-		font-size: 0.9rem;
-		margin: 0 0 1rem;
-		opacity: 0.7;
-		font-weight: 300;
-	}
-
-	.title {
-		font-size: 1.1rem;
-		margin: 0 0 0.3rem;
-		opacity: 1;
-		font-weight: 500;
-	}
-
-	.company {
-		font-size: 1.1rem;
-		margin: 0 0 1rem;
-		color: var(--color-accent);
-		font-weight: 600;
-	}
-
-	.tagline {
-		font-size: 1.1rem;
-		margin: 0.5rem 0 0;
-		font-style: italic;
-		opacity: 0.9;
-		color: var(--color-accent);
-	}
-
-	.hero-description {
-		font-size: 1.1rem;
-		margin: 0 auto 3rem;
-		max-width: 800px;
-		line-height: 1.8;
-	}
-
-	.tech-layers {
-		margin: 0 auto 3rem;
-		max-width: 900px;
-		text-align: left;
-		background: rgba(0, 0, 0, 0.3);
-		padding: 2rem;
-		border: 1px solid var(--color-border);
-		border-left: 4px solid var(--color-accent);
-	}
-
-	.tech-layer {
-		margin: 0.75rem 0;
-		font-family: 'JetBrains Mono', 'Courier New', monospace;
-		font-size: 0.95rem;
-		line-height: 1.8;
-	}
-
-	.layer-label {
-		color: var(--color-accent);
-		font-weight: 700;
-		display: inline-block;
-		min-width: 150px;
-	}
-
-	.philosophy {
-		font-size: 1rem;
-		margin: 0 auto 3rem;
-		max-width: 700px;
-		line-height: 1.8;
-		opacity: 0.9;
-	}
-
-	.cta-buttons {
-		margin: 0;
-		display: flex;
-		gap: 1.5rem;
-		justify-content: center;
-		flex-wrap: wrap;
-	}
-
-	.cta-button {
-		padding: 1rem 2.5rem;
-		font-size: 1.1rem;
-		font-weight: 600;
-		text-decoration: none;
-		border-radius: 4px;
-		transition: all 0.3s ease;
-		font-family: 'JetBrains Mono', 'Courier New', monospace;
-	}
-
-	.cta-button.primary {
-		background: var(--color-accent);
-		color: var(--color-primary);
-		border: 2px solid var(--color-accent);
-	}
-
-	.cta-button.primary:hover {
-		background: transparent;
-		color: var(--color-accent);
-		transform: translateY(-2px);
-		box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3);
-	}
-
-	.cta-button.secondary {
-		background: transparent;
-		color: var(--color-accent);
-		border: 2px solid var(--color-accent);
-	}
-
-	.cta-button.secondary:hover {
-		background: var(--color-accent);
-		color: var(--color-primary);
-		transform: translateY(-2px);
-		box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3);
-	}
-
-	/* Common Section Styles */
-	section {
-		padding: 4rem 0;
-		background: var(--color-bg);
-	}
-
-	.section-card {
-		background: var(--color-bg-alt);
-		border-radius: 0;
-		padding: 3rem;
-		margin-bottom: 3rem;
-		border: 1px solid var(--color-border);
-		box-shadow: 0 0 30px rgba(0, 217, 255, 0.1);
-		position: relative;
-		transition: all 0.3s ease;
-	}
-
-	.section-card::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 4px;
-		height: 100%;
-		background: linear-gradient(180deg, var(--color-accent) 0%, var(--color-accent-2) 100%);
-	}
-
-	.section-card:hover {
-		box-shadow: 0 0 50px rgba(0, 217, 255, 0.2);
-		border-color: var(--color-accent);
-	}
-
-	/* Terminal Header */
-	.terminal-header {
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-		margin-bottom: 1.5rem;
-		padding: 0.75rem 1rem;
-		background: var(--color-primary);
-		border: 1px solid var(--color-border);
-		border-bottom: 2px solid var(--color-accent);
-	}
-
-	.terminal-dots {
-		display: flex;
-		gap: 0.5rem;
-	}
-
-	.terminal-dots span {
-		width: 12px;
-		height: 12px;
-		border-radius: 50%;
-		display: block;
-	}
-
-	.terminal-dots span:nth-child(1) {
-		background: #ff5f56;
-	}
-
-	.terminal-dots span:nth-child(2) {
-		background: #ffbd2e;
-	}
-
-	.terminal-dots span:nth-child(3) {
-		background: #27c93f;
-	}
-
-	.terminal-title {
-		font-family: 'JetBrains Mono', 'Courier New', monospace;
-		font-size: 0.85rem;
-		color: var(--color-text-light);
-	}
-
-	h2 {
-		font-size: 1.5rem;
-		margin: 0 0 2.5rem;
-		color: var(--color-text);
-		font-weight: 700;
-		padding: 1rem 1.5rem;
-		background: var(--color-primary);
-		border-left: 4px solid var(--color-accent);
-		font-family: 'JetBrains Mono', 'Courier New', monospace;
-		position: relative;
-	}
-
-	h2::after {
-		content: '';
-		display: inline-block;
-		width: 8px;
-		height: 20px;
-		background: var(--color-accent);
-		margin-left: 0.5rem;
-		animation: blink 1s step-end infinite;
-	}
-
-	@keyframes blink {
-		0%,
-		50% {
-			opacity: 1;
-		}
-		51%,
-		100% {
-			opacity: 0;
-		}
-	}
-
-	.prompt {
-		color: var(--color-accent);
-		margin-right: 0.5rem;
-		font-weight: bold;
-	}
-
-	/* About Section */
-	.about-content {
-		line-height: 1.8;
-	}
-
-	.about-text p {
-		margin: 1.5rem 0;
-		color: var(--color-text);
-	}
-
-	.highlight {
-		margin: 2rem 0;
-		padding: 1.5rem;
-		background: rgba(0, 217, 255, 0.1);
-		border-left: 4px solid var(--color-accent);
-		text-align: center;
-	}
-
-	.highlight strong {
-		color: var(--color-accent);
-		font-size: 1.2rem;
-	}
-
-	.philosophy-box {
-		margin-top: 3rem;
-		padding: 2rem;
-		background: var(--color-primary);
-		border: 1px solid var(--color-border);
-		border-left: 4px solid var(--color-accent-2);
-	}
-
-	.philosophy-box h3 {
-		color: var(--color-accent-2);
-		font-size: 1.3rem;
-		margin: 0 0 1.5rem;
-		font-family: 'JetBrains Mono', 'Courier New', monospace;
-	}
-
-	.philosophy-box p {
-		margin: 1rem 0;
-	}
-
-	/* Experience Section */
-	.timeline {
-		margin: 2rem 0;
-	}
-
-	.timeline-item {
-		margin-bottom: 3rem;
-		padding-left: 2rem;
-		border-left: 2px solid var(--color-border);
-		position: relative;
-	}
-
-	.timeline-item::before {
-		content: '';
-		position: absolute;
-		left: -6px;
-		top: 0;
-		width: 10px;
-		height: 10px;
-		background: var(--color-accent);
-		border-radius: 50%;
-	}
-
-	.timeline-period {
-		color: var(--color-accent);
-		font-size: 0.9rem;
-		font-weight: 700;
-		margin-bottom: 0.5rem;
-		font-family: 'JetBrains Mono', 'Courier New', monospace;
-	}
-
-	.timeline-content h3 {
-		font-size: 1.5rem;
-		color: var(--color-text);
-		margin: 0 0 0.5rem;
-	}
-
-	.role {
-		color: var(--color-accent-2);
-		font-size: 1.1rem;
-		margin: 0 0 1.5rem;
-		font-weight: 600;
-	}
-
-	.work-distribution,
-	.main-work {
-		margin: 1.5rem 0;
-	}
-
-	.work-distribution h4,
-	.main-work h4 {
-		color: var(--color-accent);
-		font-size: 1rem;
-		margin: 0 0 0.75rem;
-		font-family: 'JetBrains Mono', 'Courier New', monospace;
-	}
-
-	.work-distribution ul,
-	.main-work ul {
-		list-style: none;
-		padding: 0;
-	}
-
-	.work-distribution li,
-	.main-work li {
-		margin: 0.5rem 0;
-		padding-left: 1.5rem;
-		position: relative;
-	}
-
-	.work-distribution li::before,
-	.main-work li::before {
-		content: '▹';
-		position: absolute;
-		left: 0;
-		color: var(--color-accent);
-	}
-
-	.numbers-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-		gap: 2rem;
-		margin-top: 3rem;
-	}
-
-	.number-item {
-		text-align: center;
-		padding: 1.5rem;
-		background: var(--color-primary);
-		border: 1px solid var(--color-border);
-		transition: all 0.3s ease;
-	}
-
-	.number-item:hover {
-		border-color: var(--color-accent);
-		transform: translateY(-4px);
-		box-shadow: 0 4px 20px rgba(0, 217, 255, 0.15);
-	}
-
-	.number {
-		font-size: 2rem;
-		font-weight: 700;
-		color: var(--color-accent);
-		margin-bottom: 0.5rem;
-		font-family: 'JetBrains Mono', 'Courier New', monospace;
-		word-break: break-word;
-	}
-
-	.number-label {
-		font-size: 0.9rem;
-		color: var(--color-text-light);
-	}
-
-	/* Skills Section */
-	.skills-content {
-		display: grid;
-		gap: 2.5rem;
-	}
-
-	.skill-category {
-		padding: 1.5rem;
-		background: var(--color-primary);
-		border: 1px solid var(--color-border);
-		border-left: 4px solid var(--color-accent);
-		transition: all 0.3s ease;
-	}
-
-	.skill-category:hover {
-		border-color: var(--color-accent);
-		box-shadow: 0 4px 20px rgba(0, 217, 255, 0.15);
-	}
-
-	.skill-category h3 {
-		color: var(--color-accent);
-		font-size: 1.2rem;
-		margin: 0 0 1rem;
-		font-family: 'JetBrains Mono', 'Courier New', monospace;
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
-	}
-
-	.skill-list {
-		list-style: none;
-		padding: 0;
-		margin: 0;
-	}
-
-	.skill-list li {
-		margin: 0.75rem 0;
-		padding-left: 1.5rem;
-		position: relative;
-		line-height: 1.8;
-	}
-
-	.skill-list li::before {
-		content: '▹';
-		position: absolute;
-		left: 0;
-		color: var(--color-accent);
-		font-weight: bold;
-	}
-
-	/* Products Section */
-	.products-list {
-		display: grid;
-		gap: 2.5rem;
-	}
-
-	.product-card {
-		padding: 2.5rem;
-		background: var(--color-primary);
-		border: 1px solid var(--color-border);
-		border-left: 4px solid var(--color-accent);
-		position: relative;
-		transition: all 0.3s ease;
-		overflow: hidden;
-		display: block;
-		text-decoration: none;
-		color: inherit;
-	}
-
-	.product-card::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: -100%;
-		width: 100%;
-		height: 100%;
-		background: linear-gradient(90deg, transparent, rgba(0, 217, 255, 0.1), transparent);
-		transition: left 0.5s ease;
-	}
-
-	.product-card:hover {
-		border-color: var(--color-accent);
-		transform: translateX(8px);
-		box-shadow: -4px 4px 20px rgba(0, 217, 255, 0.2);
-	}
-
-	.product-card:hover::before {
-		left: 100%;
-	}
-
-	.product-card h3 {
-		font-size: 1.8rem;
-		margin: 0 0 0.5rem;
-		color: var(--color-accent);
-		font-weight: 700;
-		font-family: 'JetBrains Mono', 'Courier New', monospace;
-	}
-
-	.product-subtitle {
-		color: var(--color-accent-2);
-		font-size: 1.1rem;
-		margin: 0 0 1.5rem;
-		font-weight: 600;
-	}
-
-	.product-description {
-		margin: 1rem 0;
-		color: var(--color-text);
-		line-height: 1.8;
-	}
-
-	.tech-stack {
-		margin-top: 1.5rem;
-		padding-top: 1.5rem;
-		border-top: 1px solid var(--color-border);
-		color: var(--color-accent);
-		font-family: 'JetBrains Mono', 'Courier New', monospace;
-		font-size: 0.9rem;
-	}
-
-	/* Life Section */
-	.life-content {
-		display: grid;
-		gap: 3rem;
-	}
-
-	.life-section h3 {
-		color: var(--color-accent);
-		font-size: 1.3rem;
-		margin: 0 0 1.5rem;
-		font-family: 'JetBrains Mono', 'Courier New', monospace;
-	}
-
-	.life-section p {
-		margin: 1rem 0;
-		line-height: 1.8;
-	}
-
-	.interests-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-		gap: 2rem;
-		margin-top: 1.5rem;
-	}
-
-	.interest-item {
-		padding: 1.5rem;
-		background: var(--color-primary);
-		border: 1px solid var(--color-border);
-		transition: all 0.3s ease;
-	}
-
-	.interest-item:hover {
-		border-color: var(--color-accent);
-		transform: translateY(-4px);
-	}
-
-	.interest-item h4 {
-		color: var(--color-accent-2);
-		font-size: 1.1rem;
-		margin: 0 0 0.75rem;
-	}
-
-	.interest-item p {
-		margin: 0;
-		font-size: 0.95rem;
-		line-height: 1.6;
-	}
-
-	.balance-info {
-		padding: 2rem;
-		background: var(--color-primary);
-		border: 1px solid var(--color-border);
-		border-left: 4px solid var(--color-accent-2);
-	}
-
-	.balance-info p {
-		margin: 0.75rem 0;
-		font-family: 'JetBrains Mono', 'Courier New', monospace;
-	}
-
-	.balance-quote {
-		margin-top: 1.5rem;
-		padding-top: 1.5rem;
-		border-top: 1px solid var(--color-border);
-		color: var(--color-accent);
-		font-style: italic;
-	}
-
-	/* Contact Section */
-	.contact-content {
-		max-width: 800px;
-		margin: 0 auto;
-	}
-
-	.contact-intro {
-		font-size: 1.2rem;
-		text-align: center;
-		margin: 0 0 3rem;
-		line-height: 1.8;
-	}
-
-	.contact-interests {
-		margin: 3rem 0;
-		padding: 2rem;
-		background: var(--color-primary);
-		border: 1px solid var(--color-border);
-		border-left: 4px solid var(--color-accent);
-	}
-
-	.contact-interests h3 {
-		color: var(--color-accent);
-		font-size: 1.1rem;
-		margin: 0 0 1rem;
-		font-family: 'JetBrains Mono', 'Courier New', monospace;
-	}
-
-	.contact-interests ul {
-		list-style: none;
-		padding: 0;
-		margin: 0;
-	}
-
-	.contact-interests li {
-		margin: 0.75rem 0;
-		padding-left: 1.5rem;
-		position: relative;
-	}
-
-	.contact-interests li::before {
-		content: '▹';
-		position: absolute;
-		left: 0;
-		color: var(--color-accent);
-	}
-
-	.contact-info {
-		margin: 3rem 0;
-	}
-
-	.contact-item {
-		margin: 1.5rem 0;
-		font-size: 1.1rem;
-	}
-
-	.contact-label {
-		color: var(--color-accent);
-		font-weight: 700;
-		display: inline-block;
-		min-width: 100px;
-		font-family: 'JetBrains Mono', 'Courier New', monospace;
-	}
-
-	.contact-item a {
-		color: var(--color-text);
-		text-decoration: none;
-		transition: color 0.3s ease;
-	}
-
-	.contact-item a:hover {
-		color: var(--color-accent);
-	}
-
-	.contact-quote {
-		margin-top: 4rem;
-		padding: 2rem;
-		background: var(--color-primary);
-		border: 1px solid var(--color-border);
-		text-align: center;
-		font-style: italic;
-		color: var(--color-text-light);
-		line-height: 2;
-	}
-
-	/* Responsive Design */
-	@media (max-width: 768px) {
-		.hero {
-			padding: 5rem 0 4rem;
-		}
-
-		.hero-top {
-			flex-direction: column;
-			align-items: center;
-			gap: 1.5rem;
-		}
-
-		.hero-header {
-			text-align: center;
-		}
-
-		.profile-image {
-			width: 180px;
-			height: 180px;
-		}
-
-		.name {
-			font-size: 2.5rem;
-		}
-
-		.japanese-name {
-			font-size: 1rem;
-		}
-
-		.title {
-			font-size: 1.2rem;
-		}
-
-		.company {
-			font-size: 1.1rem;
-		}
-
-		.tagline {
-			font-size: 1.2rem;
-		}
-
-		.hero-description {
-			font-size: 1.1rem;
-		}
-
-		.tech-layers {
-			padding: 1.5rem;
-		}
-
-		.tech-layer {
-			font-size: 0.85rem;
-		}
-
-		.layer-label {
-			display: block;
-			margin-bottom: 0.25rem;
-		}
-
-		.section-card {
-			padding: 2rem;
-		}
-
-		h2 {
-			font-size: 1.3rem;
-		}
-
-		.numbers-grid {
-			grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-			gap: 1rem;
-		}
-
-		.interests-grid {
-			grid-template-columns: 1fr;
-		}
-
-		.cta-buttons {
-			flex-direction: column;
-		}
-
-		.cta-button {
-			width: 100%;
-			box-sizing: border-box;
-		}
-
-		.container {
-			padding: 0 1.5rem;
-		}
-
-		.terminal-header {
-			padding: 0.5rem 0.75rem;
-		}
-
-		.geometric-shapes {
-			display: none;
-		}
-	}
-
-	@media (max-width: 480px) {
-		.profile-image {
-			width: 150px;
-			height: 150px;
-		}
-
-		.name {
-			font-size: 2rem;
-		}
-
-		.title {
-			font-size: 1rem;
-		}
-
-		.company {
-			font-size: 1rem;
-		}
-
-		.tagline {
-			font-size: 1.1rem;
-		}
-
-		.hero-description {
-			font-size: 1rem;
-		}
-
-		.section-card {
-			padding: 1.5rem;
-		}
-
-		.terminal-header {
-			padding: 0.5rem 0.75rem;
-		}
-
-		.tech-layers {
-			padding: 1rem;
-		}
-
-		.cta-buttons {
-			flex-direction: column;
-		}
-
-		.cta-button {
-			width: 100%;
-			box-sizing: border-box;
-		}
-
-		.number {
-			font-size: 2rem;
-		}
-	}
-
-	/* Smooth Scrolling */
-	html {
-		scroll-behavior: smooth;
-	}
-
-	/* Floating Geometric Shapes */
-	.geometric-shapes {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		pointer-events: none;
-		z-index: 0;
-		overflow: hidden;
-	}
-
-	.shape {
-		position: absolute;
-		opacity: 0.1;
-		animation: float 20s ease-in-out infinite;
-	}
-
-	.hexagon {
-		width: 100px;
-		height: 100px;
-		background: var(--color-accent);
-		clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-		top: 10%;
-		left: 10%;
-		animation-delay: 0s;
-	}
-
-	.triangle {
-		width: 0;
-		height: 0;
-		border-left: 60px solid transparent;
-		border-right: 60px solid transparent;
-		border-bottom: 100px solid var(--color-accent-2);
-		top: 60%;
-		right: 15%;
-		animation-delay: 5s;
-	}
-
-	.circle {
-		width: 80px;
-		height: 80px;
-		background: var(--color-accent);
-		border-radius: 50%;
-		bottom: 20%;
-		left: 20%;
-		animation-delay: 10s;
-	}
-
-	.square {
-		width: 90px;
-		height: 90px;
-		background: var(--color-accent-2);
-		transform: rotate(45deg);
-		top: 40%;
-		right: 10%;
-		animation-delay: 15s;
-	}
-
-	@keyframes float {
-		0%,
-		100% {
-			transform: translateY(0) rotate(0deg);
-		}
-		25% {
-			transform: translateY(-30px) rotate(90deg);
-		}
-		50% {
-			transform: translateY(0) rotate(180deg);
-		}
-		75% {
-			transform: translateY(30px) rotate(270deg);
-		}
-	}
+  main { display: block; }
+  em { font-style: italic; color: var(--c-accent); }
+
+  .section { padding: 140px 48px; position: relative; }
+  .section__inner { max-width: 1280px; margin: 0 auto; }
+  .section__header { }
+  .section__eyebrow {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em;
+    color: var(--c-accent); text-transform: uppercase; margin-bottom: 16px;
+  }
+  .section__header--dark .section__eyebrow { color: rgba(244, 237, 224, 0.7); }
+  .section__title {
+    font-family: var(--ff-serif); font-size: 64px; font-weight: 400;
+    letter-spacing: -0.025em; margin: 0; line-height: 1.05;
+    text-wrap: balance;
+  }
+  .section__sub {
+    font-family: var(--ff-serif); font-size: 22px; font-style: italic;
+    color: var(--c-muted); margin-top: 12px;
+  }
+  .section__header--dark .section__title { color: var(--c-cream); }
+  .section__header--dark .section__sub { color: rgba(244, 237, 224, 0.6); }
+
+  /* NAV */
+  .rnav {
+    position: fixed; top: 12px; left: 50%; transform: translateX(-50%);
+    z-index: 100; transition: all .3s;
+    background: rgba(244, 237, 224, 0.4);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--c-rule); border-radius: 999px;
+    padding: 10px 14px 10px 18px;
+    display: flex; align-items: center; gap: 24px; font-size: 13px;
+    max-width: min(900px, calc(100vw - 32px));
+  }
+  .rnav.is-scrolled {
+    background: rgba(244, 237, 224, 0.85);
+    box-shadow: 0 8px 24px rgba(34, 26, 63, 0.08);
+  }
+  .rnav__brand { display: flex; align-items: center; gap: 10px; }
+  .rnav__logo {
+    width: 22px; height: 22px; border-radius: 50%; background: var(--c-accent);
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--c-cream); font-family: var(--ff-serif);
+    font-size: 13px; font-weight: 600; font-style: italic;
+  }
+  .rnav__name { font-family: var(--ff-serif); font-size: 16px; font-weight: 500; }
+  .rnav__links { display: flex; gap: 20px; }
+  .rnav__links a { color: var(--c-ink); text-decoration: none; font-size: 13px; }
+  .rnav__cta {
+    background: var(--c-ink); color: var(--c-cream); padding: 8px 14px;
+    border-radius: 999px; font-size: 12px; text-decoration: none;
+    display: inline-flex; gap: 6px; align-items: center;
+  }
+  @media (max-width: 768px) {
+    .rnav { gap: 12px; padding: 8px 8px 8px 14px; font-size: 12px; }
+    .rnav__links { display: none; }
+  }
+
+  /* HERO */
+  .hero {
+    padding: 108px 48px 120px;
+    overflow: hidden; min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .hero__inner { max-width: 1280px; margin: 0 auto; width: 100%; position: relative; z-index: 1; }
+  .hero__glow {
+    position: absolute; pointer-events: none;
+    transform: translate(var(--px, 0), var(--py, 0));
+  }
+  .hero__glow--accent {
+    top: -100px; right: -120px; width: 480px; height: 480px;
+    background: radial-gradient(circle, rgba(212, 82, 58, 0.15) 0%, transparent 70%);
+  }
+  .hero__glow--green {
+    bottom: -160px; left: -80px; width: 360px; height: 360px;
+    background: radial-gradient(circle, rgba(58, 93, 79, 0.2) 0%, transparent 70%);
+  }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 10px; padding: 6px 14px;
+    background: rgba(212, 82, 58, 0.12); color: var(--c-accent);
+    border-radius: 999px; font-size: 12px; font-weight: 500; margin-bottom: 32px;
+  }
+  .badge__dot {
+    width: 6px; height: 6px; background: var(--c-accent);
+    border-radius: 50%; animation: r-pulse 2s ease-in-out infinite;
+  }
+
+  .hero__grid {
+    display: grid; grid-template-columns: 1.4fr 1fr; gap: 64px; align-items: center;
+  }
+  .hero__title {
+    font-family: var(--ff-serif); font-size: clamp(56px, 8vw, 108px);
+    font-weight: 400; margin: 0; letter-spacing: -0.03em; line-height: 0.98;
+  }
+  .hero__line { display: block; white-space: nowrap; }
+  .hero__hi { position: relative; display: inline-block; color: var(--c-accent); }
+  .hero__squiggle {
+    position: absolute; left: -4px; bottom: -10px; width: 100px;
+    color: var(--c-accent);
+  }
+  .reveal-letter {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(40%);
+    animation: r-reveal-y .7s cubic-bezier(.2, .7, .3, 1) forwards;
+  }
+  .reveal-letter.is-italic { font-style: italic; }
+
+  .hero__lede {
+    font-family: var(--ff-sans); font-size: 18px; line-height: 1.7;
+    color: var(--c-muted); max-width: 560px; margin-top: 64px;
+    text-wrap: pretty;
+  }
+  .hero__cta { display: flex; gap: 12px; margin-top: 36px; flex-wrap: wrap; }
+  .btn {
+    padding: 16px 28px; border-radius: 999px; font-size: 14px; font-weight: 500;
+    text-decoration: none; display: inline-flex; gap: 8px; align-items: center;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .btn--solid { background: var(--c-ink); color: var(--c-cream); }
+  .btn--solid:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(34, 26, 63, 0.25); }
+  .btn--ghost { background: transparent; color: var(--c-ink); border: 1px solid var(--c-rule); }
+  .btn--ghost:hover { background: var(--c-faint); }
+  .btn__arrow { font-style: italic; }
+
+  .hero__portrait-wrap { justify-self: end; }
+  .portrait {
+    position: relative; width: 400px; aspect-ratio: 1 / 1.24;
+  }
+  .portrait__bg {
+    position: absolute; inset: -16px; background: var(--c-accent);
+    border-radius: 16px;
+    transform: rotate(-3deg) translate(var(--px, 0), var(--py, 0));
+    z-index: 0;
+  }
+  .portrait__img {
+    position: relative; z-index: 1;
+    width: 100%; height: 100%; object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid rgba(34, 26, 63, 0.1);
+    transform: translate(var(--px, 0), var(--py, 0));
+  }
+  .portrait__tag {
+    position: absolute; padding: 14px 18px; border-radius: 12px;
+    border: 1px solid var(--c-rule);
+    box-shadow: 0 8px 28px rgba(34, 26, 63, 0.18);
+    z-index: 2;
+  }
+  .portrait__tag--bl {
+    bottom: -28px; left: -28px; background: var(--c-cream);
+    transform: rotate(-3deg);
+  }
+  .portrait__tag--tr {
+    top: -20px; right: -32px; background: var(--c-ink); color: var(--c-cream);
+    transform: rotate(4deg);
+  }
+  .portrait__tag-eyebrow {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.16em;
+    color: var(--c-muted); margin-bottom: 4px; text-transform: uppercase;
+  }
+  .portrait__tag--tr .portrait__tag-eyebrow { color: rgba(244, 237, 224, 0.7); }
+  .portrait__tag-text {
+    font-family: var(--ff-serif); font-size: 15px; font-style: italic;
+    color: var(--c-ink);
+  }
+  .portrait__tag-big {
+    font-family: var(--ff-serif); font-size: 22px; font-style: italic;
+  }
+  .portrait__tag-big span { font-size: 12px; opacity: 0.7; }
+
+  .meta-rail {
+    margin-top: 80px; padding-top: 32px; border-top: 1px solid var(--c-rule);
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
+  }
+  .meta-rail__mono {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em;
+    color: var(--c-muted); text-transform: uppercase; margin-bottom: 4px;
+  }
+  .meta-rail__text {
+    color: var(--c-ink); font-family: var(--ff-sans); font-size: 13px;
+  }
+
+  @media (max-width: 900px) {
+    .hero__grid { grid-template-columns: 1fr; gap: 48px; }
+    .hero__portrait-wrap { justify-self: start; }
+    .portrait { width: 280px; }
+    .meta-rail { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* PHILOSOPHY */
+  .philo {
+    padding: 48px 0; background: var(--c-ink); color: var(--c-cream);
+    overflow: hidden;
+  }
+  .philo__track {
+    display: flex; animation: r-marquee 50s linear infinite; white-space: nowrap;
+  }
+  .philo__group {
+    display: inline-flex; gap: 56px; padding-right: 56px;
+    font-family: var(--ff-serif); font-size: 56px; font-weight: 300;
+    font-style: italic; letter-spacing: -0.015em;
+  }
+  .philo__sep { color: var(--c-accent); font-style: normal; }
+  .philo__faded { color: rgba(244, 237, 224, 0.5); }
+
+  /* ABOUT */
+  .about__grid {
+    display: grid; grid-template-columns: 1fr 1.5fr; gap: 80px; margin-top: 64px;
+  }
+  .about__quote {
+    font-family: var(--ff-serif); font-size: 28px; line-height: 1.55;
+    font-style: italic; color: var(--c-accent);
+    padding-left: 24px; border-left: 3px solid var(--c-accent);
+  }
+  .about__attrib {
+    margin-top: 32px; font-family: var(--ff-mono); font-size: 11px;
+    letter-spacing: 0.18em; color: var(--c-muted); text-transform: uppercase;
+  }
+  .about__p {
+    font-family: var(--ff-serif); font-size: 19px; line-height: 1.75;
+    margin: 0 0 16px 0; text-wrap: pretty;
+  }
+  @media (max-width: 900px) {
+    .about__grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  /* WALK */
+  .walk { background: var(--c-paper); overflow: hidden; }
+  .walk__grid {
+    margin-top: 56px; display: grid; grid-template-columns: 1fr 1fr;
+    gap: 64px; align-items: start;
+  }
+  .walk__p {
+    font-family: var(--ff-serif); font-size: 18px; line-height: 1.75;
+    color: var(--c-muted); margin-top: 16px;
+  }
+  .walk__p--lead {
+    font-size: 26px; line-height: 1.55; color: var(--c-ink); margin: 0;
+    text-wrap: pretty;
+  }
+
+  .chart {
+    background: var(--c-cream); padding: 32px; border-radius: 20px;
+    border: 1px solid var(--c-rule);
+    box-shadow: 0 8px 32px rgba(34, 26, 63, 0.06);
+  }
+  .chart__head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 24px;
+  }
+  .chart__eyebrow {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em;
+    color: var(--c-muted); text-transform: uppercase;
+  }
+  .chart__big {
+    font-family: var(--ff-serif); font-size: 44px; font-weight: 500;
+    margin-top: 4px; line-height: 1; letter-spacing: -0.02em;
+  }
+  .chart__big-sub {
+    font-size: 14px; color: var(--c-muted); font-weight: 400; font-style: italic;
+    margin-left: 4px;
+  }
+  .chart__legend {
+    text-align: right; font-family: var(--ff-mono); font-size: 10px;
+    color: var(--c-muted); letter-spacing: 0.1em; line-height: 1.6;
+  }
+  .chart__peak {
+    color: var(--c-accent); font-size: 13px; font-family: var(--ff-serif);
+    font-style: italic; margin-left: 4px;
+  }
+  .chart__low {
+    color: var(--c-ink); font-size: 13px; font-family: var(--ff-serif);
+    margin-left: 4px;
+  }
+  .chart__svg { display: block; width: 100%; overflow: visible; }
+  .chart__area { opacity: 0; transition: opacity 1s; }
+  .chart__area.is-drawn { opacity: 1; }
+  .chart__line { transition: stroke-dashoffset 2s ease-out; }
+  .chart__line.is-drawn { stroke-dashoffset: 0 !important; }
+  .chart__dot { opacity: 0; transition: opacity .5s; }
+  .chart__dot.is-drawn { opacity: 1; }
+  .chart__axis {
+    font-family: var(--ff-mono); font-size: 10px;
+    fill: var(--c-muted); letter-spacing: 0.1em;
+  }
+  .chart__axis--end { text-anchor: end; }
+
+  .stats {
+    margin-top: 80px; display: grid; grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+  }
+  .stat-card {
+    background: var(--c-cream); color: var(--c-ink);
+    padding: 28px 20px; border-radius: 16px; border: 1px solid var(--c-rule);
+    transition: all .3s cubic-bezier(.2, .7, .3, 1);
+  }
+  .stat-card:hover {
+    background: var(--c-ink); color: var(--c-cream);
+    transform: translateY(-6px);
+    box-shadow: 0 16px 32px rgba(34, 26, 63, 0.18);
+  }
+  .stat-card__num {
+    font-family: var(--ff-serif); font-size: 44px; font-weight: 500;
+    line-height: 1; letter-spacing: -0.025em;
+  }
+  .stat-card__unit {
+    font-size: 18px; color: var(--c-accent); margin-left: 4px;
+    font-weight: 400; font-style: italic;
+  }
+  .stat-card__label { font-size: 12px; margin-top: 12px; }
+  .stat-card__en {
+    font-family: var(--ff-mono); font-size: 9px; margin-top: 4px;
+    opacity: 0.55; letter-spacing: 0.08em;
+  }
+  @media (max-width: 1100px) {
+    .stats { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 900px) {
+    .walk__grid { grid-template-columns: 1fr; gap: 40px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* STACK */
+  .stack__list { margin-top: 64px; position: relative; }
+  .stack__rail {
+    position: absolute; left: 28px; top: 30px; bottom: 30px;
+    width: 2px; background: var(--c-accent); opacity: 0.25;
+  }
+  .stack__row {
+    display: grid; grid-template-columns: 60px 240px 1fr; gap: 32px;
+    align-items: center; padding: 24px 0; position: relative;
+  }
+  .stack__num {
+    width: 56px; height: 56px; border-radius: 50%; background: var(--c-cream);
+    border: 2px solid var(--c-accent);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--ff-serif); font-size: 22px; color: var(--c-accent);
+    font-weight: 500; font-style: italic;
+    position: relative; z-index: 1;
+  }
+  .stack__name {
+    font-family: var(--ff-serif); font-size: 32px; font-weight: 500; line-height: 1.1;
+  }
+  .stack__layer {
+    font-family: var(--ff-mono); font-size: 11px; color: var(--c-muted);
+    margin-top: 4px; letter-spacing: 0.1em;
+  }
+  .stack__items { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-family: var(--ff-mono); font-size: 12px; padding: 8px 14px;
+    background: var(--c-cream); border: 1px solid var(--c-rule); border-radius: 8px;
+  }
+  .chip--xs { font-size: 10px; padding: 3px 8px; border-radius: 4px; }
+  @media (max-width: 900px) {
+    .stack__row { grid-template-columns: 56px 1fr; row-gap: 12px; }
+    .stack__items { grid-column: 1 / -1; padding-left: 0; }
+    .stack__rail { left: 28px; }
+  }
+
+  /* EXPERIENCE */
+  .experience { background: var(--c-ink); color: var(--c-cream); }
+  .exp__grid {
+    margin-top: 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+  }
+  .exp__card {
+    background: rgba(244, 237, 224, 0.06); color: var(--c-cream);
+    padding: 40px; border-radius: 20px;
+    border: 1px solid rgba(244, 237, 224, 0.12);
+    transition: transform .3s;
+  }
+  .exp__card:hover { transform: translateY(-4px); }
+  .exp__card--accent { background: var(--c-accent); border: none; }
+  .exp__period {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em;
+    opacity: 0.8; text-transform: uppercase;
+  }
+  .exp__org {
+    font-family: var(--ff-serif); font-size: 44px; font-weight: 500;
+    margin: 16px 0 4px 0;
+  }
+  .exp__role { font-size: 13px; opacity: 0.85; margin-bottom: 28px; }
+  .exp__summary {
+    font-family: var(--ff-serif); font-size: 17px; line-height: 1.65; opacity: 0.95;
+  }
+  .exp__bar {
+    display: flex; gap: 0; height: 8px; border-radius: 4px;
+    overflow: hidden; margin: 8px 0 16px;
+  }
+  .exp__alloc {
+    display: flex; gap: 24px; font-size: 12px; margin-bottom: 24px;
+  }
+  .exp__alloc-pct {
+    font-family: var(--ff-serif); font-size: 22px; font-weight: 500;
+  }
+  .exp__alloc-label { opacity: 0.85; }
+  .exp__work { list-style: none; padding: 0; margin: 0; }
+  .exp__work li {
+    padding: 12px 0; border-top: 1px solid rgba(244, 237, 224, 0.18);
+    font-size: 14px; display: flex; gap: 12px;
+  }
+  .exp__work-num { font-family: var(--ff-mono); opacity: 0.6; }
+  @media (max-width: 900px) {
+    .exp__grid { grid-template-columns: 1fr; }
+  }
+
+  /* SKILLS */
+  .skills__grid {
+    margin-top: 56px; display: grid; grid-template-columns: 300px 1fr; gap: 32px;
+  }
+  .skills__tabs { display: flex; flex-direction: column; gap: 4px; }
+  .skills__tab {
+    text-align: left; padding: 16px 20px; border: none;
+    background: transparent; color: var(--c-ink);
+    border-radius: 10px; font-family: var(--ff-sans); font-size: 14px;
+    font-weight: 500; transition: all .2s;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .skills__tab.is-active { background: var(--c-ink); color: var(--c-cream); }
+  .skills__tab-num {
+    font-family: var(--ff-mono); font-size: 10px; opacity: 0.5;
+    width: 22px; color: var(--c-muted);
+  }
+  .skills__tab.is-active .skills__tab-num { color: var(--c-accent); opacity: 0.8; }
+  .skills__tab-body { flex: 1; display: block; text-align: left; }
+  .skills__tab-title { display: block; }
+  .skills__tab-ja { display: block; font-size: 11px; opacity: 0.65; margin-top: 2px; }
+  .skills__tab-arrow { color: var(--c-accent); font-size: 14px; opacity: 0; }
+  .skills__tab.is-active .skills__tab-arrow { opacity: 1; }
+
+  .skills__panels { position: relative; min-height: 400px; }
+  .skills__panel {
+    background: var(--c-paper); border-radius: 20px; padding: 40px;
+    border: 1px solid var(--c-rule);
+    display: none;
+  }
+  .skills__panel.is-active { display: block; }
+  .skills__panel-eyebrow {
+    font-family: var(--ff-mono); font-size: 11px; color: var(--c-accent);
+    letter-spacing: 0.18em; margin-bottom: 8px; text-transform: uppercase;
+  }
+  .skills__panel-title {
+    font-family: var(--ff-serif); font-size: 40px; font-weight: 500;
+    margin: 0 0 28px 0;
+  }
+  .skills__items { list-style: none; padding: 0; margin: 0; }
+  .skills__items li {
+    padding: 16px 0; border-top: 1px solid var(--c-rule);
+    display: flex; align-items: baseline; gap: 16px;
+  }
+  .skills__item-num {
+    font-family: var(--ff-mono); font-size: 11px; color: var(--c-muted); width: 30px;
+  }
+  .skills__item-body { flex: 1; }
+  .skills__item-name { font-family: var(--ff-serif); font-size: 18px; }
+  .skills__item-desc { font-size: 13px; color: var(--c-muted); margin-top: 2px; }
+  .skills__item-years {
+    font-family: var(--ff-serif); font-style: italic; color: var(--c-accent);
+    font-size: 18px;
+  }
+  @media (max-width: 900px) {
+    .skills__grid { grid-template-columns: 1fr; }
+    .skills__panels { min-height: auto; }
+  }
+
+  /* BRAINSYNC */
+  .brainsync { background: var(--c-paper); }
+  .bs__hero {
+    margin-top: 56px; background: var(--c-ink); color: var(--c-cream);
+    border-radius: 32px; padding: 56px;
+    display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px;
+    align-items: center; position: relative; overflow: hidden;
+  }
+  .bs__neural {
+    position: absolute; right: -120px; top: -80px;
+    width: 720px; height: 720px; opacity: 0.08; pointer-events: none;
+  }
+  .bs__hero-left { position: relative; z-index: 1; }
+  .bs__hero-right { position: relative; z-index: 1; }
+  .bs__badge {
+    display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px;
+    background: rgba(212, 82, 58, 0.2); color: var(--c-accent);
+    border-radius: 999px; font-family: var(--ff-mono); font-size: 11px;
+    letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 24px;
+  }
+  .bs__badge-dot {
+    width: 6px; height: 6px; background: var(--c-accent); border-radius: 50%;
+  }
+  .bs__title {
+    font-family: var(--ff-serif); font-size: 92px; font-weight: 500;
+    margin: 0 0 16px 0; letter-spacing: -0.03em; line-height: 1;
+  }
+  .bs__tag {
+    font-family: var(--ff-serif); font-style: italic; font-size: 24px;
+    color: var(--c-accent); margin-bottom: 28px;
+  }
+  .bs__desc {
+    font-family: var(--ff-serif); font-size: 18px; line-height: 1.7;
+    opacity: 0.95; max-width: 540px;
+  }
+  .bs__meta {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 36px;
+  }
+  .bs__meta-k {
+    font-family: var(--ff-mono); font-size: 10px; opacity: 0.6;
+    letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 6px;
+    border-top: 1px solid rgba(244, 237, 224, 0.2); padding-top: 14px;
+  }
+  .bs__meta-v { font-size: 13px; font-family: var(--ff-serif); }
+
+  .bs__mock {
+    background: rgba(244, 237, 224, 0.06); border-radius: 20px; padding: 28px;
+    border: 1px solid rgba(244, 237, 224, 0.18);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  }
+  .bs__mock-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .bs__mock-eyebrow {
+    font-family: var(--ff-mono); font-size: 10px; opacity: 0.7;
+    letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 4px;
+  }
+  .bs__mock-title { font-family: var(--ff-serif); font-size: 24px; font-weight: 500; }
+  .bs__mock-score {
+    font-family: var(--ff-serif); font-style: italic; color: var(--c-accent);
+    font-size: 32px;
+  }
+  .bs__mock-score span { font-size: 14px; }
+  .bs__mock-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px;
+  }
+  .bs__cell {
+    aspect-ratio: 1; border-radius: 8px;
+    background: rgba(244, 237, 224, 0.06);
+    border: 1px solid rgba(244, 237, 224, 0.15);
+    transition: background .4s;
+  }
+  .bs__cell.is-on { background: var(--c-accent); }
+  .bs__mock-metrics {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  }
+  .bs__metric-label {
+    font-family: var(--ff-mono); font-size: 9px; opacity: 0.6;
+    letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 6px;
+  }
+  .bs__metric-bar {
+    height: 4px; background: rgba(244, 237, 224, 0.15);
+    border-radius: 2px; overflow: hidden;
+  }
+  .bs__metric-fill { height: 100%; transition: width 1s; }
+  .bs__metric-fill--accent { background: var(--c-accent); }
+  .bs__metric-fill--cream { background: var(--c-cream); }
+  .bs__metric-fill--muted { background: rgba(244, 237, 224, 0.6); }
+  .bs__metric-num { font-family: var(--ff-serif); font-size: 14px; margin-top: 4px; }
+  .bs__mock-caption {
+    font-family: var(--ff-mono); font-size: 10px;
+    color: rgba(244, 237, 224, 0.5); letter-spacing: 0.16em;
+    text-align: center; margin-top: 12px; text-transform: uppercase;
+  }
+
+  .bs__reasons {
+    margin-top: 56px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  }
+  .bs__reason {
+    background: var(--c-cream); padding: 32px; border-radius: 20px;
+    border: 1px solid var(--c-rule);
+    transition: transform .25s, box-shadow .25s;
+  }
+  .bs__reason:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(34, 26, 63, 0.08);
+  }
+  .bs__reason-head {
+    display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px;
+  }
+  .bs__reason-num {
+    font-family: var(--ff-serif); font-style: italic; color: var(--c-accent);
+    font-size: 32px; line-height: 1;
+  }
+  .bs__reason-title {
+    font-family: var(--ff-serif); font-size: 24px; font-weight: 500; margin: 0;
+  }
+  .bs__reason-body {
+    font-family: var(--ff-sans); font-size: 14px; line-height: 1.7;
+    color: var(--c-ink); margin: 0;
+  }
+  @media (max-width: 900px) {
+    .bs__hero { grid-template-columns: 1fr; padding: 32px; gap: 32px; }
+    .bs__title { font-size: 64px; }
+    .bs__reasons { grid-template-columns: 1fr; }
+  }
+
+  /* OTHER */
+  .other { padding: 100px 48px; }
+  .other__head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 32px;
+  }
+  .other__title {
+    font-family: var(--ff-serif); font-size: 36px; font-weight: 500;
+    margin: 0; letter-spacing: -0.015em;
+  }
+  .other__eyebrow {
+    font-family: var(--ff-mono); font-size: 11px; color: var(--c-muted);
+    letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  .other__grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  }
+  .other__card {
+    background: var(--c-paper); padding: 32px; border-radius: 16px;
+    border: 1px solid var(--c-rule); transition: transform .25s;
+  }
+  .other__card:hover { transform: translateY(-4px); }
+  .other__num {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em;
+    color: var(--c-muted); text-transform: uppercase; margin-bottom: 14px;
+  }
+  .other__name {
+    font-family: var(--ff-serif); font-size: 26px; font-weight: 500; margin: 0 0 6px 0;
+  }
+  .other__tag {
+    font-family: var(--ff-serif); font-style: italic; color: var(--c-accent);
+    font-size: 14px; margin-bottom: 16px;
+  }
+  .other__body {
+    font-size: 13.5px; line-height: 1.65; color: var(--c-muted); margin: 0;
+  }
+  .other__stack { display: flex; gap: 6px; margin-top: 16px; flex-wrap: wrap; }
+  @media (max-width: 900px) {
+    .other__grid { grid-template-columns: 1fr; }
+  }
+
+  /* LIFE */
+  .life { background: var(--c-paper); }
+  .life__grid {
+    margin-top: 56px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  }
+  .life__card {
+    color: var(--c-cream); padding: 36px; border-radius: 20px;
+    min-height: 240px; display: flex; flex-direction: column;
+    transition: transform .25s;
+  }
+  .life__card:hover { transform: scale(1.02); }
+  .life__card--0 { background: var(--c-accent); }
+  .life__card--1 { background: var(--c-ink); }
+  .life__card--2 { background: var(--c-accent-2); }
+  .life__num {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.18em;
+    opacity: 0.8; text-transform: uppercase; margin-bottom: auto;
+  }
+  .life__title {
+    font-family: var(--ff-serif); font-size: 40px; font-weight: 500;
+    margin: 16px 0 12px 0;
+  }
+  .life__body { font-size: 14px; line-height: 1.65; opacity: 0.95; margin: 0; }
+
+  .life__quote {
+    margin-top: 56px; padding: 56px 64px; background: var(--c-cream);
+    border-radius: 24px; border: 1px solid var(--c-rule);
+    display: grid; grid-template-columns: 1fr auto; gap: 56px; align-items: center;
+  }
+  .life__quote-eyebrow {
+    font-family: var(--ff-mono); font-size: 11px; color: var(--c-accent);
+    letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 16px;
+  }
+  .life__quote-text {
+    font-family: var(--ff-serif); font-size: 38px; font-style: italic;
+    line-height: 1.4; color: var(--c-ink); text-wrap: pretty;
+  }
+  .life__quote-attrib {
+    font-family: var(--ff-mono); font-size: 12px; color: var(--c-muted);
+    letter-spacing: 0.18em; text-transform: uppercase; margin-top: 24px;
+  }
+  .life__balance { display: flex; gap: 24px; }
+  .life__balance > div { text-align: center; }
+  .life__balance-k {
+    font-family: var(--ff-mono); font-size: 10px; color: var(--c-muted);
+    letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  .life__balance-v {
+    font-family: var(--ff-serif); font-style: italic; font-size: 14px;
+    margin-top: 8px; max-width: 90px;
+  }
+  @media (max-width: 900px) {
+    .life__grid { grid-template-columns: 1fr; }
+    .life__quote { grid-template-columns: 1fr; padding: 32px; gap: 32px; }
+    .life__quote-text { font-size: 26px; }
+  }
+
+  /* CONTACT */
+  .contact {
+    padding: 160px 48px; background: var(--c-accent); color: var(--c-cream);
+    position: relative; overflow: hidden;
+  }
+  .contact__rings { position: absolute; inset: 0; pointer-events: none; }
+  .contact__rings > div {
+    position: absolute; border-radius: 50%;
+    border: 1px solid rgba(244, 237, 224, 0.3);
+  }
+  .contact__rings > div:nth-child(1) { top: -160px; right: -100px; width: 480px; height: 480px; }
+  .contact__rings > div:nth-child(2) { top: -260px; right: -200px; width: 680px; height: 680px; border-color: rgba(244, 237, 224, 0.15); }
+  .contact__rings > div:nth-child(3) { top: -360px; right: -300px; width: 880px; height: 880px; border-color: rgba(244, 237, 224, 0.08); }
+  .contact .section__inner { position: relative; z-index: 1; }
+  .contact__eyebrow {
+    color: rgba(244, 237, 224, 0.8) !important; opacity: 1;
+    margin-bottom: 24px; letter-spacing: 0.2em;
+  }
+  .contact__title {
+    font-family: var(--ff-serif); font-size: clamp(64px, 9vw, 124px);
+    font-weight: 400; margin: 0; letter-spacing: -0.03em; line-height: 0.95;
+    max-width: 1000px;
+  }
+  .contact__lede {
+    font-family: var(--ff-serif); font-size: 26px; font-style: italic;
+    margin-top: 24px; opacity: 0.95; max-width: 720px; text-wrap: pretty;
+  }
+  .contact__grid {
+    margin-top: 80px; display: grid; grid-template-columns: 1.4fr 1fr; gap: 64px;
+  }
+  .contact__head {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; opacity: 0.7; margin-bottom: 24px;
+  }
+  .contact__email {
+    display: inline-block; color: var(--c-cream); font-family: var(--ff-serif);
+    font-size: clamp(28px, 4vw, 56px); font-style: italic; text-decoration: none;
+    border-bottom: 1px solid rgba(244, 237, 224, 0.5); padding-bottom: 6px;
+    letter-spacing: -0.02em;
+  }
+  .contact__meta {
+    list-style: none; padding: 0; margin-top: 36px;
+    font-size: 15px; opacity: 0.9; line-height: 2;
+  }
+  .contact__topic {
+    padding: 18px 0; border-top: 1px solid rgba(244, 237, 224, 0.25);
+    font-family: var(--ff-serif); font-size: 22px; display: flex;
+    align-items: baseline; gap: 16px;
+  }
+  .contact__topic-num { font-family: var(--ff-mono); font-size: 11px; opacity: 0.65; }
+  @media (max-width: 900px) {
+    .contact__grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  /* FOOTER */
+  .rfooter {
+    padding: 32px 48px; display: flex; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em;
+    color: var(--c-muted); text-transform: uppercase;
+    border-top: 1px solid var(--c-rule); background: var(--c-cream);
+  }
+
+  @media (max-width: 768px) {
+    .section { padding: 80px 24px; }
+    .section__title { font-size: 40px; }
+    .other { padding: 60px 24px; }
+    .contact { padding: 100px 24px; }
+    .hero { padding: 100px 24px 80px; }
+    .rfooter { padding: 24px; }
+    .meta-rail { grid-template-columns: 1fr 1fr; }
+  }
 </style>

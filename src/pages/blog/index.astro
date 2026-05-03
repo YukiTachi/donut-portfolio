@@ -2,12 +2,10 @@
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 
-// ブログ記事を全取得
 const allPosts = await getCollection('blog', ({ data }) => {
-  return data.draft !== true; // 下書きを除外
+  return data.draft !== true;
 });
 
-// 日付順にソート（新しい順）
 const sortedPosts = allPosts.sort((a, b) =>
   b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
@@ -20,184 +18,202 @@ const sortedPosts = allPosts.sort((a, b) =>
   ogType="website"
   ogImage="/profile.jpg"
 >
-  <main class="blog-page">
-    <div class="container">
-      <div class="blog-header">
-        <h1>Blog</h1>
-        <p>技術、開発、ウェルビーイングについて</p>
-        <a href="/" class="back-link">← Back to Home</a>
-      </div>
+  <nav class="rnav" id="rnav">
+    <div class="rnav__brand">
+      <span class="rnav__logo">y</span>
+      <span class="rnav__name">Tachi</span>
+    </div>
+    <div class="rnav__links">
+      <a href="/#about">About</a>
+      <a href="/#walk">Walk</a>
+      <a href="/#stack">Stack</a>
+      <a href="/#brainsync">BrainSync</a>
+      <a href="/blog/">Blog</a>
+    </div>
+    <a href="/#contact" class="rnav__cta">Contact <span>→</span></a>
+  </nav>
 
-      <div class="posts-grid">
-        {sortedPosts.map((post) => (
-          <article class="post-card">
-            <a href={`/blog/${post.slug}/`}>
-              {post.data.image && (
-                <img src={post.data.image} alt={post.data.title} class="post-image" />
-              )}
-              <div class="post-content">
-                <h2>{post.data.title}</h2>
-                <p class="post-description">{post.data.description}</p>
-                <div class="post-meta">
-                  <time>{new Date(post.data.pubDate).toLocaleDateString('ja-JP', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}</time>
-                  <span class="author">by {post.data.author}</span>
-                </div>
-                {post.data.tags && (
-                  <div class="tags">
-                    {post.data.tags.map((tag) => (
-                      <span class="tag">{tag}</span>
-                    ))}
-                  </div>
-                )}
+  <main class="blog-page">
+    <div class="blog-inner">
+      <header class="blog-header">
+        <div class="blog-eyebrow">Journal · 2026</div>
+        <h1 class="blog-title">Blog.</h1>
+        <p class="blog-sub">技術、開発、ウェルビーイングについて。</p>
+        <a href="/" class="back-link">← Back to Home</a>
+      </header>
+
+      <div class="posts">
+        {sortedPosts.map((post, i) => (
+          <article class="post" data-reveal style={`transition-delay:${i * 0.06}s`}>
+            <a href={`/blog/${post.slug}/`} class="post__link" data-cursor="hover">
+              <div class="post__meta">
+                <span class="post__num">{String(i + 1).padStart(2, '0')}</span>
+                <time class="post__date">
+                  {new Date(post.data.pubDate).toLocaleDateString('ja-JP', {
+                    year: 'numeric', month: 'long', day: 'numeric',
+                  })}
+                </time>
+                <span class="post__author">— {post.data.author}</span>
               </div>
+              <h2 class="post__title">{post.data.title}</h2>
+              <p class="post__desc">{post.data.description}</p>
+              {post.data.tags && (
+                <div class="post__tags">
+                  {post.data.tags.map((tag) => (
+                    <span class="chip">{tag}</span>
+                  ))}
+                </div>
+              )}
+              <div class="post__arrow">Read <span>↗</span></div>
             </a>
           </article>
         ))}
       </div>
     </div>
   </main>
+
+  <footer class="rfooter">
+    <span>© 2026 Donut Service</span>
+    <span>Made with care in Kawasaki</span>
+    <span>Set in Fraunces, Inter, JetBrains Mono</span>
+  </footer>
+
+  <script is:inline>
+    (function () {
+      const nav = document.getElementById('rnav');
+      if (nav) {
+        const onS = () => nav.classList.toggle('is-scrolled', window.scrollY > 40);
+        onS();
+        window.addEventListener('scroll', onS, { passive: true });
+      }
+    })();
+  </script>
 </Layout>
 
 <style>
-  :root {
-    --color-primary: #0a0e27;
-    --color-secondary: #1a1f3a;
-    --color-accent: #00d9ff;
-    --color-text: #e4e4e7;
-    --color-text-light: #a1a1aa;
-    --color-bg: #0f1419;
-    --color-bg-alt: #161b22;
-    --color-border: #30363d;
+  /* NAV (shared) */
+  .rnav {
+    position: fixed; top: 12px; left: 50%; transform: translateX(-50%);
+    z-index: 100; transition: all .3s;
+    background: rgba(244, 237, 224, 0.4);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--c-rule); border-radius: 999px;
+    padding: 10px 14px 10px 18px;
+    display: flex; align-items: center; gap: 24px; font-size: 13px;
+    max-width: min(900px, calc(100vw - 32px));
+  }
+  .rnav.is-scrolled {
+    background: rgba(244, 237, 224, 0.85);
+    box-shadow: 0 8px 24px rgba(34, 26, 63, 0.08);
+  }
+  .rnav__brand { display: flex; align-items: center; gap: 10px; }
+  .rnav__logo {
+    width: 22px; height: 22px; border-radius: 50%; background: var(--c-accent);
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--c-cream); font-family: var(--ff-serif);
+    font-size: 13px; font-weight: 600; font-style: italic;
+  }
+  .rnav__name { font-family: var(--ff-serif); font-size: 16px; font-weight: 500; }
+  .rnav__links { display: flex; gap: 20px; }
+  .rnav__links a { color: var(--c-ink); text-decoration: none; font-size: 13px; }
+  .rnav__cta {
+    background: var(--c-ink); color: var(--c-cream); padding: 8px 14px;
+    border-radius: 999px; font-size: 12px; text-decoration: none;
+    display: inline-flex; gap: 6px; align-items: center;
+  }
+  @media (max-width: 768px) {
+    .rnav { gap: 12px; padding: 8px 8px 8px 14px; font-size: 12px; }
+    .rnav__links { display: none; }
   }
 
-  .blog-page {
-    min-height: 100vh;
-    background: var(--color-bg);
-    color: var(--color-text);
-    padding: 4rem 0;
-  }
-
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-  }
+  /* PAGE */
+  .blog-page { min-height: 100vh; background: var(--c-cream); padding: 140px 48px 80px; }
+  .blog-inner { max-width: 1080px; margin: 0 auto; }
 
   .blog-header {
-    text-align: center;
-    margin-bottom: 4rem;
+    padding-bottom: 56px; margin-bottom: 56px;
+    border-bottom: 1px solid var(--c-rule);
   }
-
-  .blog-header h1 {
-    font-size: 3rem;
-    font-weight: 700;
-    margin: 0 0 1rem;
-    background: linear-gradient(135deg, #ffffff 0%, var(--color-accent) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  .blog-eyebrow {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em;
+    color: var(--c-accent); text-transform: uppercase; margin-bottom: 16px;
   }
-
-  .blog-header p {
-    font-size: 1.2rem;
-    color: var(--color-text-light);
-    margin: 0 0 2rem;
+  .blog-title {
+    font-family: var(--ff-serif); font-size: clamp(64px, 10vw, 124px);
+    font-weight: 400; margin: 0; letter-spacing: -0.03em; line-height: 0.95;
   }
-
+  .blog-sub {
+    font-family: var(--ff-serif); font-size: 26px; font-style: italic;
+    color: var(--c-muted); margin: 16px 0 0 0;
+  }
   .back-link {
-    color: var(--color-accent);
-    text-decoration: none;
-    font-family: 'JetBrains Mono', monospace;
-    transition: all 0.3s ease;
+    display: inline-block; margin-top: 32px;
+    font-family: var(--ff-mono); font-size: 12px; letter-spacing: 0.16em;
+    color: var(--c-ink); text-decoration: none; text-transform: uppercase;
+    border-bottom: 1px solid var(--c-rule); padding-bottom: 4px;
+    transition: border-color .2s, color .2s;
   }
+  .back-link:hover { color: var(--c-accent); border-color: var(--c-accent); }
 
-  .back-link:hover {
-    text-decoration: underline;
+  .posts {
+    display: flex; flex-direction: column; gap: 0;
   }
-
-  .posts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 2rem;
+  .post {
+    border-bottom: 1px solid var(--c-rule);
   }
-
-  .post-card {
-    background: var(--color-bg-alt);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    overflow: hidden;
-    transition: all 0.3s ease;
+  .post__link {
+    display: block; padding: 40px 0; text-decoration: none; color: inherit;
+    position: relative;
+    transition: padding-left .3s;
   }
-
-  .post-card:hover {
-    border-color: var(--color-accent);
-    transform: translateY(-4px);
-    box-shadow: 0 8px 30px rgba(0, 217, 255, 0.2);
+  .post__link:hover { padding-left: 24px; }
+  .post__meta {
+    display: flex; align-items: center; gap: 16px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em;
+    color: var(--c-muted); text-transform: uppercase; margin-bottom: 16px;
   }
-
-  .post-card a {
-    text-decoration: none;
-    color: inherit;
-    display: block;
+  .post__num { color: var(--c-accent); font-weight: 600; }
+  .post__title {
+    font-family: var(--ff-serif); font-size: clamp(32px, 5vw, 56px);
+    font-weight: 500; margin: 0; letter-spacing: -0.02em; line-height: 1.05;
+    color: var(--c-ink); transition: color .3s;
   }
-
-  .post-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
+  .post__link:hover .post__title { color: var(--c-accent); }
+  .post__desc {
+    font-family: var(--ff-serif); font-size: 19px; line-height: 1.65;
+    color: var(--c-muted); margin: 16px 0 0 0; max-width: 720px;
+    text-wrap: pretty;
   }
-
-  .post-content {
-    padding: 1.5rem;
+  .post__tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+  .chip {
+    font-family: var(--ff-mono); font-size: 11px; padding: 6px 12px;
+    background: var(--c-paper); border: 1px solid var(--c-rule); border-radius: 999px;
+    color: var(--c-ink);
   }
-
-  .post-content h2 {
-    font-size: 1.5rem;
-    margin: 0 0 0.75rem;
-    color: var(--color-accent);
+  .post__arrow {
+    position: absolute; right: 0; top: 40px;
+    font-family: var(--ff-mono); font-size: 12px; letter-spacing: 0.16em;
+    color: var(--c-accent); text-transform: uppercase;
+    display: flex; align-items: center; gap: 8px;
+    opacity: 0; transform: translateX(-8px);
+    transition: opacity .3s, transform .3s;
   }
+  .post__link:hover .post__arrow { opacity: 1; transform: translateX(0); }
+  .post__arrow span { font-style: italic; }
 
-  .post-description {
-    color: var(--color-text-light);
-    margin: 0 0 1rem;
-    line-height: 1.6;
-  }
-
-  .post-meta {
-    display: flex;
-    gap: 1rem;
-    font-size: 0.9rem;
-    color: var(--color-text-light);
-    margin-bottom: 1rem;
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .tag {
-    background: rgba(0, 217, 255, 0.1);
-    color: var(--color-accent);
-    padding: 0.25rem 0.75rem;
-    border-radius: 4px;
-    font-size: 0.85rem;
-    font-family: 'JetBrains Mono', monospace;
+  /* FOOTER */
+  .rfooter {
+    padding: 32px 48px; display: flex; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em;
+    color: var(--c-muted); text-transform: uppercase;
+    border-top: 1px solid var(--c-rule); background: var(--c-cream);
   }
 
   @media (max-width: 768px) {
-    .blog-header h1 {
-      font-size: 2rem;
-    }
-
-    .posts-grid {
-      grid-template-columns: 1fr;
-    }
+    .blog-page { padding: 100px 24px 60px; }
+    .post__arrow { display: none; }
+    .post__link:hover { padding-left: 0; }
+    .rfooter { padding: 24px; }
   }
 </style>

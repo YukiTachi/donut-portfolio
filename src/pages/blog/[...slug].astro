@@ -24,233 +24,260 @@ const { Content } = await post.render();
   publishedTime={post.data.pubDate.toISOString()}
   tags={post.data.tags}
 >
-  <main class="blog-post-page">
-    <article class="container">
-      <div class="post-header">
-        <a href="/blog/" class="back-link">← Back to Blog</a>
-        
-        {post.data.image && (
-          <img src={post.data.image} alt={post.data.title} class="featured-image" />
-        )}
-        
-        <h1>{post.data.title}</h1>
-        
+  <nav class="rnav" id="rnav">
+    <div class="rnav__brand">
+      <span class="rnav__logo">y</span>
+      <span class="rnav__name">Tachi</span>
+    </div>
+    <div class="rnav__links">
+      <a href="/#about">About</a>
+      <a href="/#walk">Walk</a>
+      <a href="/#stack">Stack</a>
+      <a href="/#brainsync">BrainSync</a>
+      <a href="/blog/">Blog</a>
+    </div>
+    <a href="/#contact" class="rnav__cta">Contact <span>→</span></a>
+  </nav>
+
+  <main class="post-page">
+    <article class="post-inner">
+      <header class="post-header">
+        <a href="/blog/" class="back-link" data-cursor="hover">← Back to Blog</a>
+
+        <div class="post-eyebrow">Journal</div>
+        <h1 class="post-title">{post.data.title}</h1>
+
         <div class="post-meta">
-          <time>{new Date(post.data.pubDate).toLocaleDateString('ja-JP', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })}</time>
-          <span class="separator">•</span>
-          <span class="author">{post.data.author}</span>
+          <time>
+            {new Date(post.data.pubDate).toLocaleDateString('ja-JP', {
+              year: 'numeric', month: 'long', day: 'numeric',
+            })}
+          </time>
+          <span class="separator">·</span>
+          <span>{post.data.author}</span>
         </div>
-        
+
         {post.data.tags && (
           <div class="tags">
             {post.data.tags.map((tag) => (
-              <span class="tag">{tag}</span>
+              <span class="chip">{tag}</span>
             ))}
           </div>
         )}
-      </div>
-      
-      <div class="post-content">
+
+        {post.data.image && (
+          <img src={post.data.image} alt={post.data.title} class="featured" />
+        )}
+      </header>
+
+      <div class="post-body">
         <Content />
       </div>
-      
+
       <div class="post-footer">
-        <a href="/blog/" class="back-link">← Back to Blog</a>
+        <a href="/blog/" class="back-link" data-cursor="hover">← Back to Blog</a>
       </div>
     </article>
   </main>
+
+  <footer class="rfooter">
+    <span>© 2026 Donut Service</span>
+    <span>Made with care in Kawasaki</span>
+    <span>Set in Fraunces, Inter, JetBrains Mono</span>
+  </footer>
+
+  <script is:inline>
+    (function () {
+      const nav = document.getElementById('rnav');
+      if (nav) {
+        const onS = () => nav.classList.toggle('is-scrolled', window.scrollY > 40);
+        onS();
+        window.addEventListener('scroll', onS, { passive: true });
+      }
+    })();
+  </script>
 </Layout>
 
 <style>
-  .blog-post-page {
-    min-height: 100vh;
-    background: #0f1419;
-    color: #e4e4e7;
-    padding: 4rem 0;
+  /* NAV */
+  .rnav {
+    position: fixed; top: 12px; left: 50%; transform: translateX(-50%);
+    z-index: 100; transition: all .3s;
+    background: rgba(244, 237, 224, 0.4);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--c-rule); border-radius: 999px;
+    padding: 10px 14px 10px 18px;
+    display: flex; align-items: center; gap: 24px; font-size: 13px;
+    max-width: min(900px, calc(100vw - 32px));
+  }
+  .rnav.is-scrolled {
+    background: rgba(244, 237, 224, 0.85);
+    box-shadow: 0 8px 24px rgba(34, 26, 63, 0.08);
+  }
+  .rnav__brand { display: flex; align-items: center; gap: 10px; }
+  .rnav__logo {
+    width: 22px; height: 22px; border-radius: 50%; background: var(--c-accent);
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--c-cream); font-family: var(--ff-serif);
+    font-size: 13px; font-weight: 600; font-style: italic;
+  }
+  .rnav__name { font-family: var(--ff-serif); font-size: 16px; font-weight: 500; }
+  .rnav__links { display: flex; gap: 20px; }
+  .rnav__links a { color: var(--c-ink); text-decoration: none; font-size: 13px; }
+  .rnav__cta {
+    background: var(--c-ink); color: var(--c-cream); padding: 8px 14px;
+    border-radius: 999px; font-size: 12px; text-decoration: none;
+    display: inline-flex; gap: 6px; align-items: center;
+  }
+  @media (max-width: 768px) {
+    .rnav { gap: 12px; padding: 8px 8px 8px 14px; font-size: 12px; }
+    .rnav__links { display: none; }
   }
 
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 2rem;
-  }
+  /* PAGE */
+  .post-page { min-height: 100vh; background: var(--c-cream); padding: 140px 48px 80px; }
+  .post-inner { max-width: 760px; margin: 0 auto; }
 
+  .post-header { margin-bottom: 56px; }
   .back-link {
-    color: #00d9ff;
-    text-decoration: none;
-    font-family: 'JetBrains Mono', monospace;
-    transition: all 0.3s ease;
     display: inline-block;
-    margin-bottom: 2rem;
+    font-family: var(--ff-mono); font-size: 12px; letter-spacing: 0.16em;
+    color: var(--c-ink); text-decoration: none; text-transform: uppercase;
+    border-bottom: 1px solid var(--c-rule); padding-bottom: 4px;
+    transition: border-color .2s, color .2s;
+    margin-bottom: 48px;
   }
+  .back-link:hover { color: var(--c-accent); border-color: var(--c-accent); }
 
-  .back-link:hover {
-    text-decoration: underline;
+  .post-eyebrow {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em;
+    color: var(--c-accent); text-transform: uppercase; margin-bottom: 16px;
   }
-
-  .post-header {
-    margin-bottom: 3rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid #30363d;
+  .post-title {
+    font-family: var(--ff-serif); font-size: clamp(40px, 6vw, 64px);
+    font-weight: 400; margin: 0; letter-spacing: -0.025em; line-height: 1.1;
+    color: var(--c-ink); text-wrap: balance;
   }
-
-  .featured-image {
-    width: 100%;
-    max-height: 400px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 2rem;
-  }
-
-  h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin: 0 0 1.5rem;
-    line-height: 1.2;
-    background: linear-gradient(135deg, #ffffff 0%, #00d9ff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
   .post-meta {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 0.95rem;
-    color: #a1a1aa;
-    margin-bottom: 1.5rem;
-    font-family: 'JetBrains Mono', monospace;
+    display: flex; align-items: center; gap: 12px; margin-top: 24px;
+    font-family: var(--ff-mono); font-size: 12px; letter-spacing: 0.12em;
+    color: var(--c-muted); text-transform: uppercase;
+  }
+  .separator { opacity: 0.5; }
+  .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
+  .chip {
+    font-family: var(--ff-mono); font-size: 11px; padding: 6px 12px;
+    background: var(--c-paper); border: 1px solid var(--c-rule); border-radius: 999px;
+    color: var(--c-ink);
+  }
+  .featured {
+    width: 100%; max-height: 480px; object-fit: cover;
+    border-radius: 16px; margin-top: 48px;
+    border: 1px solid var(--c-rule);
   }
 
-  .separator {
-    color: #30363d;
+  .post-body {
+    font-family: var(--ff-serif); font-size: 19px; line-height: 1.85;
+    color: var(--c-ink);
   }
-
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+  .post-body :global(h2) {
+    font-family: var(--ff-serif); font-size: 36px; font-weight: 500;
+    color: var(--c-ink); margin: 64px 0 20px; letter-spacing: -0.02em;
+    line-height: 1.2;
   }
-
-  .tag {
-    background: rgba(0, 217, 255, 0.1);
-    color: #00d9ff;
-    padding: 0.25rem 0.75rem;
-    border-radius: 4px;
-    font-size: 0.85rem;
-    font-family: 'JetBrains Mono', monospace;
+  .post-body :global(h3) {
+    font-family: var(--ff-serif); font-size: 26px; font-weight: 500;
+    color: var(--c-ink); margin: 48px 0 16px; letter-spacing: -0.015em;
   }
-
-  .post-content {
-    line-height: 1.8;
-    font-size: 1.1rem;
+  .post-body :global(h4) {
+    font-family: var(--ff-serif); font-size: 20px; font-weight: 500;
+    color: var(--c-ink); margin: 32px 0 12px;
   }
-
-  .post-content :global(h2) {
-    color: #00d9ff;
-    font-size: 1.8rem;
-    margin: 2.5rem 0 1rem;
-    font-weight: 600;
+  .post-body :global(p) {
+    margin: 24px 0; color: var(--c-ink); text-wrap: pretty;
   }
-
-  .post-content :global(h3) {
-    color: #00d9ff;
-    font-size: 1.4rem;
-    margin: 2rem 0 0.75rem;
-    font-weight: 600;
+  .post-body :global(a) {
+    color: var(--c-accent); text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    transition: opacity .2s;
   }
+  .post-body :global(a:hover) { opacity: 0.7; }
+  .post-body :global(strong) { color: var(--c-ink); font-weight: 600; }
+  .post-body :global(em) { color: var(--c-accent); font-style: italic; }
 
-  .post-content :global(p) {
-    margin: 1.5rem 0;
-    color: #e4e4e7;
+  .post-body :global(code) {
+    background: var(--c-paper); padding: 0.2em 0.5em;
+    border-radius: 4px; border: 1px solid var(--c-rule);
+    font-family: var(--ff-mono); font-size: 0.88em;
+    color: var(--c-ink);
   }
-
-  .post-content :global(a) {
-    color: #00d9ff;
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.3s ease;
+  .post-body :global(pre) {
+    background: var(--c-ink); color: var(--c-cream);
+    padding: 24px; border-radius: 12px;
+    overflow-x: auto; margin: 32px 0;
+    font-family: var(--ff-mono); font-size: 14px; line-height: 1.7;
   }
-
-  .post-content :global(a:hover) {
-    border-bottom-color: #00d9ff;
+  .post-body :global(pre code) {
+    background: none; padding: 0; border: none; color: inherit;
+    font-size: inherit;
   }
-
-  .post-content :global(code) {
-    background: #161b22;
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.9em;
-    color: #00d9ff;
+  .post-body :global(blockquote) {
+    border-left: 3px solid var(--c-accent);
+    padding: 8px 24px; margin: 32px 0;
+    color: var(--c-ink-soft); font-style: italic;
+    font-family: var(--ff-serif); font-size: 22px;
+    background: var(--c-paper);
+    border-radius: 0 12px 12px 0;
   }
-
-  .post-content :global(pre) {
-    background: #161b22;
-    padding: 1.5rem;
-    border-radius: 8px;
-    overflow-x: auto;
-    margin: 2rem 0;
-    border: 1px solid #30363d;
+  .post-body :global(ul),
+  .post-body :global(ol) {
+    margin: 24px 0; padding-left: 28px;
   }
-
-  .post-content :global(pre code) {
-    background: none;
-    padding: 0;
-    color: #e4e4e7;
+  .post-body :global(li) { margin: 8px 0; }
+  .post-body :global(img) {
+    max-width: 100%; height: auto;
+    border-radius: 12px; margin: 32px 0;
+    border: 1px solid var(--c-rule);
   }
-
-  .post-content :global(blockquote) {
-    border-left: 4px solid #00d9ff;
-    padding-left: 1.5rem;
-    margin: 2rem 0;
-    color: #a1a1aa;
-    font-style: italic;
+  .post-body :global(hr) {
+    border: none; border-top: 1px solid var(--c-rule);
+    margin: 48px 0;
   }
-
-  .post-content :global(ul),
-  .post-content :global(ol) {
-    margin: 1.5rem 0;
-    padding-left: 2rem;
+  .post-body :global(table) {
+    width: 100%; border-collapse: collapse; margin: 32px 0;
+    font-family: var(--ff-sans); font-size: 15px;
   }
-
-  .post-content :global(li) {
-    margin: 0.5rem 0;
+  .post-body :global(th),
+  .post-body :global(td) {
+    padding: 12px 16px; border-bottom: 1px solid var(--c-rule);
+    text-align: left;
   }
-
-  .post-content :global(img) {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin: 2rem 0;
+  .post-body :global(th) {
+    font-family: var(--ff-mono); font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--c-muted);
   }
 
   .post-footer {
-    margin-top: 4rem;
-    padding-top: 2rem;
-    border-top: 1px solid #30363d;
+    margin-top: 80px; padding-top: 32px;
+    border-top: 1px solid var(--c-rule);
+  }
+
+  /* FOOTER */
+  .rfooter {
+    padding: 32px 48px; display: flex; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em;
+    color: var(--c-muted); text-transform: uppercase;
+    border-top: 1px solid var(--c-rule); background: var(--c-cream);
   }
 
   @media (max-width: 768px) {
-    h1 {
-      font-size: 2rem;
-    }
-
-    .post-content {
-      font-size: 1rem;
-    }
-
-    .post-content :global(h2) {
-      font-size: 1.5rem;
-    }
-
-    .post-content :global(h3) {
-      font-size: 1.2rem;
-    }
+    .post-page { padding: 100px 24px 60px; }
+    .post-body { font-size: 17px; }
+    .post-body :global(h2) { font-size: 28px; margin-top: 48px; }
+    .post-body :global(h3) { font-size: 22px; }
+    .post-body :global(pre) { padding: 16px; font-size: 13px; }
+    .rfooter { padding: 24px; }
   }
 </style>
