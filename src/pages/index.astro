@@ -36,10 +36,12 @@ const EXPERIENCE = [
     period: '2017 — 現在',
     org: 'Donut Service',
     role: 'Individual Business Owner / Software Engineer',
-    allocation: [
-      { pct: 70, label: 'クライアントワーク' },
-      { pct: 20, label: 'BrainSync 開発' },
-      { pct: 10, label: 'その他プロジェクト' },
+    summary: 'フルスタック開発と技術コンサルティングを軸に、クライアントの事業を技術で支えています。並行して、エンジニア向け認知トレーニング「BrainSync」を自社開発中。',
+    bar: [70, 20, 10],
+    stats: [
+      { value: '70', suffix: '%', label: 'クライアントワーク' },
+      { value: '20', suffix: '%', label: 'BrainSync 開発' },
+      { value: '10', suffix: '%', label: 'その他プロジェクト' },
     ],
     work: [
       '顧客管理システム開発',
@@ -52,7 +54,18 @@ const EXPERIENCE = [
     period: '2003 — 2017（14 年間）',
     org: 'Sony Corporation',
     role: 'Hardware / Software Engineer',
-    summary: '大規模プロジェクトでの開発経験を通じて、システム設計、チーム開発、長期的な保守運用の重要性を学びました。',
+    summary: 'テレビ向け高画質化エンジン（SoC）の論理設計と、組み込みソフトウェア開発を担当。シリコンレベルからソフトウェアまでを一気通貫で理解する技術観は、この１４年間で培われました。',
+    stats: [
+      { value: '2', label: '専門領域', sub: 'SoC + 組み込み' },
+      { value: '14', label: '年間', sub: 'キャリア' },
+      { value: '∞', label: '並行', sub: 'Hardware × Software', ariaLabel: 'parallel' },
+    ],
+    work: [
+      'テレビ向け高画質化エンジン（SoC）の論理設計（Verilog-HDL, SystemC）',
+      '民生機器向け組み込みソフトウェア開発（C/C++）',
+      '量産製品の品質保証・長期保守を前提とした設計',
+      'グローバルチームでの開発プロセス・コードレビュー文化',
+    ],
   },
 ];
 
@@ -486,27 +499,30 @@ const BRAINSYNC_META = [
               <h3 class="exp__org">{e.org}</h3>
               <div class="exp__role">{e.role}</div>
               {e.summary && <p class="exp__summary">{e.summary}</p>}
-              {e.allocation && (
-                <>
-                  <div class="exp__bar">
-                    {e.allocation.map((a, j) => (
-                      <div style={`flex:${a.pct};background:${j === 0 ? 'var(--c-cream)' : j === 1 ? 'rgba(244,237,224,0.5)' : 'rgba(244,237,224,0.25)'}`}></div>
-                    ))}
-                  </div>
-                  <div class="exp__alloc">
-                    {e.allocation.map((a) => (
-                      <div>
-                        <div class="exp__alloc-pct">{a.pct}%</div>
-                        <div class="exp__alloc-label">{a.label}</div>
-                      </div>
-                    ))}
-                  </div>
-                  <ul class="exp__work">
-                    {e.work && e.work.map((w, j) => (
-                      <li><span class="exp__work-num">0{j + 1}</span>{w}</li>
-                    ))}
-                  </ul>
-                </>
+              {e.bar && (
+                <div class="exp__bar">
+                  {e.bar.map((pct, j) => (
+                    <div style={`flex:${pct};background:${j === 0 ? 'var(--c-cream)' : j === 1 ? 'rgba(244,237,224,0.5)' : 'rgba(244,237,224,0.25)'}`}></div>
+                  ))}
+                </div>
+              )}
+              {e.stats && (
+                <div class="exp__alloc">
+                  {e.stats.map((s) => (
+                    <div>
+                      <div class="exp__alloc-pct" aria-label={(s as any).ariaLabel}>{s.value}{(s as any).suffix}</div>
+                      <div class="exp__alloc-label">{s.label}</div>
+                      {(s as any).sub && <div class="exp__alloc-sub">{(s as any).sub}</div>}
+                    </div>
+                  ))}
+                </div>
+              )}
+              {e.work && (
+                <ul class="exp__work">
+                  {e.work.map((w, j) => (
+                    <li><span class="exp__work-num">0{j + 1}</span>{w}</li>
+                  ))}
+                </ul>
               )}
             </div>
           ))}
@@ -1239,12 +1255,14 @@ const BRAINSYNC_META = [
     overflow: hidden; margin: 8px 0 16px;
   }
   .exp__alloc {
-    display: flex; gap: 24px; font-size: 12px; margin-bottom: 24px;
+    display: flex; align-items: flex-start; gap: 24px; font-size: 12px; margin-bottom: 24px;
   }
+  .exp__alloc > div { flex: 1; }
   .exp__alloc-pct {
     font-family: var(--ff-serif); font-size: 22px; font-weight: 500;
   }
   .exp__alloc-label { opacity: 0.85; }
+  .exp__alloc-sub { margin-top: 2px; font-size: 11px; line-height: 1.4; opacity: 0.55; }
   .exp__work { list-style: none; padding: 0; margin: 0; }
   .exp__work li {
     padding: 12px 0; border-top: 1px solid rgba(244, 237, 224, 0.18);
@@ -1253,6 +1271,7 @@ const BRAINSYNC_META = [
   .exp__work-num { font-family: var(--ff-mono); opacity: 0.6; }
   @media (max-width: 900px) {
     .exp__grid { grid-template-columns: 1fr; }
+    .exp__alloc { flex-direction: column; gap: 16px; }
   }
 
   /* SKILLS */
