@@ -144,12 +144,6 @@ const PRODUCTS = [
     stack: ['Flutter', 'Python', 'Docker'],
   },
   {
-    name: '5ive Meals',
-    tagline: '食事・栄養管理システム',
-    description: 'エンジニアの健康を食事面からサポート。日本食品標準成分表 2020 年版（2,538 食品）を完全データベース化し、栄養バランスの可視化と管理を実現。',
-    stack: ['WinterCMS', 'Docker', 'Python', 'PostgreSQL'],
-  },
-  {
     name: 'toio 教育カリキュラム',
     tagline: '小学生向けプログラミング教育',
     description: 'toio（ソニーの知育ロボット）を活用した、体験型プログラミング学習カリキュラムの開発。「考える」前に「触れる」ことで、プログラミングの本質的な楽しさを伝える。',
@@ -226,7 +220,7 @@ const NAV_LINKS = [
   ['#about', 'About'],
   ['#walk', 'Walk'],
   ['#stack', 'Stack'],
-  ['#brainsync', 'BrainSync'],
+  ['#brainsync', 'Products'],
   ['#contact', 'Contact'],
 ];
 
@@ -240,6 +234,34 @@ const BRAINSYNC_META = [
   { k: 'Target', v: '全ソフトウェアエンジニア' },
   { k: 'Method', v: '認知科学 × トレーニング' },
   { k: 'Stack', v: 'Flutter, Python, Docker' },
+];
+
+const NUTRI_META = [
+  { k: 'Audience', v: '栄養を扱うすべての人' },
+  { k: 'Form', v: 'Web app + MCP server' },
+  { k: 'Stack', v: 'Next.js, NextAuth, Stripe, WinterCMS' },
+];
+
+const NUTRI_TOOLS = [
+  { branch: '├─', fn: 'search_food', arg: '(query)' },
+  { branch: '├─', fn: 'get_nutrients', arg: '(food_id)' },
+  { branch: '├─', fn: 'calculate_pfc', arg: '(meal)' },
+  { branch: '├─', fn: 'compare_foods', arg: '(ids[])' },
+  { branch: '├─', fn: 'daily_summary', arg: '(date)' },
+  { branch: '└─', fn: 'recommend_intake', arg: '(profile)' },
+];
+
+const NUTRI_REASONS = [
+  { n: '01', t: 'なぜインフラか', body: 'アプリは UI を変えれば作り直せるが、データは正しく整えられた瞬間から長く価値を持ち続ける。食品成分データはまさにそういう種類のデータ。' },
+  { n: '02', t: 'なぜ MCP か', body: '栄養データは「アプリの中」だけにあるべきものではない。食事記録、レシピ生成、ヘルスケア連携——MCP として公開することで、ユーザーの業務フローから直接呼び出せる。' },
+  { n: '03', t: 'なぜ今か', body: '2026 年 2 月に本番ローンチ、Stripe 決済稼働中。30 日無料トライアルで利用者を募りながら、個人の栄養管理から専門用途まで使い方の広がりを観察している段階。' },
+];
+
+const NUTRI_STATS = [
+  { v: '2,538', l: 'Foods indexed', k: '食品' },
+  { v: '46', l: 'Nutrients per food', k: '栄養素' },
+  { v: '6', l: 'MCP tools', k: 'ツール' },
+  { v: 'Feb 2026', l: 'Production launch', k: '本番ローンチ' },
 ];
 ---
 
@@ -587,10 +609,22 @@ const BRAINSYNC_META = [
     <section id="brainsync" class="section brainsync">
       <div class="section__inner">
         <header class="section__header">
-          <div class="section__eyebrow">06 / Featured product</div>
-          <h2 class="section__title">BrainSync.</h2>
-          <div class="section__sub">エンジニアの「脳のパーソナルトレーニングスタジオ」。</div>
+          <div class="section__eyebrow">06 / Featured products</div>
+          <h2 class="section__title">Two products, two timelines.</h2>
+          <div class="section__sub">片方は思想を、片方はインフラを。</div>
         </header>
+
+        <!-- 06.1 BrainSync -->
+        <div class="feat__index">
+          <div class="feat__index-left">
+            <span class="feat__index-n">06.1</span>
+            <span class="feat__index-name">BrainSync</span>
+          </div>
+          <div class="feat__index-status">
+            <span class="feat__index-dot"></span>
+            In active development · 2026
+          </div>
+        </div>
 
         <div class="bs__hero">
           <svg class="bs__neural" viewBox="0 0 600 600" aria-hidden="true">
@@ -609,10 +643,6 @@ const BRAINSYNC_META = [
           </svg>
 
           <div class="bs__hero-left">
-            <div class="bs__badge">
-              <span class="bs__badge-dot"></span>
-              In active development · 2026
-            </div>
             <h3 class="bs__title">BrainSync</h3>
             <div class="bs__tag">{PRODUCTS[0].tagline}</div>
             <p class="bs__desc">
@@ -671,6 +701,103 @@ const BRAINSYNC_META = [
               <p class="bs__reason-body">{c.body}</p>
             </div>
           ))}
+        </div>
+
+        <!-- Divider between siblings -->
+        <div class="feat__divider"></div>
+
+        <!-- 06.2 NutriSearch -->
+        <div class="feat__index feat__index--warm">
+          <div class="feat__index-left">
+            <span class="feat__index-n">06.2</span>
+            <span class="feat__index-name">NutriSearch</span>
+          </div>
+          <div class="feat__index-status">
+            <span class="feat__index-live"></span>
+            Live in production · 2026
+          </div>
+        </div>
+
+        <div class="ns">
+          <div class="ns__hero">
+            <svg class="ns__grid" viewBox="0 0 600 600" aria-hidden="true">
+              {Array.from({ length: 22 }).map((_, i) => (
+                <line x1="0" y1={i * 28} x2="600" y2={i * 28} stroke="var(--c-warm)" stroke-width="0.5" />
+              ))}
+              {Array.from({ length: 22 }).map((_, i) => (
+                <line x1={i * 28} y1="0" x2={i * 28} y2="600" stroke="var(--c-warm)" stroke-width="0.5" />
+              ))}
+              {Array.from({ length: 40 }).map((_, i) => {
+                const x = (Math.sin(i * 1.7) * 0.5 + 0.5) * 600;
+                const y = (Math.cos(i * 2.1) * 0.5 + 0.5) * 600;
+                return <circle cx={x} cy={y} r="2.5" fill="var(--c-warm)" opacity="0.6" />;
+              })}
+            </svg>
+
+            <div class="ns__left">
+              <h3 class="ns__title">NutriSearch</h3>
+              <div class="ns__tag">毎日の食事を、数字で見る。</div>
+              <p class="ns__desc">
+                日本食品標準成分表（八訂）<strong>2,538 食品 × 46 栄養素</strong>を完全データベース化。Web アプリと MCP サーバの両方から提供することで、「画面の中で使う」だけでなく「あらゆるツールから引ける」栄養データの基盤を作っている。
+              </p>
+              <p class="ns__note">前身プロジェクト「5ive Meals」を 2025 年に開発、2026 年 2 月に NutriSearch として本格ローンチ。</p>
+
+              <div class="ns__meta">
+                {NUTRI_META.map((m) => (
+                  <div>
+                    <div class="ns__meta-k">{m.k}</div>
+                    <div class="ns__meta-v">{m.v}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div class="ns__right">
+              <div class="ns__term" data-cursor="hover">
+                <div class="ns__term-chrome">
+                  <span class="ns__term-dot"></span>
+                  <span class="ns__term-dot"></span>
+                  <span class="ns__term-dot"></span>
+                  <span class="ns__term-label">mcp.nutrisearch — running</span>
+                </div>
+                <div class="ns__term-cmd"><span class="ns__term-prompt">$ </span>NutriSearch MCP Server</div>
+                <div class="ns__term-tree">
+                  {NUTRI_TOOLS.map((t) => (
+                    <div class="ns__term-row"><span class="ns__term-branch">{t.branch} </span>{t.fn}<span class="ns__term-arg">{t.arg}</span></div>
+                  ))}
+                  <div class="ns__term-ok"><span class="ns__term-check">✓</span> 6 tools available</div>
+                </div>
+                <div class="ns__term-note">Accessible from Claude Desktop,<br />Cursor, and any MCP client.</div>
+                <div class="ns__term-status">
+                  <span class="ns__term-status-dot"></span>
+                  <span class="ns__term-trial">30-day free trial · Stripe 決済稼働中</span>
+                </div>
+              </div>
+              <div class="ns__term-caption">↑ MCP server — actual production endpoint</div>
+            </div>
+
+            <div class="ns__reasons">
+              {NUTRI_REASONS.map((c) => (
+                <div class="ns__reason">
+                  <div class="ns__reason-head">
+                    <span class="ns__reason-num">{c.n}</span>
+                    <h4 class="ns__reason-title">{c.t}</h4>
+                  </div>
+                  <p class="ns__reason-body">{c.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div class="ns__stats">
+            {NUTRI_STATS.map((s) => (
+              <div class="ns__stat">
+                <div class="ns__stat-v">{s.v}</div>
+                <div class="ns__stat-l">{s.l}</div>
+                <div class="ns__stat-k">{s.k}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -1335,8 +1462,42 @@ const BRAINSYNC_META = [
 
   /* BRAINSYNC */
   .brainsync { background: var(--c-paper); }
+
+  /* Featured index strip (06.1 / 06.2) */
+  .feat__index {
+    margin: 56px 0 20px; display: flex;
+    justify-content: space-between; align-items: baseline;
+    border-top: 1px solid var(--c-rule); padding-top: 18px;
+  }
+  .feat__index-left { display: flex; align-items: baseline; gap: 16px; }
+  .feat__index-n {
+    font-family: var(--ff-mono); font-size: 12px;
+    letter-spacing: 0.16em; color: var(--c-muted);
+  }
+  .feat__index-name {
+    font-family: var(--ff-serif); font-size: 18px;
+    font-style: italic; color: var(--c-ink);
+  }
+  .feat__index-status {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em;
+    color: var(--c-accent); text-transform: uppercase;
+  }
+  .feat__index--warm .feat__index-status { color: var(--c-warm); }
+  .feat__index-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--c-accent);
+  }
+  .feat__index-live {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--c-warm);
+    box-shadow: 0 0 0 4px rgba(91, 122, 74, 0.12);
+    animation: r-pulse 2s ease-in-out infinite;
+  }
+  .feat__divider {
+    margin-top: 96px; margin-bottom: 8px; height: 1px; background: var(--c-rule);
+  }
+
   .bs__hero {
-    margin-top: 56px; background: var(--c-ink); color: var(--c-cream);
+    background: var(--c-ink); color: var(--c-cream);
     border-radius: 32px; padding: 56px;
     display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px;
     align-items: center; position: relative; overflow: hidden;
@@ -1347,15 +1508,6 @@ const BRAINSYNC_META = [
   }
   .bs__hero-left { position: relative; z-index: 1; }
   .bs__hero-right { position: relative; z-index: 1; }
-  .bs__badge {
-    display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px;
-    background: rgba(212, 82, 58, 0.2); color: var(--c-accent);
-    border-radius: 999px; font-family: var(--ff-mono); font-size: 11px;
-    letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 24px;
-  }
-  .bs__badge-dot {
-    width: 6px; height: 6px; background: var(--c-accent); border-radius: 50%;
-  }
   .bs__title {
     font-family: var(--ff-serif); font-size: 92px; font-weight: 500;
     margin: 0 0 16px 0; letter-spacing: -0.03em; line-height: 1;
@@ -1459,6 +1611,144 @@ const BRAINSYNC_META = [
     .bs__hero { grid-template-columns: 1fr; padding: 32px; gap: 32px; }
     .bs__title { font-size: 64px; }
     .bs__reasons { grid-template-columns: 1fr; }
+  }
+
+  /* NUTRISEARCH (06.2) — inverted: light card on paper */
+  .ns__hero {
+    background: var(--c-cream); color: var(--c-ink);
+    border-radius: 32px; padding: 56px;
+    display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px;
+    align-items: center; position: relative; overflow: hidden;
+    border: 1px solid var(--c-rule);
+    box-shadow: 0 8px 32px rgba(34, 26, 63, 0.04);
+  }
+  .ns__grid {
+    position: absolute; right: -80px; top: -60px;
+    width: 600px; height: 600px; opacity: 0.07; pointer-events: none;
+  }
+  .ns__left { position: relative; z-index: 1; }
+  .ns__right { position: relative; z-index: 1; }
+  .ns__title {
+    font-family: var(--ff-serif); font-size: 92px; font-weight: 500;
+    margin: 0 0 16px 0; letter-spacing: -0.03em; line-height: 1;
+  }
+  .ns__tag {
+    font-family: var(--ff-serif); font-style: italic; font-size: 24px;
+    color: var(--c-warm); margin-bottom: 28px;
+  }
+  .ns__desc {
+    font-family: var(--ff-serif); font-size: 18px; line-height: 1.7;
+    color: var(--c-ink); opacity: 0.92; max-width: 540px; text-wrap: pretty;
+  }
+  .ns__desc strong { font-style: italic; color: var(--c-warm); font-weight: 500; }
+  .ns__note {
+    font-family: var(--ff-serif); font-size: 14px; line-height: 1.7;
+    color: var(--c-muted); margin-top: 14px; font-style: italic;
+  }
+  .ns__meta {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 36px;
+  }
+  .ns__meta-k {
+    font-family: var(--ff-mono); font-size: 10px; color: var(--c-muted);
+    letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 6px;
+    border-top: 1px solid var(--c-rule); padding-top: 14px;
+  }
+  .ns__meta-v { font-size: 13px; font-family: var(--ff-serif); color: var(--c-ink); }
+
+  /* MCP terminal */
+  .ns__term {
+    background: var(--c-ink); border-radius: 14px;
+    padding: 20px 22px 22px; border: 1px solid var(--c-ink);
+    box-shadow: 0 12px 36px rgba(34, 26, 63, 0.18);
+    font-family: var(--ff-mono); font-size: 13px; line-height: 1.7;
+    color: var(--c-cream);
+  }
+  .ns__term-chrome {
+    display: flex; align-items: center; gap: 6px;
+    margin-bottom: 14px; padding-bottom: 12px;
+    border-bottom: 1px solid rgba(244, 237, 224, 0.12);
+  }
+  .ns__term-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: rgba(244, 237, 224, 0.25);
+  }
+  .ns__term-label {
+    margin-left: 12px; font-size: 10px; letter-spacing: 0.16em;
+    color: rgba(244, 237, 224, 0.5); text-transform: uppercase;
+  }
+  .ns__term-cmd { color: var(--c-warm); }
+  .ns__term-prompt { color: rgba(244, 237, 224, 0.4); }
+  .ns__term-tree { padding-left: 14px; color: rgba(244, 237, 224, 0.95); }
+  .ns__term-branch, .ns__term-arg { color: rgba(244, 237, 224, 0.45); }
+  .ns__term-ok { margin-top: 6px; color: rgba(244, 237, 224, 0.7); }
+  .ns__term-check { color: var(--c-warm); }
+  .ns__term-note {
+    margin-top: 14px; color: rgba(244, 237, 224, 0.6);
+    font-size: 12px; line-height: 1.6;
+  }
+  .ns__term-status {
+    margin-top: 12px; display: flex; align-items: center; gap: 8px;
+  }
+  .ns__term-status-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--c-warm); animation: r-pulse 2s ease-in-out infinite;
+  }
+  .ns__term-trial {
+    font-size: 11px; color: rgba(244, 237, 224, 0.7); letter-spacing: 0.08em;
+  }
+  .ns__term-caption {
+    font-family: var(--ff-mono); font-size: 10px; color: var(--c-muted);
+    letter-spacing: 0.16em; text-align: center; margin-top: 12px; text-transform: uppercase;
+  }
+
+  /* NutriSearch rationale (inside the card) */
+  .ns__reasons {
+    grid-column: 1 / -1; margin-top: 32px; padding-top: 32px;
+    border-top: 1px solid var(--c-rule);
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+    position: relative; z-index: 1;
+  }
+  .ns__reason-head {
+    display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px;
+  }
+  .ns__reason-num {
+    font-family: var(--ff-serif); font-style: italic; color: var(--c-warm);
+    font-size: 22px; line-height: 1;
+  }
+  .ns__reason-title {
+    font-family: var(--ff-serif); font-size: 18px; font-weight: 500;
+    margin: 0; color: var(--c-ink);
+  }
+  .ns__reason-body {
+    font-family: var(--ff-sans); font-size: 13px; line-height: 1.65;
+    color: var(--c-ink); opacity: 0.85; margin: 0;
+  }
+
+  /* NutriSearch stats strip */
+  .ns__stats {
+    margin-top: 24px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+  }
+  .ns__stat {
+    background: var(--c-cream); padding: 22px;
+    border: 1px solid var(--c-rule); border-radius: 14px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .ns__stat-v {
+    font-family: var(--ff-serif); font-size: 32px; font-weight: 500;
+    line-height: 1; letter-spacing: -0.02em; color: var(--c-ink);
+  }
+  .ns__stat-l { font-family: var(--ff-sans); font-size: 12px; color: var(--c-ink); }
+  .ns__stat-k {
+    font-family: var(--ff-mono); font-size: 9px; color: var(--c-muted);
+    letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  @media (max-width: 900px) {
+    .ns__hero { grid-template-columns: 1fr; padding: 32px; gap: 32px; }
+    .ns__title { font-size: 64px; }
+    .ns__reasons { grid-template-columns: 1fr; }
+    .ns__stats { grid-template-columns: repeat(2, 1fr); }
+    .feat__index { margin-top: 40px; }
+    .feat__divider { margin-top: 64px; }
   }
 
   /* OTHER */
