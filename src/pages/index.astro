@@ -69,6 +69,45 @@ const EXPERIENCE = [
   },
 ];
 
+const SERVICES = [
+  {
+    n: '01 / Advisory',
+    name: '技術顧問・技術コンサルティング',
+    body: 'スタートアップの CTO 代行、研究機関の技術アドバイザーとして、月額契約での継続的なサポートを提供します。技術選定、アーキテクチャ設計、コードレビュー、採用面接の同席まで、必要なところに必要なだけ。',
+    model: 'Monthly retainer',
+    items: [
+      '月 1〜2 回の定例ミーティング',
+      'Slack/Discord での随時相談',
+      '技術選定・アーキテクチャレビュー',
+      'コードレビュー・ペアプログラミング',
+    ],
+  },
+  {
+    n: '02 / Development',
+    name: 'フルスタック受託開発',
+    body: 'Web、モバイル、システム開発まで、要件定義から運用までを一人で完結。小さく速く立ち上げ、長く育てていく開発を得意とします。Python・Flutter・PHP・Docker を中心とした、シンプルで保守性の高い設計。',
+    model: 'Project based',
+    items: [
+      '要件定義から運用までの一気通貫',
+      'アジャイル / 段階的リリース',
+      '引き継ぎを前提とした設計とドキュメント',
+      '運用開始後の保守契約も相談可能',
+    ],
+  },
+  {
+    n: '03 / Cross-Layer Advisory',
+    name: 'ハードウェア × ソフトウェア横断アドバイザリ',
+    body: '半導体設計から組み込み、クラウドまでの全レイヤーを実務経験として持つエンジニアは、現代の Web 業界では稀少です。IoT 製品、ハードウェアスタートアップ、研究開発フェーズのプロジェクトで、レイヤー横断の技術判断をサポートします。',
+    model: 'Spot / Project',
+    items: [
+      'ハードウェアとソフトウェアの境界設計',
+      'IoT 製品の技術アーキテクチャ相談',
+      '研究プロトタイプから製品化への橋渡し',
+      '量産品質を見据えた設計レビュー',
+    ],
+  },
+];
+
 const SKILL_CATEGORIES = [
   {
     title: 'Languages',
@@ -220,7 +259,8 @@ const NAV_LINKS = [
   ['#about', 'About'],
   ['#walk', 'Walk'],
   ['#stack', 'Stack'],
-  ['#brainsync', 'Products'],
+  ['#services', 'Services'],
+  ['#brainsync', 'BrainSync'],
   ['#contact', 'Contact'],
 ];
 
@@ -552,11 +592,57 @@ const NUTRI_STATS = [
       </div>
     </section>
 
+    <!-- SERVICES -->
+    <section id="services" class="section services">
+      <div class="section__inner">
+        <header class="section__header">
+          <div class="section__eyebrow">05 / Services</div>
+          <h2 class="section__title">一緒に、つくる。</h2>
+          <div class="section__sub">研究機関とスタートアップへ。</div>
+        </header>
+
+        <p class="svc__lead">
+          短期的な納品ではなく、長期的な技術パートナーシップを大切にしています。
+          半導体からクラウドまで、25 年の技術蓄積を、あなたのチームの<em>「もう一人のエンジニア」</em>として届けます。
+        </p>
+
+        <div class="svc__grid">
+          {SERVICES.map((s) => (
+            <div class="svc__card" data-cursor="hover">
+              <div class="svc__n">{s.n}</div>
+              <h3 class="svc__name">{s.name}</h3>
+              <p class="svc__body">{s.body}</p>
+              <div class="svc__model">{s.model}</div>
+              <ul class="svc__items">
+                {s.items.map((it, j) => (
+                  <li>
+                    <span class="svc__item-num">{String(j + 1).padStart(2, '0')}</span>
+                    <span>{it}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <div class="svc__for">
+          <div class="svc__for-label">For</div>
+          <p class="svc__for-text">
+            研究機関・教育機関の技術プロジェクト、シード〜シリーズ A のスタートアップ。
+            ご相談の規模・期間は問いません。まずはお気軽にお声がけください。
+          </p>
+          <a href="#contact" class="svc__for-cta" data-cursor="hover">
+            お問い合わせ <span>→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
     <!-- SKILLS -->
     <section class="section skills">
       <div class="section__inner">
         <header class="section__header">
-          <div class="section__eyebrow">05 / Skills</div>
+          <div class="section__eyebrow">06 / Skills</div>
           <h2 class="section__title">25年積み上げた、技術。</h2>
         </header>
 
@@ -609,15 +695,15 @@ const NUTRI_STATS = [
     <section id="brainsync" class="section brainsync">
       <div class="section__inner">
         <header class="section__header">
-          <div class="section__eyebrow">06 / Featured products</div>
+          <div class="section__eyebrow">07 / Featured products</div>
           <h2 class="section__title">Two products, two timelines.</h2>
           <div class="section__sub">片方は思想を、片方はインフラを。</div>
         </header>
 
-        <!-- 06.1 BrainSync -->
+        <!-- 07.1 BrainSync -->
         <div class="feat__index">
           <div class="feat__index-left">
-            <span class="feat__index-n">06.1</span>
+            <span class="feat__index-n">07.1</span>
             <span class="feat__index-name">BrainSync</span>
           </div>
           <div class="feat__index-status">
@@ -706,10 +792,10 @@ const NUTRI_STATS = [
         <!-- Divider between siblings -->
         <div class="feat__divider"></div>
 
-        <!-- 06.2 NutriSearch -->
+        <!-- 07.2 NutriSearch -->
         <div class="feat__index feat__index--warm">
           <div class="feat__index-left">
-            <span class="feat__index-n">06.2</span>
+            <span class="feat__index-n">07.2</span>
             <span class="feat__index-name">NutriSearch</span>
           </div>
           <div class="feat__index-status">
@@ -807,7 +893,7 @@ const NUTRI_STATS = [
       <div class="section__inner">
         <div class="other__head">
           <h3 class="other__title">Other work.</h3>
-          <div class="other__eyebrow">07 / archive</div>
+          <div class="other__eyebrow">08 / archive</div>
         </div>
         <div class="other__grid">
           {PRODUCTS.slice(1).map((p, i) => (
@@ -831,7 +917,7 @@ const NUTRI_STATS = [
     <section class="section life">
       <div class="section__inner">
         <header class="section__header">
-          <div class="section__eyebrow">08 / Off-screen</div>
+          <div class="section__eyebrow">09 / Off-screen</div>
           <h2 class="section__title">コードの外で。</h2>
         </header>
 
@@ -847,7 +933,7 @@ const NUTRI_STATS = [
 
         <div class="life__quote">
           <div>
-            <div class="life__quote-eyebrow">09 / Philosophy</div>
+            <div class="life__quote-eyebrow">10 / Philosophy</div>
             <div class="life__quote-text">
               "Between stimulus and response there is a space. In that space is our power to choose our response."
             </div>
@@ -871,7 +957,7 @@ const NUTRI_STATS = [
         <div></div><div></div><div></div>
       </div>
       <div class="section__inner">
-        <div class="section__eyebrow contact__eyebrow">10 / Contact</div>
+        <div class="section__eyebrow contact__eyebrow">11 / Contact</div>
         <h2 class="contact__title">話しましょう。</h2>
         <p class="contact__lede">
           新しいプロジェクト、技術的な議論、コラボレーションのご相談を、お気軽に。
@@ -1399,6 +1485,78 @@ const NUTRI_STATS = [
   @media (max-width: 900px) {
     .exp__grid { grid-template-columns: 1fr; }
     .exp__alloc { flex-direction: column; gap: 16px; }
+  }
+
+  /* SERVICES */
+  .svc__lead {
+    font-family: var(--ff-serif); font-size: 22px; line-height: 1.7;
+    color: var(--c-ink); max-width: 820px; margin: 36px 0 0; text-wrap: pretty;
+  }
+  .svc__grid {
+    margin-top: 56px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  }
+  .svc__card {
+    background: var(--c-paper); color: var(--c-ink);
+    padding: 36px; border-radius: 20px; border: 1px solid var(--c-rule);
+    display: flex; flex-direction: column;
+    transition: transform .3s, box-shadow .3s, border-color .3s;
+  }
+  .svc__card:hover {
+    transform: translateY(-4px); box-shadow: 0 16px 40px rgba(34, 26, 63, 0.08);
+  }
+  .svc__n {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em;
+    color: var(--c-accent); text-transform: uppercase; margin-bottom: 18px;
+  }
+  .svc__name {
+    font-family: var(--ff-serif); font-size: 26px; font-weight: 500;
+    margin: 0 0 18px; line-height: 1.25; text-wrap: balance;
+  }
+  .svc__body {
+    font-family: var(--ff-sans); font-size: 14px; line-height: 1.75;
+    color: var(--c-muted); margin: 0 0 28px; text-wrap: pretty;
+  }
+  .svc__model {
+    margin-top: auto; align-self: flex-start; margin-bottom: 20px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.08em;
+    color: var(--c-ink); background: var(--c-cream);
+    padding: 6px 12px; border-radius: 6px; border: 1px solid var(--c-rule);
+  }
+  .svc__items { list-style: none; padding: 0; margin: 0; }
+  .svc__items li {
+    padding: 12px 0; border-top: 1px solid var(--c-rule);
+    font-size: 13px; line-height: 1.55; color: var(--c-ink);
+    display: flex; gap: 14px;
+  }
+  .svc__item-num {
+    font-family: var(--ff-mono); font-size: 11px; color: var(--c-muted);
+    flex-shrink: 0; padding-top: 2px;
+  }
+  .svc__for {
+    margin-top: 56px; padding: 40px 48px; background: var(--c-paper);
+    border-radius: 20px; border: 1px solid var(--c-rule);
+    display: grid; grid-template-columns: 120px 1fr auto; gap: 40px; align-items: center;
+  }
+  .svc__for-label {
+    font-family: var(--ff-mono); font-size: 11px; color: var(--c-accent);
+    letter-spacing: 0.2em; text-transform: uppercase;
+  }
+  .svc__for-text {
+    font-family: var(--ff-serif); font-size: 18px; line-height: 1.7;
+    color: var(--c-ink); margin: 0; text-wrap: pretty;
+  }
+  .svc__for-cta {
+    background: var(--c-ink); color: var(--c-cream); padding: 14px 24px;
+    border-radius: 999px; font-size: 14px; font-weight: 500; text-decoration: none;
+    white-space: nowrap; display: inline-flex; gap: 8px; align-items: center;
+  }
+  .svc__for-cta span { font-style: italic; }
+  @media (max-width: 900px) {
+    .svc__grid { grid-template-columns: 1fr; }
+    .svc__for {
+      grid-template-columns: 1fr; gap: 20px; padding: 32px;
+      align-items: start; text-align: left;
+    }
   }
 
   /* SKILLS */
