@@ -142,26 +142,15 @@ interface Props {
 
 ## ブログ記事のフォーマット
 
-### フロントマター
-```yaml
----
-title: 記事タイトル
-description: 記事の説明文（100文字程度）
-pubDate: 2026-01-19T00:00:00.000Z
-author: Yuki Tachi
-tags:
-  - タグ1
-  - タグ2
-image: /blog-images/image.jpg  # オプション
-draft: false                   # true で下書き
----
-```
+ブログ記事のファイル名・フロントマター・本文の規約は
+**必ず docs/blog-format.md に従う**。要点:
 
-### Markdown本文
+- ファイル名: YYYY-MM-DD-slug.md(小文字、ハイフン区切り、日本語可)
+- フロントマター項目順: title → description → pubDate → author → tags → image → draft
+- pubDate は ISO 8601(JSTなら +09:00 付き)
+- 本文は h2 から開始、コードブロック言語明示、画像は /blog-images/
 
-- 見出し: `##` から開始（`#` はタイトルで使用済み）
-- コードブロック: 言語を指定
-- 画像: `/blog-images/` に配置
+ブログ自動生成(cron運用)については docs/blog-automation.md を参照。
 
 ---
 
@@ -319,4 +308,4 @@ npm run build -- --force
 
 ---
 
-**最終更新**: 2026-01-19
+**最終更新**: 2026-06-07
