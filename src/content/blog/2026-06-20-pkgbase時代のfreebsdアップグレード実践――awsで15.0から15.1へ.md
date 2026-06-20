@@ -1,6 +1,8 @@
 ---
 title: pkgbase時代のFreeBSDアップグレード実践――AWSで15.0から15.1へ
-description: FreeBSD 15系のAWS公式AMIはpkgbase（パッケージ化されたベースシステム）でビルドされており、従来のfreebsd-updateは使えません。稼働中のEC2 arm64インスタンスを対象に、同一リリース内のパッチ適用と15.0→15.1のマイナー更新を、pkgとbectlの実コマンドで解説します。OSVERSION上書きの仕組み、15.1で分離されたPAM・zstdパッケージの落とし穴、EC2シリアルコンソールによるロールバックまで、一次資料に基づいて整理します。
+description: FreeBSD
+  15系のAWS公式AMIはpkgbase（パッケージ化されたベースシステム）でビルドされており、従来のfreebsd-updateは使えません。稼働中のEC2
+  arm64インスタンスを対象に、同一リリース内のパッチ適用と15.0→15.1のマイナー更新を、pkgとbectlの実コマンドで解説します。OSVERSION上書きの仕組み、15.1で分離されたPAM・zstdパッケージの落とし穴、EC2シリアルコンソールによるロールバックまで、一次資料に基づいて整理します。
 pubDate: 2026-06-20T19:00:00.000+09:00
 author: Yuki Tachi
 tags:
@@ -10,7 +12,7 @@ tags:
   - インフラ
   - アップグレード
   - ZFS
-draft: true
+draft: false
 ---
 
 ## はじめに
