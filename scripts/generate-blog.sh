@@ -231,6 +231,32 @@ $(log_tail)
 EOF
 }
 
+build_auth_failure_body() {
+  cat <<EOF
+ブログ記事の自動生成に失敗しました(原因: Claude Code の認証切れ)。
+
+■ 原因
+  Claude Code の OAuth トークンが失効しているため、記事生成を開始できませんでした。
+  (出力に "401 Invalid authentication credentials" を検出)
+  ※ Notion・Git には一切変更を加えていません(着手前に停止)。
+
+■ 復旧手順
+  1. このサーバーに SSH ログイン
+  2. claude を対話起動して再認証: claude → /login(ブラウザ認証を完了)
+  3. 疎通確認: ${CLAUDE_BIN} --print "Reply with exactly: AUTH_OK"
+     → "AUTH_OK" が返れば復旧。次回 cron(翌日 19:00 JST)から自動で再開します。
+  4. 今夜分をすぐ流したい場合は手動再実行: bash ${SCRIPT_DIR}/generate-blog.sh
+
+■ 処理ログ
+  開始 : ${START_HUMAN}
+  終了 : $(date '+%Y-%m-%d %H:%M:%S')
+  ログ : ${LOG_FILE}
+
+■ エラー詳細(ログ末尾 100 行)
+$(log_tail)
+EOF
+}
+
 build_skip_body() {
   local link_line="Notion「ブログネタ」ページ"
   if [[ -n "${NOTION_PAGE_URL}" ]]; then
@@ -307,6 +333,16 @@ main() {
     log "Claude Code がタイムアウトしました(rc=${cc_rc})。"
     send_mail "[blog-cron] 記事生成失敗: 実行タイムアウト(${TIMEOUT_SECS}秒)" \
       "$(build_failure_body "実行タイムアウト" "Claude Code が ${TIMEOUT_SECS} 秒以内に完了しませんでした。")"
+    exit 1
+  fi
+
+  # --- 認証切れ(401)判定 ---
+  # OAuth トークン失効時は Claude が "401 Invalid authentication credentials" を出して非ゼロ終了する。
+  # 復旧手段(対話 /login)が他のエラーと異なるため、専用メールで切り分ける。
+  if [[ ${cc_rc} -ne 0 ]] && grep -qiE '401|Invalid authentication credentials|Failed to authenticate' "${CLAUDE_OUT}"; then
+    log "Claude Code の認証が切れています(401, rc=${cc_rc})。"
+    send_mail "[blog-cron] 記事生成失敗: 認証切れ(/login で復旧してください)" \
+      "$(build_auth_failure_body)"
     exit 1
   fi
 
