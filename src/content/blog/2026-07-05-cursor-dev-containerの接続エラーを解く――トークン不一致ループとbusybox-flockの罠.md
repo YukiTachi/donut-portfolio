@@ -1,6 +1,7 @@
 ---
 title: Cursor Dev Containerの接続エラーを解く――トークン不一致ループとBusyBox flockの罠
-description: CursorのDev Container接続が「確立できない・すぐ切れる」とき、原因はホスト・WSL2・コンテナOS・compose構成のどこにでもあり得ます。WSL2+Docker
+description: CursorのDev
+  Container接続が「確立できない・すぐ切れる」とき、原因はホスト・WSL2・コンテナOS・compose構成のどこにでもあり得ます。WSL2+Docker
   Desktop環境で筆者が実際に踏んだ2つの罠――cursor-serverのトークン不一致ループ(WSL2のメモリ逼迫が再誘発)と、AlpineコンテナのBusyBox版flockによる接続不能――を軸に、レイヤーごとの切り分けと解決手順を解説します。
 pubDate: 2026-07-05T19:00:00.000+09:00
 author: Yuki Tachi
@@ -11,7 +12,7 @@ tags:
   - Docker
   - Alpine
   - トラブルシューティング
-draft: true
+draft: false
 ---
 
 ## はじめに
