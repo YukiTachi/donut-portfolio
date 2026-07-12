@@ -1,8 +1,9 @@
 ---
 title: 懐かしのUnix――1990年代の研究室で動いていたSolaris・BSD・Linuxの系譜と違い
 description: 1990年代の大学の研究室には、Solaris・SunOS・BSD/OS・FreeBSD・NetBSD・OpenBSD・Vine
-  Linuxという7つのUnix系OSが同居していました。この顔ぶれは、AT&T Unix→BSDの系譜、SVR4、そしてゼロから書かれたLinuxが併存した1990年代Unix界の縮図です。USL
-  v. BSDi訴訟という転換点、日本発のKAMEプロジェクトが結んだBSDのIPv6史を交えながら、系譜・ライセンス・開発モデルの3軸でUnixとLinuxの違いを読み解きます。
+  Linuxという7つのUnix系OSが同居していました。この顔ぶれは、AT&T
+  Unix→BSDの系譜、SVR4、そしてゼロから書かれたLinuxが併存した1990年代Unix界の縮図です。USL v.
+  BSDi訴訟という転換点、日本発のKAMEプロジェクトが結んだBSDのIPv6史を交えながら、系譜・ライセンス・開発モデルの3軸でUnixとLinuxの違いを読み解きます。
 pubDate: 2026-07-06T19:00:00.000+09:00
 author: Yuki Tachi
 tags:
@@ -15,7 +16,7 @@ tags:
   - Linux
   - IPv6
   - 歴史
-draft: true
+draft: false
 ---
 
 ## はじめに
