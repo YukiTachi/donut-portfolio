@@ -41,7 +41,7 @@ certbot の自動更新は、タイマーや cron から `certbot renew` を定�
 openssl s_client -connect mail.example.com:993 </dev/null 2>/dev/null | openssl x509 -noout -serial -dates
 ```
 
-結果、稼働中の Dovecot が返す証明書は、ディスク上のものとシリアル番号が異なり、有効期限も切れていました。つまり certbot は証明書ファイルを正しく更新していたが、Dovecot/Postfix は起動時に読み込んだ古い証明書をメモリに保持し続けていたわけです。対処は単純で、両サービスの reload(設定再読込。Dovecot では `doveadm reload` に相当します。Dovecot, 2026)で新しい証明書が返るようになりました。
+結果、稼働中の Dovecot が返す証明書は、ディスク上のものとシリアル番号が異なり、有効期限も切れていました。つまり certbot は証明書ファイルを正しく更新していたが、Dovecot/Postfix は起動時に読み込んだ古い証明書をメモリに保持し続けていたわけです。対処は単純で、両サービスを reload(`systemctl reload dovecot` および `systemctl reload postfix`)すると、新しい証明書が返るようになりました。Dovecot は設定の再読込に対応しており(Dovecot, 2026)、これにより起動時に読み込んだ証明書がメモリ上で更新されます。
 
 再発防止には deploy hook を使います。certbot は `/etc/letsencrypt/renewal-hooks/deploy/` に置かれた実行可能ファイルを、証明書の更新が成功したときに実行します(Certbot, 2026)。
 
