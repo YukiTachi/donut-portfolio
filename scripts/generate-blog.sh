@@ -89,6 +89,13 @@ rotate_logs() {
 }
 
 # ===== メール送信 ===============================================================
+# 日本語件名は生 UTF-8 のままだと受信側で文字化けするため、
+# RFC 2047 encoded-word (UTF-8 / Base64) に変換する。
+# base64 は 76 桁ごとに改行を入れるので tr -d '\n' で除去しないとヘッダが壊れる。
+encode_subject() {
+  printf '=?UTF-8?B?%s?=' "$(printf '%s' "$1" | base64 | tr -d '\n')"
+}
+
 # send_mail <subject> <body>
 send_mail() {
   local subject="$1"
@@ -96,9 +103,10 @@ send_mail() {
   {
     printf 'From: %s\n' "${MAIL_FROM}"
     printf 'To: %s\n' "${MAIL_TO}"
-    printf 'Subject: %s\n' "${subject}"
+    printf 'Subject: %s\n' "$(encode_subject "${subject}")"
     printf 'MIME-Version: 1.0\n'
     printf 'Content-Type: text/plain; charset=UTF-8\n'
+    printf 'Content-Transfer-Encoding: 8bit\n'
     printf '\n'
     printf '%s\n' "${body}"
     printf '\n%s\n' "${MAIL_FOOTER}"
