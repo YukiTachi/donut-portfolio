@@ -1,6 +1,7 @@
 ---
 title: Let's Encrypt証明書のトラブルシュート実践――メール証明書エラー1件から自動更新の設計不備を洗い出す
-description: メールクライアントの証明書期限切れ警告から出発して掘り下げると、certbot自動更新の独立した設計不備が3つ見つかりました。①証明書ファイルの更新とプロセスへの反映は別物(deploy hook必須)、②nginxメジャー更新で置き去りになったhook内のサービス名、③「たまたま通っていた」standalone認証。webrootへの移行とnginxのlocation優先順位の罠まで、切り分けの思考プロセスとともに解説します。
+description: メールクライアントの証明書期限切れ警告から出発して掘り下げると、certbot自動更新の独立した設計不備が3つ見つかりました。①証明書ファイルの更新とプロセスへの反映は別物(deploy
+  hook必須)、②nginxメジャー更新で置き去りになったhook内のサービス名、③「たまたま通っていた」standalone認証。webrootへの移行とnginxのlocation優先順位の罠まで、切り分けの思考プロセスとともに解説します。
 pubDate: 2026-08-02T19:00:00.000+09:00
 author: Yuki Tachi
 tags:
@@ -9,7 +10,7 @@ tags:
   - nginx
   - SSL/TLS
   - トラブルシューティング
-draft: true
+draft: false
 ---
 
 ## はじめに
