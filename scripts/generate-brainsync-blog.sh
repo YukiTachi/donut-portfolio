@@ -11,8 +11,8 @@
 #   - 記事は WordPress MCP 経由で下書き投入のみ。自動公開は一切しない
 #   - 失敗時にオーファン下書きが残りうるため、投稿 ID を通知に含める
 #
-# cron での実行例(毎週日曜 21:00 JST = UTC 12:00):
-#   0 12 * * 0 /home/yukit/donut-portfolio/scripts/generate-brainsync-blog.sh
+# cron での実行例(毎日 19:30 JST = UTC 10:30):
+#   30 10 * * * /home/yukit/donut-portfolio/scripts/generate-brainsync-blog.sh
 #
 # 前提:
 #   - FreeBSD EC2 上の Claude Code に WordPress MCP(donut-wp)が登録済みであること
