@@ -45,7 +45,7 @@ WP_ADMIN_BASE="https://donut-service.com/wp-admin"
 
 # Astro 版と衝突しないよう、ロック・ログはすべて別名にする
 LOCKFILE="/tmp/brainsync-blog-cron.lock"
-TIMEOUT_SECS=1800            # Claude Code 実行のタイムアウト(30 分)
+TIMEOUT_SECS=3600            # Claude Code 実行のタイムアウト(60 分)
 LOG_DIR="${HOME}/log"
 LOG_PREFIX="brainsync-cron"
 LOG_RETENTION_DAYS=30
