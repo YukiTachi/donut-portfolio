@@ -72,7 +72,7 @@ sudo semodule -i dovecot_mysql.pp
 
 ### 証明書の罠――ディレクトリの実行権限
 
-もう1つの「設定は正しいのに動かない」は Let's Encrypt 証明書でした。Dovecot が `/etc/letsencrypt/live/` 配下を読めず Permission denied になります。原因はファイルではなく、`live/` と `archive/` ディレクトリに他ユーザーのトラバース(実行)権限がないことでした。両者を 755 にすれば通ります(秘密鍵は 600 のまま保護されます)。なお、証明書の自動更新とプロセスへの反映(deploy hook)には独立した設計問題があり、[前回の記事](/blog/2026-08-02-lets-encrypt証明書のトラブルシュート実践――メール証明書エラー1件から自動更新の設計不備を洗い出す)で詳述しています。
+もう1つの「設定は正しいのに動かない」は Let's Encrypt 証明書でした。Dovecot が `/etc/letsencrypt/live/` 配下を読めず Permission denied になります。原因はファイルではなく、`live/` と `archive/` ディレクトリに他ユーザーのトラバース(実行)権限がないことでした。両者を 755 にすれば通ります(秘密鍵は 600 のまま保護されます)。なお、証明書の自動更新とプロセスへの反映(deploy hook)には独立した設計問題があり、[前回の記事](/blog/2026-08-02-lets-encrypt証明書のトラブルシュート実践メール証明書エラー1件から自動更新の設計不備を洗い出す)で詳述しています。
 
 ### 到達可能性はDNSで決まる――SPF/DKIM/DMARC
 
@@ -80,11 +80,11 @@ sudo semodule -i dovecot_mysql.pp
 
 - SPF: ドメインの正当な送信元 IP を TXT レコードで宣言する(RFC 7208; Kitterman, 2014)
 - DKIM: 秘密鍵でメールに署名し、DNS 上の公開鍵で検証させる(RFC 6376; Crocker et al., 2011)
-- DMARC: SPF/DKIM の結果と From ドメインの整合を検証し、不合格時の扱いをポリシーとして宣言する(RFC 7489; Kucherawy & Zwicky, 2015)
+- DMARC: SPF/DKIM の結果と From ドメインの整合を検証し、不合格時の扱いをポリシーとして宣言する(RFC 9989; Herr & Levine, 2026。旧 RFC 7489 を置き換える現行仕様)
 
 DKIM は OpenDKIM で実装しました。2048ビットの鍵を生成し、KeyTable/SigningTable で署名対象を定義、`inet:8891@localhost` のソケットで待ち受けて Postfix から milter として呼び出します(OpenDKIM Project, 2026)。Postfix 側は `smtpd_milters = inet:localhost:8891` を追加し、公開鍵を `セレクタ._domainkey` の TXT レコードで DNS に登録します。
 
-DMARC は `p=none`(監視のみ)から始めました。RFC 7489 も、レポートを監視しながら quarantine → reject へ段階的に強化していく運用を想定しています(Kucherawy & Zwicky, 2015)。
+DMARC は `p=none`(監視のみ)から始めました。レポートを監視しながら段階的にポリシーを強化していく運用モデルは、2026年5月に RFC 7489 を置き換えた現行仕様 RFC 9989 でも踏襲されています(Herr & Levine, 2026)。なお新仕様では、メーリングリスト経由の配送が多いドメインで `p=reject` を安易に用いないよう注意が明確化されており、強化の判断はレポートの実測に基づいて行うべきです。
 
 検証はゴールから逆算します。`dig` で各 TXT レコードの公開を確認し、mail-tester.com にテストメールを送って採点を受けます(mail-tester, 2026)。筆者の場合、初回は満点に届かず、認証や DNS の不備による減点を1つずつ潰して4回目の計測で 10/10 に到達しました(採点項目は執筆時点のものです)。Gmail 宛でも三者すべての pass を確認しています。逆引き(PTR)は VPS 事業者側の設定である点も見落としがちです。
 
@@ -118,10 +118,10 @@ DMARC は `p=none`(監視のみ)から始めました。RFC 7489 も、レポー
 ### 公式ドキュメント
 
 - Crocker, D., Hansen, T., & Kucherawy, M. (2011). *DomainKeys Identified Mail (DKIM) Signatures* (RFC 6376). Internet Engineering Task Force. https://www.rfc-editor.org/rfc/rfc6376.html
-- Dovecot. (2026). *Password Schemes — Dovecot CE documentation*. 2026年8月閲覧. https://doc.dovecot.org/main/core/config/auth/schemes.html
+- Dovecot. (2026). *Password Schemes — Dovecot CE documentation*. 2026年8月閲覧. https://doc.dovecot.org/2.3/configuration_manual/authentication/password_schemes/
 - Google. (2026). *Email sender guidelines*. 2026年8月閲覧. https://support.google.com/a/answer/81126
+- Herr, T., & Levine, J. (Eds.). (2026). *Domain-Based Message Authentication, Reporting, and Conformance (DMARC)* (RFC 9989). Internet Engineering Task Force. https://www.rfc-editor.org/rfc/rfc9989.html
 - Kitterman, S. (2014). *Sender Policy Framework (SPF) for Authorizing Use of Domains in Email, Version 1* (RFC 7208). Internet Engineering Task Force. https://www.rfc-editor.org/rfc/rfc7208.html
-- Kucherawy, M., & Zwicky, E. (2015). *Domain-based Message Authentication, Reporting, and Conformance (DMARC)* (RFC 7489). Internet Engineering Task Force. https://www.rfc-editor.org/rfc/rfc7489.html
 - OpenDKIM Project. (2026). *opendkim (filter) README File*. 2026年8月閲覧. http://www.opendkim.org/opendkim-README
 - Postfix. (2026a). *Postfix Virtual Domain Hosting Howto (VIRTUAL_README)*. 2026年8月閲覧. https://www.postfix.org/VIRTUAL_README.html
 - Postfix. (2026b). *Postfix SASL Howto (SASL_README)*. 2026年8月閲覧. https://www.postfix.org/SASL_README.html
