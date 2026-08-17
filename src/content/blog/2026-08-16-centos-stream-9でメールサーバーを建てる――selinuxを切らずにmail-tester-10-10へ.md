@@ -1,7 +1,8 @@
 ---
 title: CentOS Stream 9でメールサーバーを建てる――SELinuxを切らずにmail-tester 10/10へ
 description: 「メールサーバーは自前で建てるな」と言われる時代に、CentOS Stream
-  9上でPostfix+Dovecot+OpenDKIMをSELinux enforcingのまま構築し、mail-tester.comで10/10を達成しました。多くの記事が無効化で逃げるSELinuxをaudit2allowで最小限だけ通す実践と、SPF/DKIM/DMARCによる到達可能性の設計を、詰まった順の実録で解説します。
+  9上でPostfix+Dovecot+OpenDKIMをSELinux
+  enforcingのまま構築し、mail-tester.comで10/10を達成しました。多くの記事が無効化で逃げるSELinuxをaudit2allowで最小限だけ通す実践と、SPF/DKIM/DMARCによる到達可能性の設計を、詰まった順の実録で解説します。
 pubDate: 2026-08-16T19:03:00.000+09:00
 author: Yuki Tachi
 tags:
@@ -10,7 +11,7 @@ tags:
   - Dovecot
   - SELinux
   - メールサーバー
-draft: true
+draft: false
 ---
 
 ## はじめに
