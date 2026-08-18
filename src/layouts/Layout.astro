@@ -8,6 +8,7 @@ interface Props {
   author?: string;
   publishedTime?: string;
   tags?: string[];
+  noindex?: boolean;
 }
 
 const {
@@ -19,6 +20,7 @@ const {
   author = 'Yuki Tachi',
   publishedTime,
   tags,
+  noindex = false,
 } = Astro.props;
 
 const siteUrl = 'https://donut-software.com';
@@ -105,7 +107,7 @@ const structuredData = ogType === 'article' ? {
 		<meta property="twitter:image" content={ogImageURL} />
 
 		<link rel="canonical" href={canonicalURL} />
-		<meta name="robots" content="index, follow" />
+		<meta name="robots" content={noindex ? "noindex, follow" : "index, follow"} />
 
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

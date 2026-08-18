@@ -1,0 +1,211 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+const allPosts = await getCollection('blog', ({ data }) => {
+  return data.draft !== true;
+});
+
+const recentPosts = allPosts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+---
+
+<Layout
+  title="404 Not Found - Yuki Tachi | Donut Service"
+  description="お探しのページは見つかりませんでした。URLが変更されたか、削除された可能性があります。"
+  canonical="/404"
+  ogType="website"
+  noindex={true}
+>
+  <nav class="rnav" id="rnav">
+    <div class="rnav__brand">
+      <span class="rnav__logo">y</span>
+      <span class="rnav__name">Tachi</span>
+    </div>
+    <div class="rnav__links">
+      <a href="/#about">About</a>
+      <a href="/#walk">Walk</a>
+      <a href="/#stack">Stack</a>
+      <a href="/#brainsync">BrainSync</a>
+      <a href="/blog/">Blog</a>
+    </div>
+    <a href="/#contact" class="rnav__cta">Contact <span>→</span></a>
+  </nav>
+
+  <main class="nf-page">
+    <div class="nf-inner">
+      <header class="nf-header">
+        <div class="nf-eyebrow">Error · 404</div>
+        <h1 class="nf-title">404.</h1>
+        <p class="nf-sub">Page not found.</p>
+        <p class="nf-body">
+          お探しのページは見つかりませんでした。URLが変更されたか、
+          記事が削除された可能性があります。
+        </p>
+        <div class="nf-actions">
+          <a href="/" class="nf-btn">← Back to Home</a>
+          <a href="/blog/" class="nf-btn nf-btn--ghost">Browse Blog →</a>
+        </div>
+      </header>
+
+      {recentPosts.length > 0 && (
+        <section class="nf-recent">
+          <h2 class="nf-recent__label">Recent posts</h2>
+          <div class="posts">
+            {recentPosts.map((post, i) => (
+              <article class="post">
+                <a href={`/blog/${post.slug}/`} class="post__link" data-cursor="hover">
+                  <div class="post__meta">
+                    <span class="post__num">{String(i + 1).padStart(2, '0')}</span>
+                    <time class="post__date">
+                      {new Date(post.data.pubDate).toLocaleDateString('ja-JP', {
+                        year: 'numeric', month: 'long', day: 'numeric',
+                      })}
+                    </time>
+                  </div>
+                  <h3 class="post__title">{post.data.title}</h3>
+                </a>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  </main>
+
+  <footer class="rfooter">
+    <span>© 2026 Donut Service</span>
+    <span>Made with care in Kawasaki</span>
+    <span>Set in Fraunces, Inter, JetBrains Mono</span>
+  </footer>
+
+  <script is:inline>
+    (function () {
+      const nav = document.getElementById('rnav');
+      if (nav) {
+        const onS = () => nav.classList.toggle('is-scrolled', window.scrollY > 40);
+        onS();
+        window.addEventListener('scroll', onS, { passive: true });
+      }
+    })();
+  </script>
+</Layout>
+
+<style>
+  /* NAV (shared) */
+  .rnav {
+    position: fixed; top: 12px; left: 50%; transform: translateX(-50%);
+    z-index: 100; transition: all .3s;
+    background: rgba(244, 237, 224, 0.4);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--c-rule); border-radius: 999px;
+    padding: 10px 14px 10px 18px;
+    display: flex; align-items: center; gap: 24px; font-size: 13px;
+    max-width: min(900px, calc(100vw - 32px));
+  }
+  .rnav.is-scrolled {
+    background: rgba(244, 237, 224, 0.85);
+    box-shadow: 0 8px 24px rgba(34, 26, 63, 0.08);
+  }
+  .rnav__brand { display: flex; align-items: center; gap: 10px; }
+  .rnav__logo {
+    width: 22px; height: 22px; border-radius: 50%; background: var(--c-accent);
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--c-cream); font-family: var(--ff-serif);
+    font-size: 13px; font-weight: 600; font-style: italic;
+  }
+  .rnav__name { font-family: var(--ff-serif); font-size: 16px; font-weight: 500; }
+  .rnav__links { display: flex; gap: 20px; }
+  .rnav__links a { color: var(--c-ink); text-decoration: none; font-size: 13px; }
+  .rnav__cta {
+    background: var(--c-ink); color: var(--c-cream); padding: 8px 14px;
+    border-radius: 999px; font-size: 12px; text-decoration: none;
+    display: inline-flex; gap: 6px; align-items: center;
+  }
+  @media (max-width: 768px) {
+    .rnav { gap: 12px; padding: 8px 8px 8px 14px; font-size: 12px; }
+    .rnav__links { display: none; }
+  }
+
+  /* PAGE */
+  .nf-page {
+    min-height: 100vh; background: var(--c-cream);
+    padding: 140px 48px 80px;
+    display: flex; align-items: center;
+  }
+  .nf-inner { max-width: 1080px; margin: 0 auto; width: 100%; }
+
+  .nf-header {
+    padding-bottom: 56px; margin-bottom: 56px;
+    border-bottom: 1px solid var(--c-rule);
+  }
+  .nf-eyebrow {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em;
+    color: var(--c-accent); text-transform: uppercase; margin-bottom: 16px;
+  }
+  .nf-title {
+    font-family: var(--ff-serif); font-size: clamp(64px, 10vw, 124px);
+    font-weight: 400; margin: 0; letter-spacing: -0.03em; line-height: 0.95;
+  }
+  .nf-sub {
+    font-family: var(--ff-serif); font-size: 26px; font-style: italic;
+    color: var(--c-muted); margin: 16px 0 0 0;
+  }
+  .nf-body {
+    font-size: 15px; line-height: 1.9; color: var(--c-muted);
+    margin: 20px 0 0 0; max-width: 52ch;
+  }
+
+  .nf-actions { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 36px; }
+  .nf-btn {
+    display: inline-flex; align-items: center;
+    background: var(--c-ink); color: var(--c-cream);
+    padding: 12px 22px; border-radius: 999px;
+    font-family: var(--ff-mono); font-size: 12px; letter-spacing: 0.12em;
+    text-transform: uppercase; text-decoration: none;
+    border: 1px solid var(--c-ink);
+    transition: background .2s, color .2s, border-color .2s;
+  }
+  .nf-btn:hover { background: var(--c-accent); border-color: var(--c-accent); }
+  .nf-btn--ghost { background: transparent; color: var(--c-ink); }
+  .nf-btn--ghost:hover { background: var(--c-ink); color: var(--c-cream); border-color: var(--c-ink); }
+
+  .nf-recent__label {
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.18em;
+    color: var(--c-muted); text-transform: uppercase;
+    margin: 0 0 8px 0; font-weight: 400;
+  }
+
+  .posts { display: flex; flex-direction: column; gap: 0; }
+  .post { border-bottom: 1px solid var(--c-rule); }
+  .post__link {
+    display: block; padding: 28px 0; text-decoration: none; color: inherit;
+    transition: padding-left .3s;
+  }
+  .post__link:hover { padding-left: 24px; }
+  .post__meta {
+    display: flex; align-items: center; gap: 16px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.12em;
+    color: var(--c-muted); text-transform: uppercase; margin-bottom: 12px;
+  }
+  .post__num { color: var(--c-accent); font-weight: 600; }
+  .post__title {
+    font-family: var(--ff-serif); font-size: clamp(20px, 2.4vw, 28px);
+    font-weight: 400; line-height: 1.35; margin: 0; letter-spacing: -0.01em;
+  }
+
+  .rfooter {
+    padding: 32px 48px; display: flex; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+    font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.16em;
+    color: var(--c-muted); text-transform: uppercase;
+    border-top: 1px solid var(--c-rule); background: var(--c-cream);
+  }
+
+  @media (max-width: 768px) {
+    .nf-page { padding: 120px 24px 60px; }
+    .nf-header { padding-bottom: 40px; margin-bottom: 40px; }
+    .rfooter { padding: 24px; }
+  }
+</style>
