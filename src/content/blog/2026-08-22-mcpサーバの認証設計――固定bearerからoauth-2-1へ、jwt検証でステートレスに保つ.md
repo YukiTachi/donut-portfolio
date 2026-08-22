@@ -56,7 +56,7 @@ PKCE（Proof Key for Code Exchange、RFC 7636）は、クライアントが乱�
 
 設計の核です。MCPサーバはOAuth 2.1の5.2節に従ってアクセストークンを検証し、それが**自分自身を対象（audience）として発行された**ことをRFC 8707の2節に従って検証しなければなりません（MUST）（Model Context Protocol, 2026a）。
 
-トークンを署名付きJWT（RFC 7519）にしRFC 9068のプロファイルに沿わせれば、これは公開鍵の検証だけで完結します。RFC 9068が求めるのは、`typ` が `at+jwt` であること、`iss` が発行者識別子と完全一致すること、`aud` に自分を指すリソース指示子が含まれること、`alg` が `none` のJWTを拒否すること、現在時刻が `exp` より前であることの5点です（Bertocci, 2021）。Node.jsなら `jose` が対応します（Panva, 2026）。
+トークンを署名付きJWT（RFC 7519）にしRFC 9068のプロファイルに沿わせれば、これは公開鍵の検証だけで完結します。RFC 9068が求めるのは、署名をRFC 7515に従って検証すること、`typ` が `at+jwt` であること、`iss` が発行者識別子と完全一致すること、`aud` に自分を指すリソース指示子が含まれること、`alg` が `none` のJWTを拒否すること、現在時刻が `exp` より前であることの6点です（Bertocci, 2021）。Node.jsなら `jose` が対応します（Panva, 2026）。
 
 ```typescript
 import { createRemoteJWKSet, jwtVerify } from "jose";
@@ -112,6 +112,7 @@ const { payload } = await jwtVerify(token, JWKS, {
 - Bertocci, V. (2021). *RFC 9068: JSON Web Token (JWT) Profile for OAuth 2.0 Access Tokens*. IETF. https://doi.org/10.17487/RFC9068
 - Campbell, B., Bradley, J., & Tschofenig, H. (2020). *RFC 8707: Resource Indicators for OAuth 2.0*. IETF. https://doi.org/10.17487/RFC8707
 - Hardt, D., Parecki, A., & Lodderstedt, T. (2026). *The OAuth 2.1 Authorization Framework* (draft-ietf-oauth-v2-1-15, 2026年3月2日版). IETF. 2026年8月閲覧. https://datatracker.ietf.org/doc/html/draft-ietf-oauth-v2-1-15
+- Jones, M., Bradley, J., & Sakimura, N. (2015). *RFC 7515: JSON Web Signature (JWS)*. IETF. https://doi.org/10.17487/RFC7515
 - Jones, M., Bradley, J., & Sakimura, N. (2015). *RFC 7519: JSON Web Token (JWT)*. IETF. https://doi.org/10.17487/RFC7519
 - Jones, M., Hunt, P., & Parecki, A. (2025). *RFC 9728: OAuth 2.0 Protected Resource Metadata*. IETF. https://doi.org/10.17487/RFC9728
 - Lodderstedt, T., Bradley, J., Labunets, A., & Fett, D. (2025). *RFC 9700: Best Current Practice for OAuth 2.0 Security*. IETF. https://doi.org/10.17487/RFC9700
