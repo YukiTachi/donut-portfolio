@@ -1,11 +1,11 @@
 ---
 title: 本番APIをPoetry移行する――Python 3.13・systemd・ブランチ戦略の実践
 description: 本番稼働中のFlask
-  APIをvenv+requirements.txtからPoetryへ移行しました。systemd経由でpoetry
-  runを叩いてPermission
+  APIをvenv+requirements.txtからPoetryへ移行しました。systemd経由でpoetry runを叩いてPermission
   deniedに遭い、当初疑ったPrivateTmpは一次資料に当たると無関係だと判明します。ラッパースクリプトによる解決、package-mode =
-  falseの意味、Gemini→Claude APIへの依存入れ替えでパッケージ数が48から38に減った経緯、そして開発環境の移行が遅れている状況でのproductionブランチ戦略までを実録でまとめます。
-pubDate: 2026-08-23T19:12:00.000+09:00
+  falseの意味、Gemini→Claude
+  APIへの依存入れ替えでパッケージ数が48から38に減った経緯、そして開発環境の移行が遅れている状況でのproductionブランチ戦略までを実録でまとめます。
+pubDate: 2026-08-31T01:12:00.000+09:00
 author: Yuki Tachi
 tags:
   - Poetry
