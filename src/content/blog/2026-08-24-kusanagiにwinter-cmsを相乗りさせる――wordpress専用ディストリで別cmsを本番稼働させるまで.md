@@ -42,7 +42,7 @@ kusanagi provision --lamp \
   cmsprofile
 ```
 
-DNS が解決していないと Let's Encrypt の検証が通らないため、反映を待ってから実行します。完了後は空のドキュメントルート・Web サーバ設定・DB・証明書が揃うので、あとは Composer で Winter CMS を展開し、`.env` に provision が作った DB 名・ユーザー・パスワードを書けば中身も入ります。なお証明書の自動更新には別の設計問題があり、[以前の記事](/blog/2026-08-02-lets-encrypt証明書のトラブルシュート実践メール証明書エラー1件から自動更新の設計不備を洗い出す)で詳述しました。
+DNS が解決していないと Let's Encrypt の検証が通らないため、反映を待ってから実行します。完了後は空のドキュメントルート・Web サーバ設定・DB・証明書が揃うので、あとは Composer で Winter CMS を展開し、`.env` に provision が作った DB 名・ユーザー・パスワードを書けば中身も入ります。なお証明書の自動更新には別の設計問題があり、[以前の記事](/blog/2026-08-02-lets-encrypt証明書のトラブルシュート実践メール証明書エラー1件から自動更新の設計不備を洗い出す/)で詳述しました。
 
 ### Laravel派生はLaravelと同じではない
 
@@ -77,7 +77,7 @@ restorecon -R -v /path/to/app/storage                              # 恒久化
 
 `chcon` はファイルのコンテキストを書き換えるだけで(GNU coreutils, 2026)、ポリシー側の定義には何も残りません。対して `semanage fcontext` は「the default file system labeling on an SELinux system」を管理し(SELinux Project, 2026b)、`restorecon` はその指定どおりに既定コンテキストを復元します(SELinux Project, 2026c)。`chcon` だけでは再ラベル時に元へ戻る、ということです。
 
-以前 [CentOS Stream 9 でメールサーバーを建てた記事](/blog/2026-08-16-centos-stream-9でメールサーバーを建てるselinuxを切らずにmail-tester-10-10へ)ではソケット接続の拒否を audit2allow で通しましたが、今回はラベルを直すだけで済みます。**問題の層が違えば打ち手も違う**わけです。
+以前 [CentOS Stream 9 でメールサーバーを建てた記事](/blog/2026-08-16-centos-stream-9でメールサーバーを建てるselinuxを切らずにmail-tester-10-10へ/)ではソケット接続の拒否を audit2allow で通しましたが、今回はラベルを直すだけで済みます。**問題の層が違えば打ち手も違う**わけです。
 
 ### 404とApache前提――残り2つの取り違え
 
