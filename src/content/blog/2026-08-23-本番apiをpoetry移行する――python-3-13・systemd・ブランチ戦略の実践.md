@@ -5,7 +5,7 @@ description: 本番稼働中のFlask
   deniedに遭い、当初疑ったPrivateTmpは一次資料に当たると無関係だと判明します。ラッパースクリプトによる解決、package-mode =
   falseの意味、Gemini→Claude
   APIへの依存入れ替えでパッケージ数が48から38に減った経緯、そして開発環境の移行が遅れている状況でのproductionブランチ戦略までを実録でまとめます。
-pubDate: 2026-08-31T01:12:00.000+09:00
+pubDate: 2026-08-25T21:23:00.000+09:00
 author: Yuki Tachi
 tags:
   - Poetry
@@ -13,7 +13,7 @@ tags:
   - systemd
   - CentOS Stream 9
   - デプロイ
-draft: true
+draft: false
 ---
 
 ## はじめに
