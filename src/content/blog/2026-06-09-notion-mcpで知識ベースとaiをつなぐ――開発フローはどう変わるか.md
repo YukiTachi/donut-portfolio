@@ -1,6 +1,8 @@
 ---
 title: Notion MCPで知識ベースとAIをつなぐ――開発フローはどう変わるか
-description: Notionに溜めたドキュメントやタスクを、AIエージェントが直接読み書きできるようにするのがNotion MCPです。MCP（Model Context Protocol）はAnthropicが2024年に公開した、AIとデータソースをつなぐオープン標準。本記事では、Notion公式のホスト型MCPサーバー（https://mcp.notion.com/mcp）がどんな仕組みで、なぜMarkdownを採用してトークン効率を上げているのか、そして知識ベースとAIの連携が開発フローをどう変えるのかを、公式ドキュメントに基づいて整理します。
+description: Notionに溜めたドキュメントやタスクを、AIエージェントが直接読み書きできるようにするのがNotion
+  MCPです。MCP（Model Context
+  Protocol）はAnthropicが2024年に公開した、AIとデータソースをつなぐオープン標準。本記事では、Notion公式のホスト型MCPサーバー（https://mcp.notion.com/mcp）がどんな仕組みで、なぜMarkdownを採用してトークン効率を上げているのか、そして知識ベースとAIの連携が開発フローをどう変えるのかを、公式ドキュメントに基づいて整理します。
 pubDate: 2026-06-09T19:00:00.000+09:00
 author: Yuki Tachi
 tags:
@@ -10,7 +12,7 @@ tags:
   - Model Context Protocol
   - 開発フロー
   - 生産性
-draft: true
+draft: false
 ---
 
 ## はじめに
