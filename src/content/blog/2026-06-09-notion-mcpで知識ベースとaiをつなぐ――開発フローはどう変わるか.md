@@ -39,13 +39,13 @@ Notionは2025年4月初頭にまずオープンソースのMCPサーバーを公
 
 Notionのホスト型サーバーで特徴的なのは、AIとのやり取りにJSONではなくMarkdownを採用した点です。公式ブログは「MarkdownはLLMのトークンあたりのコンテンツ密度が高く、一般的なユースケースでは（オープンソース版のMCPサーバーより）必要なツール呼び出しが少なく、コストも低い」と説明しています（Notion, 2025）。
 
-これは細かな最適化に見えて、エージェント運用では効いてきます。AIは文脈をトークンとして消費するため、同じ情報をより少ないトークンで表現できれば、1回の対話で扱える知識ベースの範囲が広がり、API利用料も抑えられます。Notionはこの方針のもと、`search`・`create-pages`・`update-page`・`create-comment` といったツールを「AIファースト」に設計・再実装したとしています（Notion, 2025）。
+これは細かな最適化に見えて、エージェント運用では効いてきます。AIは文脈をトークンとして消費するため、同じ情報をより少ないトークンで表現できれば、1回の対話で扱える知識ベースの範囲が広がり、API利用料も抑えられます。Notionはこの方針のもと、`search`・`create-pages`・`update-page`・`create-comment` といったツールを「AIファースト」に設計し直したとしています（前二者はゼロからの書き直し、`create-comment` は既存APIにAI向けの説明を補強したラッパーです）（Notion, 2025）。
 
 ### 知識ベースを検索・生成する
 
 ホスト型サーバーの `search` ツールは、単なるキーワード一致ではなく「質問によるセマンティック検索」に対応し、Notionワークスペースに加えて10種類以上の連携済み外部アプリを横断して関連ページを見つけられます（Notion, 2025）。AIは「先月のリリース手順はどこ？」のような自然言語の問いから該当ドキュメントへ辿り着けます。
 
-書き込み側では、`create-pages` と `update-page` がエージェント向けに書き直されています（Notion, 2025）。たとえば会議メモのページからタスク一覧を抽出して新しいページに整理する、設計判断をドキュメントへ追記する、といった操作をAIに委ねられます。一方で、ファイルアップロードは執筆時点では未対応で、ロードマップ上の機能とされています（Notion Developers, 2026）。連携でできることと、まだできないことを把握しておくのが実務上は重要です。
+書き込み側では、`create-pages` と `update-page` がエージェント向けに書き直されています（Notion, 2025）。たとえば会議メモのページからタスク一覧を抽出して新しいページに整理する、設計判断をドキュメントへ追記する、といった操作をAIに委ねられます。なおファイルアップロードは本記事の下書き時点（2026年6月）では未対応でしたが、その後 `create-file-upload` ツールが追加され、執筆時点では20 MiBまでのファイルを扱えるようになっています（Notion Developers, 2026）。連携でできることは更新が速いため、実装前に公式ドキュメントの現在の記述を確認するのが実務上は重要です。
 
 ## 実践への応用・考察
 
@@ -73,5 +73,5 @@ Notionのホスト型サーバーで特徴的なのは、AIとのやり取りに
 - Anthropic. (2025). *Donating the Model Context Protocol and establishing the Agentic AI Foundation*. 2026年6月閲覧. https://www.anthropic.com/news/donating-the-model-context-protocol-and-establishing-of-the-agentic-ai-foundation
 - Model Context Protocol. *Specification (2025-11-25)*. 2026年6月閲覧. https://modelcontextprotocol.io/specification/2025-11-25
 - Notion. (2025). *Notion's hosted MCP server: an inside look*. 2026年6月閲覧. https://www.notion.com/blog/notions-hosted-mcp-server-an-inside-look
-- Notion Developers. (2026). *Connecting to Notion MCP*. 2026年6月閲覧. https://developers.notion.com/guides/mcp/get-started-with-mcp
+- Notion Developers. (2026). *Connecting to Notion MCP*. 2026年8月閲覧. https://developers.notion.com/guides/mcp/get-started-with-mcp
 - makenotion/notion-mcp-server. *Official Notion MCP Server (GitHubリポジトリ)*. 2026年6月閲覧. https://github.com/makenotion/notion-mcp-server
