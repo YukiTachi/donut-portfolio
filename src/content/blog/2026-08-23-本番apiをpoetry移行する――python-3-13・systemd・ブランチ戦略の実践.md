@@ -4,7 +4,7 @@ description: 本番稼働中のFlask
   APIをvenv+requirements.txtからPoetryへ移行しました。systemd経由でpoetry
   runを叩いてPermission
   deniedに遭い、当初疑ったPrivateTmpは一次資料に当たると無関係だと判明します。ラッパースクリプトによる解決、package-mode =
-  falseの意味、Gemini→Claude APIへの依存入れ替えでパッケージ数が42から37に減った経緯、そして開発環境の移行が遅れている状況でのproductionブランチ戦略までを実録でまとめます。
+  falseの意味、Gemini→Claude APIへの依存入れ替えでパッケージ数が48から38に減った経緯、そして開発環境の移行が遅れている状況でのproductionブランチ戦略までを実録でまとめます。
 pubDate: 2026-08-23T19:12:00.000+09:00
 author: Yuki Tachi
 tags:
@@ -45,7 +45,7 @@ Python のバージョンを上げる動機ははっきりしています。Pyth
 
 ```ini
 [Service]
-ExecStart=/home/yukit/.local/bin/poetry run gunicorn -c gunicorn.conf.py app:app
+ExecStart=/home/appuser/.local/bin/poetry run gunicorn -c gunicorn.conf.py app:app
 ```
 
 結果は `Permission denied` で起動失敗。最初に疑ったのは `PrivateTmp=true` で、「セキュリティ機能がホームディレクトリを隠しているのではないか」という見立てでした。
@@ -58,15 +58,15 @@ ExecStart=/home/yukit/.local/bin/poetry run gunicorn -c gunicorn.conf.py app:app
 
 ```bash
 #!/bin/bash
-# /opt/5meals-api/start.sh
-export PYENV_ROOT="/home/yukit/.pyenv"
+# /opt/example-api/start.sh
+export PYENV_ROOT="/home/appuser/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
-cd /opt/5meals-api
-exec /home/yukit/.local/bin/poetry run gunicorn -c gunicorn.conf.py app:app
+cd /opt/example-api
+exec /home/appuser/.local/bin/poetry run gunicorn -c gunicorn.conf.py app:app
 ```
 
-ユニット側は `ExecStart=/opt/5meals-api/start.sh` に単純化されます。`exec` は systemd のシグナルを gunicorn へ直接届けるためです。なお gunicorn が `X-Forwarded-*` を既定で信頼するのは接続元が localhost のときだけです(Gunicorn, 2026)。
+ユニット側は `ExecStart=/opt/example-api/start.sh` に単純化されます。`exec` は systemd のシグナルを gunicorn へ直接届けるためです。なお本構成のように nginx を前段に置く場合の補足として、gunicorn が `X-Forwarded-*` を既定で信頼するのは接続元が localhost のときだけです(Gunicorn, 2026)。
 
 ### package-mode = false――アプリはパッケージではない
 
@@ -92,7 +92,7 @@ poetry add anthropic
 poetry remove google-api-python-client google-generativeai
 ```
 
-`add` は「必要なパッケージを `pyproject.toml` に追加してインストールする」コマンドです(Poetry, 2026b)。ここで効いたのがロックファイルによる解決でした。直接依存を2つ外しただけで、他から要求されなくなった推移的依存 19 個が消え、パッケージ数は 42 から 37 に。手管理の `requirements.txt` なら、この 19 個は消し忘れて残る負債になっていたはずです。
+`add` は「必要なパッケージを `pyproject.toml` に追加してインストールする」コマンドです(Poetry, 2026b)。ここで効いたのがロックファイルによる解決でした。直接依存を2つ外しただけで、他から要求されなくなった推移的依存 17 個が道連れに消えました。`anthropic` とその依存 8 個の追加を差し引いて、`poetry.lock` のパッケージ数は 48 から 38 へ(数値はロックファイルのgit履歴から実測)。手管理の `requirements.txt` なら、この 17 個は消し忘れて残る負債になっていたはずです。
 
 なお `remove` の説明に推移的依存の扱いは明記されていません。環境をロックファイルと厳密に一致させたいなら、「`poetry.lock` に追跡されていないパッケージを追加で削除する」と明記された `sync` のほうが意図が明確です(Poetry, 2026b)。
 
@@ -133,7 +133,7 @@ poetry add <追加されたパッケージ>          # 差分をPoetry側へ反�
 - `PrivateTmp=` は `/tmp` の隔離で、ホームを隠すのは `ProtectHome=`(systemd, 2026a)。症状が同じでも原因設定は別
 - systemd はシェルを介さず `ExecStart` を実行するため pyenv の shims 前提は成立しない(systemd, 2026b)
 - アプリケーションで Poetry を使うなら `package-mode = false`(Poetry, 2026a)
-- 直接依存を2つ外すと推移的依存 19 個が消え 42→37 に。ロックファイルの実利はここに出る
+- 直接依存を2つ外すと推移的依存 17 個が道連れに消える(追加分込みで 48→38)。ロックファイルの実利はここに出る
 - 移行進度がずれるときは、畳む条件を決めたうえで `production` ブランチを一時的に立てる
 
 次は開発環境を 3.13 + Poetry に揃え、`production` を `main` へ統合します。二重管理を前提にした構成は、終わらせるところまでが設計だと考えています。
