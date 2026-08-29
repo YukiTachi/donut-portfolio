@@ -11,7 +11,7 @@ tags:
   - SELinux
   - Laravel
   - CentOS Stream 9
-draft: true
+draft: false
 ---
 
 ## はじめに
