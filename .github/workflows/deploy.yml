@@ -47,6 +47,12 @@ jobs:
           ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
           "sudo rsync -av --delete /home/deploy/donut-portfolio-dist/ /usr/local/www/donut-software/ && sudo service nginx reload"
 
+    - name: Wait for deploy propagation
+      run: sleep 15
+
+    - name: Check internal links (invariant - direct 200 only)
+      run: bash scripts/check-internal-links.sh https://donut-software.com
+
     - name: Deployment notification
       if: success()
       run: echo "✅ Deployment successful! Site is live at https://donut-software.com"
