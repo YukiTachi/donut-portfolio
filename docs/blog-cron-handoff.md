@@ -1,13 +1,13 @@
 # ブログ記事自動生成システム構築タスク
 
-donut-portfolio に、cron経由で毎日19時に動くブログ記事自動生成システムを構築する。
+donut-portfolio に、cron経由で毎日03時(JST)に動くブログ記事自動生成システムを構築する。
 仕様は事前に決定済みなので、以下に従って段階的に実装してほしい。
 各Phaseの終わりに必ず確認を取ること。
 
 ## システム概要
 
 スマホ(Notion App)で音声入力 → Notion「ブログネタ」ページ
-→ FreeBSD cron(毎日19:00) → Claude Code 起動
+→ FreeBSD cron(毎日03:00 JST) → Claude Code 起動
 → Notion MCPで未処理ネタを1件取得 → Web検索でエビデンス収集
 → 記事生成(draft: true)→ git push → Notion更新 → メール通知
 

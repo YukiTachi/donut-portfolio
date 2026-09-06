@@ -5,8 +5,8 @@
 # Notion「ブログネタ」から 1 件取り出し、Claude Code を非対話モードで起動して
 # エビデンスベースのブログ記事(draft: true)を自動生成・push し、結果をメール通知する。
 #
-# cron での実行例(毎日 19:00):
-#   0 19 * * * /home/yukit/donut-portfolio/scripts/generate-blog.sh
+# cron での実行例(毎日 03:00 JST = 18:00 UTC。サーバは UTC なので 0 18 で登録):
+#   0 18 * * * /home/yukit/donut-portfolio/scripts/generate-blog.sh
 #
 # 仕様: docs/blog-cron-handoff.md / docs/blog-automation.md を参照。
 
@@ -252,7 +252,7 @@ build_auth_failure_body() {
   1. このサーバーに SSH ログイン
   2. claude を対話起動して再認証: claude → /login(ブラウザ認証を完了)
   3. 疎通確認: ${CLAUDE_BIN} --print "Reply with exactly: AUTH_OK"
-     → "AUTH_OK" が返れば復旧。次回 cron(翌日 19:00 JST)から自動で再開します。
+     → "AUTH_OK" が返れば復旧。次回 cron(翌日 03:00 JST)から自動で再開します。
   4. 今夜分をすぐ流したい場合は手動再実行: bash ${SCRIPT_DIR}/generate-blog.sh
 
 ■ 処理ログ
@@ -279,7 +279,7 @@ build_skip_body() {
 
 ■ ネタの追加方法
   スマホの Notion App で「ブログネタ」ページの「未処理」に箇条書きを 1 行追加してください。
-  次回(翌日 19:00)の実行時に自動で処理されます。
+  次回(翌日 03:00)の実行時に自動で処理されます。
 
 ■ Notion
   ${link_line}
