@@ -1,7 +1,9 @@
 ---
 title: CentOS Stream 9のKUSANAGI本番機を820パッケージ一括更新する――完了条件を先に設計する
-description: WordPressとメールサーバーが同居するKUSANAGI(CentOS Stream 9)の本番VPSで、カーネル・glibc・OpenSSL・openssh・PHP・MariaDBを含む820パッケージを`dnf upgrade`で一括更新した実録です。820個のうち本当に壊れうるのはSSH・TLS/DKIM・カーネル・PHPの4系統と見立て、「何を確認すれば完了と言えるか」を実行前に決めました。AIが提案した世代違いの手順をKUSANAGI公式で検証して訂正した経緯も含め、公式ドキュメントとdnf/rpmの一次資料に基づいて整理します。
-pubDate: 2026-09-01T19:00:00.000+09:00
+description: WordPressとメールサーバーが同居するKUSANAGI(CentOS Stream
+  9)の本番VPSで、カーネル・glibc・OpenSSL・openssh・PHP・MariaDBを含む820パッケージを`dnf
+  upgrade`で一括更新した実録です。820個のうち本当に壊れうるのはSSH・TLS/DKIM・カーネル・PHPの4系統と見立て、「何を確認すれば完了と言えるか」を実行前に決めました。AIが提案した世代違いの手順をKUSANAGI公式で検証して訂正した経緯も含め、公式ドキュメントとdnf/rpmの一次資料に基づいて整理します。
+pubDate: 2026-09-25T06:00:00.000+09:00
 author: Yuki Tachi
 tags:
   - CentOS Stream
@@ -10,7 +12,7 @@ tags:
   - 運用設計
   - メールサーバー
   - AI検証
-draft: true
+draft: false
 ---
 
 ## はじめに
