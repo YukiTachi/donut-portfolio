@@ -1,6 +1,6 @@
 ---
 title: MCP Connectorにローカルの自作MCPサーバを繋ぐ――Cloudflare Tunnelと接続トポロジの話
-description: ローカルで動くMCPサーバ、検証済みのトークン、それでもチャットは「接続に問題が発生しました」と言う――原因はコードではなく、接続の向きでした。Messages APIのMCP Connectorでは、MCPサーバに接続しに来るのは自分のマシンではなくAnthropic側のサーバです。localhostやhost.docker.internalが原理的に使えない理由を公式ドキュメントで確認し、cloudflaredのクイックトンネルで公開経路を作るまでの切り分けと、トンネルをどこで起動するか・何を防壁にするかという運用設計をまとめます。
+description: ローカルで動くMCPサーバ、検証済みのトークン、それでもチャットは「接続に問題が発生しています」と言う――原因はコードではなく、接続の向きでした。Messages APIのMCP Connectorでは、MCPサーバに接続しに来るのは自分のマシンではなくAnthropic側のサーバです。localhostやhost.docker.internalが原理的に使えない理由を公式ドキュメントで確認し、cloudflaredのクイックトンネルで公開経路を作るまでの切り分けと、トンネルをどこで起動するか・何を防壁にするかという運用設計をまとめます。
 pubDate: 2026-09-22T03:00:00.000+09:00
 author: Yuki Tachi
 tags:
@@ -16,7 +16,7 @@ draft: true
 
 ## はじめに
 
-トークンは検証済み、MCPサーバもローカルで起動している。なのにチャット画面は「AIサービスの接続に問題が発生しました」としか言わない――2026年9月に筆者が踏んだ事象です。
+トークンは検証済み、MCPサーバもローカルで起動している。なのにチャット画面は「AIサービスの接続に問題が発生しています」としか言わない――2026年9月に筆者が踏んだ事象です。
 
 結論から書くと、原因はコードでもトークンでもなく、**接続の向き**でした。Messages APIのMCP Connectorを使う構成では、MCPサーバに接続しに来るのは自分のマシンではなく、Anthropic側のサーバです。この一点を理解しておらず、「手元のcurlでは200が返るのに本番経路では絶対に動かない」状態を自分で作り込んでいました。
 
@@ -42,12 +42,12 @@ MCP Connectorは、別途MCPクライアントを実装しなくても、Message
 
 ### 障害点に直接触る――アプリのエラー表示は層が違う
 
-最初に見えていたのは、チャットUIの「AIサービスの接続に問題が発生しました」という文言だけでした。この手のメッセージは、たいてい自分で書いたエラーハンドリングの産物です。実際、`app/api/chat/route.ts` を読み直すと、Anthropic APIが返した400を握りつぶして502に変換していました。
+最初に見えていたのは、チャットUIの「AIサービスの接続に問題が発生しています」という文言だけでした。この手のメッセージは、たいてい自分で書いたエラーハンドリングの産物です。実際、`app/api/chat/route.ts` を読み直すと、Anthropic APIが返した400を握りつぶして502に変換していました。
 
 ```ts
 // 400（リクエスト不正）も500系も同じ扱いにしていた例
 catch (err) {
-  return NextResponse.json({ error: "AIサービスの接続に問題が発生しました" }, { status: 502 });
+  return NextResponse.json({ error: "AIサービスの接続に問題が発生しています" }, { status: 502 });
 }
 ```
 
@@ -111,9 +111,13 @@ MCP_SERVER_URL=https://<ランダム>.trycloudflare.com/mcp
 2. **公開の防壁はMCPサーバ自身のBearer認証に持たせる。** トンネルは経路を作るだけで、認可はしません。同じMCP仕様は、ローカル実行時にはサーバを `0.0.0.0` ではなく `127.0.0.1` にバインドすべき（SHOULD）とも述べています（Model Context Protocol, 2026b）。トンネルを張るのはこの推奨の外に自分で出ることなので、認証は前提条件になります。
 3. **検証は必ずトンネルURL経由で行ってから、アプリのE2Eに進む。** 同じ `curl` を、今度は外部経路に対して撃ちます。これで「相手から届く」ことを確かめたことになります。
 
+筆者の環境（2026年9月21日）では、トンネルURL経由でMCPの認証が通ることを確かめたうえで、チャットAPIのE2Eで応答がストリーミングで返り、ブラウザからも動くところまで確認しました。
+
 ## 実践への応用
 
 この解決策には隠しておくべきでない弱点があります。クイックトンネルは起動のたびにURLが変わるので、そのつど `.env` の更新が要ります。そしてCloudflareは「クイックトンネルはテストと開発のみを想定している」「TryCloudflareのSLAや稼働率は保証しない」と明記しています（Cloudflare, 2026）。恒常的に使うなら名前付きトンネルへの移行が筋です。筆者はまだ移行していませんが、URLの書き換えが頻発するなら移行コストのほうが安い、というのが主観的な感触です。
+
+もう1つ、同じページの制限事項には「Quick Tunnels do not support Server-Sent Events (SSE).」とあります（Cloudflare, 2026）。Streamable HTTPのMCPサーバはSSEで応答することがあり、本来は相性の悪い組み合わせです。筆者の環境ではトンネル経由の認証確認からチャットのE2Eまで通りましたが、これは実測の範囲の話で、公式にサポートされた構成ではありません。
 
 切り分けの手順は、次の順序が再利用できます。
 
@@ -128,7 +132,7 @@ MCP_SERVER_URL=https://<ランダム>.trycloudflare.com/mcp
 - MCP Connectorでは、MCPサーバに接続しに来るのはAnthropicのサーバであり、URLはインターネットから到達可能でなければならない（`localhost` や `host.docker.internal` は原理的に不可）
 - リクエストは `mcp_servers` と `tools` の `mcp_toolset` の両方が必要で、現行のベータヘッダは `mcp-client-2025-11-20`
 - アプリのエラー表示は自分の実装の産物なので、切り分けでは障害点に直接 `curl` を当てる
-- cloudflaredのクイックトンネルは有効な一時解だが、URLは毎回変わり、稼働率の保証もない。防壁はMCPサーバ自身の認証に持たせる
+- cloudflaredのクイックトンネルは有効な一時解だが、URLは毎回変わり、稼働率の保証もなく、公式にはSSE非対応。防壁はMCPサーバ自身の認証に持たせる
 - 検証した経路が本番の経路と同じかを、最後に必ず確認する
 
 次のアクションとしては、名前付きトンネルへの移行と、ローカル専用トークンの有効期限をCIから点検する仕組みを検討しています。
@@ -138,7 +142,7 @@ MCP_SERVER_URL=https://<ランダム>.trycloudflare.com/mcp
 ### 公式ドキュメント
 
 - Anthropic (2026). MCP connector. https://platform.claude.com/docs/en/agents-and-tools/mcp-connector （2026年9月閲覧）
-- Cloudflare (2026). TryCloudflare. https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/do-more-with-tunnels/trycloudflare/ （2026年9月閲覧）
+- Cloudflare (2026). TryCloudflare. https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/do-more-with-tunnels/trycloudflare/ （2026年9月閲覧）
 - Docker (2026). General FAQs for Docker Desktop. https://docs.docker.com/desktop/troubleshoot-and-support/faqs/general/ （2026年9月閲覧）
 - Model Context Protocol (2026a). Versioning. https://modelcontextprotocol.io/specification/versioning （2026年9月閲覧）
 - Model Context Protocol (2026b). Streamable HTTP (protocol revision 2026-07-28). https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http （2026年9月閲覧）
