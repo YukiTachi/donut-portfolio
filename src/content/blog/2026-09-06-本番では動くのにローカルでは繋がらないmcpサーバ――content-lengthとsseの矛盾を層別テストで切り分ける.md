@@ -1,7 +1,10 @@
 ---
 title: 本番では動くのにローカルでは繋がらないMCPサーバ――Content-LengthとSSEの矛盾を層別テストで切り分ける
-description: 同じコードのMCPサーバが、nginx経由の本番では動くのに、ローカルDockerへClaude Desktop＋mcp-remoteで繋ぐとinitializeが60秒でタイムアウトしました。curlで見つけた「text/event-streamにContent-Lengthが付く」矛盾レスポンスをRFC 9112とNode.jsのソースで読み解き、Expressで修正しても失敗が残った経緯を、curl・Claude Code直結・mcp-remoteの対照表で切り分けます。結論は、最初に見つけた異常が原因とは限らず、仲介層も容疑者に含めて層別に消していく、ということです。
-pubDate: 2026-09-06T19:00:00.000+09:00
+description: 同じコードのMCPサーバが、nginx経由の本番では動くのに、ローカルDockerへClaude
+  Desktop＋mcp-remoteで繋ぐとinitializeが60秒でタイムアウトしました。curlで見つけた「text/event-streamにContent-Lengthが付く」矛盾レスポンスをRFC
+  9112とNode.jsのソースで読み解き、Expressで修正しても失敗が残った経緯を、curl・Claude
+  Code直結・mcp-remoteの対照表で切り分けます。結論は、最初に見つけた異常が原因とは限らず、仲介層も容疑者に含めて層別に消していく、ということです。
+pubDate: 2026-10-09T06:00:00.000+09:00
 author: Yuki Tachi
 tags:
   - MCP
@@ -11,7 +14,7 @@ tags:
   - nginx
   - トラブルシューティング
   - Claude Code
-draft: true
+draft: false
 ---
 
 ## はじめに
