@@ -1,7 +1,9 @@
 ---
 title: MCP Connectorにローカルの自作MCPサーバを繋ぐ――Cloudflare Tunnelと接続トポロジの話
-description: ローカルで動くMCPサーバ、検証済みのトークン、それでもチャットは「接続に問題が発生しています」と言う――原因はコードではなく、接続の向きでした。Messages APIのMCP Connectorでは、MCPサーバに接続しに来るのは自分のマシンではなくAnthropic側のサーバです。localhostやhost.docker.internalが原理的に使えない理由を公式ドキュメントで確認し、cloudflaredのクイックトンネルで公開経路を作るまでの切り分けと、トンネルをどこで起動するか・何を防壁にするかという運用設計をまとめます。
-pubDate: 2026-09-22T03:00:00.000+09:00
+description: ローカルで動くMCPサーバ、検証済みのトークン、それでもチャットは「接続に問題が発生しています」と言う――原因はコードではなく、接続の向きでした。Messages
+  APIのMCP
+  Connectorでは、MCPサーバに接続しに来るのは自分のマシンではなくAnthropic側のサーバです。localhostやhost.docker.internalが原理的に使えない理由を公式ドキュメントで確認し、cloudflaredのクイックトンネルで公開経路を作るまでの切り分けと、トンネルをどこで起動するか・何を防壁にするかという運用設計をまとめます。
+pubDate: 2026-10-16T06:00:00.000+09:00
 author: Yuki Tachi
 tags:
   - MCP
@@ -11,7 +13,7 @@ tags:
   - Docker
   - ローカル開発
   - トラブルシューティング
-draft: true
+draft: false
 ---
 
 ## はじめに
