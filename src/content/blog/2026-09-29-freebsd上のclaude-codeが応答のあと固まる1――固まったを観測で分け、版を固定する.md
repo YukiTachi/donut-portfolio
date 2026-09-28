@@ -30,7 +30,7 @@ WezTerm → WSL → ssh → FreeBSD 15.1-RELEASE-p2 (arm64) 上の tmux → Clau
 
 Claude Codeの公式の対応OSは macOS・Windows・Ubuntu・Debian・Alpine Linux で、FreeBSDは含まれません（Anthropic, 2026a）。それでも動くのは、FreeBSDのLinuxバイナリ互換機能、通称Linuxulatorのおかげです。これは改変なしのLinuxバイナリを実行する仕組みで、Linuxのプログラムも通常のFreeBSDプロセスとして動き、いつもの方法でトレースやデバッグができます（FreeBSD Project, 2026a）。ユーザーランドは `linux_base-rl9`（Rocky Linux 9ベース）を使っています。15.1への更新手順は「[pkgbase時代のFreeBSDアップグレード実践](/blog/2026-06-20-pkgbase時代のfreebsdアップグレード実践awsで150から151へ/)」に書きました。
 
-ネイティブ版のClaude CodeはBunでビルドされたLinuxバイナリです（FreeBSD Project, 2026d）。手元でも `file` で確かめると `ELF 64-bit LSB executable, ARM aarch64 ... for GNU/Linux` と出ます。
+FreeBSDのバグ報告によれば、ネイティブ版のClaude CodeはBunでビルドされたLinuxバイナリです（FreeBSD Project, 2026d）。手元でも `file` で確かめると `ELF 64-bit LSB executable, ARM aarch64 ... for GNU/Linux` と出ます。
 
 課題は2つありました。原因を突き止める前に仕事を再開できる状態に戻すこと、そして「固まった」の正体を推測ではなく観測で確定することです。
 
@@ -38,7 +38,7 @@ Claude Codeの公式の対応OSは macOS・Windows・Ubuntu・Debian・Alpine Li
 
 ### 既知の不具合を探す
 
-まずissueを探しました。GitHubの #96931 は2026年9月25日起票で、2.1.282以降、対話セッションが0〜90秒でキー入力を受け付けなくなり、2.1.281に戻すと直る、という報告です。環境はFreeBSD 15.1-RELEASEのLinuxulatorで、プロセスは生きたままCPU約0%とされています（kharluu76, 2026）。別の利用者もFreeBSD 15.0上で同じ症状を確認していました。
+まずissueを探しました。GitHubの #96931 は2026年9月25日起票で、2.1.282以降、対話セッションが0〜90秒でキー入力を受け付けなくなり、2.1.281に戻すと直る、という報告です。環境はFreeBSD 15.1-RELEASEのLinuxulatorで、プロセスは生きたままCPU約0%とされています（kharluu76, 2026）。別の利用者も、FreeBSD 15.0の環境で2.1.281に戻して使っていると報告していました。
 
 手元の2.1.283でも再現しました。筆者はFreeBSDの版、`linux_base` の版、端末構成、arm64であることを揃えて同じissueに追記しています。環境情報を揃えて書くのは、「自分も」だけのコメントより切り分けに役立つからです。
 
@@ -52,7 +52,7 @@ Claude Codeの公式の対応OSは macOS・Windows・Ubuntu・Debian・Alpine Li
 [DEBUG] prompt.edit: unhooked; the composer relays nothing
 ```
 
-「同じバグだ」と判断しかけましたが、これは誤りでした。行番号を見ると、どのログでも起動直後の5〜114行目に出ています。起動時に毎回出る行で、固まった瞬間の記録ではありません。issueの起票者自身も、この行は毎回起動時に出るので引き金ではないかもしれない、と注記していました（kharluu76, 2026）。しかも筆者が開いていたのは、正常終了した別セッションのログでした。
+「同じバグだ」と判断しかけましたが、これは誤りでした。行番号を見ると、調べた2つのログでは、いずれも起動直後（5行目と114行目）に出ていました。起動時に毎回出る行で、固まった瞬間の記録ではありません。issueの起票者自身も、この行は毎回起動時に出るので引き金ではないかもしれない、と注記していました（kharluu76, 2026）。しかも筆者が開いていたのは、正常終了した別セッションのログでした。
 
 `grep` のヒットは「その文字列がある」ことしか示しません。時刻と行番号、そしてどのセッションのログかを確かめて、初めて「その時点で起きた」と言えます。
 
@@ -103,14 +103,14 @@ mi_switch sleepq_catch_signals sleepq_wait_sig _sleep umtxq_sleep linux_sys_fute
 Unsupported operating system: FreeBSD. See https://code.claude.com/docs for supported platforms.
 ```
 
-スクリプトが `uname -s` で分岐しているためです。一方、本体の `claude install` は版の指定を受け付けます（Anthropic, 2026b）。
+スクリプトは `uname -s` の結果が Darwin か Linux でなければ、この時点で終了します（Anthropic, 2026c）。一方、本体の `claude install` は版の指定を受け付けます（Anthropic, 2026b）。
 
 ```sh
 claude install 2.1.281
 claude --version   # 2.1.281 (Claude Code)
 ```
 
-こちらが通るのは、本体がLinuxバイナリとしてLinuxulator上で動き、OSをLinuxと認識するからだと筆者は理解しています（挙動からの推測で、実装は確認していません）。
+実はスクリプト自身も、最後はダウンロードした本体に `claude install <版>` を実行させる作りです（Anthropic, 2026c）。つまり版の切り替えそのものは本体の `claude install` が担っており、すでに入っている本体から直接呼べば、スクリプトのOS判定を通らずに済みます。本体はLinuxulator上でLinuxバイナリとして動くので、FreeBSDでもそのまま実行できます。
 
 ### 自動更新を止め、調査用の版は別に起動する
 
@@ -128,7 +128,7 @@ claude --version   # 2.1.281 (Claude Code)
 
 ### 版の固定は応急処置にすぎない
 
-ここは強調しておきます。FreeBSDのBug 298878とその修正コミットによれば、影響を受けるのはClaude Code 2.1.269以降で、原因はLinuxulator側（`linux64.ko`）にあります（FreeBSD Project, 2026d, 2026e）。amd64で修正を確認した利用者も、2.1.281は頻度が低いだけで同じ問題を抱えているはずだと書いています（FreeBSD Project, 2026d）。2.1.281への固定は発生頻度を下げる手当てで、根本的な修正はカーネル側です。詳細は第3部で扱います。
+ここは強調しておきます。FreeBSDのBug 298878とその修正コミットによれば、影響を受けるのはClaude Code 2.1.269以降で、原因はLinuxulator側（`linux64.ko`）にあります（FreeBSD Project, 2026d, 2026e）。amd64で修正を確認した利用者も、2.1.281は頻度が低いだけで同じ問題を抱えているはずだと書いています（FreeBSD Project, 2026d）。2.1.281への固定は発生頻度を下げる手当てで、根本的な修正はカーネル側です。この修正は2026年9月27日にFreeBSDのmainブランチへコミット済みで、コミットメッセージによればstable/15へは約1週間後に取り込まれる予定です（FreeBSD Project, 2026e）。詳細は第3部で扱います。
 
 ## まとめ
 
@@ -136,7 +136,7 @@ claude --version   # 2.1.281 (Claude Code)
 - ログの `grep` ヒットは「その時点で起きた」証拠ではない。行番号・時刻・セッションを確かめる
 - `ps -o stat,%cpu,wchan` で大枠を、`procstat -kk` でスレッドが何を待っているかを確定する
 - FreeBSDでは公式インストーラは弾かれるが、本体の `claude install <版>` で切り戻せる。固定は `DISABLE_AUTOUPDATER`
-- 版の固定は応急処置。本当の修正はLinuxulator側にある
+- 版の固定は応急処置。本当の修正はLinuxulator側にあり、FreeBSDのmainでは修正済み
 
 次回（第2部）は、メインスレッドが「なぜ」futexで眠ったままになったのかを、ktraceとDTraceで追います。
 
@@ -150,6 +150,7 @@ claude --version   # 2.1.281 (Claude Code)
 
 - Anthropic. (2026a). *Advanced setup*. Claude Code Docs. 2026年9月閲覧. https://code.claude.com/docs/en/setup
 - Anthropic. (2026b). *CLI reference*. Claude Code Docs. 2026年9月閲覧. https://code.claude.com/docs/en/cli-reference
+- Anthropic. (2026c). *install.sh*（Claude Code インストールスクリプト）. 2026年9月閲覧. https://claude.ai/install.sh
 - FreeBSD Project. (2026a). *Chapter 12. Linux Binary Compatibility*. FreeBSD Handbook. 2026年9月閲覧. https://docs.freebsd.org/en/books/handbook/linuxemu/
 - FreeBSD Project. (2026b). *ps(1)*. FreeBSD Manual Pages（15.1-RELEASE）. 2026年9月閲覧. https://man.freebsd.org/cgi/man.cgi?query=ps&sektion=1
 - FreeBSD Project. (2026c). *procstat(1)*. FreeBSD Manual Pages（15.1-RELEASE）. 2026年9月閲覧. https://man.freebsd.org/cgi/man.cgi?query=procstat&sektion=1
