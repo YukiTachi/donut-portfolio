@@ -1,7 +1,9 @@
 ---
 title: FreeBSD上のClaude Codeが応答のあと固まる（1）――「固まった」を観測で分け、版を固定する
-description: FreeBSD 15.1（arm64）のLinuxulator上で動かしていたClaude Code 2.1.283が、応答の直後からキー入力を受け付けなくなりました。「固まった」を、プロセスが死んだ・入力が切り離された・処理が詰まった・スレッドが眠った、の4つに分けて観測し、psとprocstatでメインスレッドがfutexで眠り続けていると確定するまでの記録です。回避策として、公式インストーラが弾くFreeBSDでも本体のclaude installで2.1.281に戻し、DISABLE_AUTOUPDATERで固定する手順を示します。3部作の第1部です。
-pubDate: 2026-09-29T03:00:00.000+09:00
+description: FreeBSD 15.1（arm64）のLinuxulator上で動かしていたClaude Code
+  2.1.283が、応答の直後からキー入力を受け付けなくなりました。「固まった」を、プロセスが死んだ・入力が切り離された・処理が詰まった・スレッドが眠った、の4つに分けて観測し、psとprocstatでメインスレッドがfutexで眠り続けていると確定するまでの記録です。回避策として、公式インストーラが弾くFreeBSDでも本体のclaude
+  installで2.1.281に戻し、DISABLE_AUTOUPDATERで固定する手順を示します。3部作の第1部です。
+pubDate: 2026-10-30T06:00:00.000+09:00
 author: Yuki Tachi
 tags:
   - FreeBSD
@@ -9,7 +11,7 @@ tags:
   - Claude Code
   - トラブルシューティング
   - procstat
-draft: true
+draft: false
 ---
 
 ## はじめに
