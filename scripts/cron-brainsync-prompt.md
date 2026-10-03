@@ -54,6 +54,22 @@
      ブロックコメントの対応が崩れると管理画面でブロック検証エラーになる。
    - **構成**: 冒頭の日付署名行 → 導入 → 番号付き H2 セクション(H3 は `2-1` のように親番号を継ぐ)
      → まとめ → BrainSync の CTA → 参考文献 → 関連記事。区切り線(`<!-- wp:separator -->`)で節を分ける。
+   - **CTA**: 「まとめ」の後に、次のマークアップを**そのまま**置く(文言・リンク・属性を変えない)。
+     `<style>` 要素は**書かない**。`<div class="cta-block">` とその中の `<p>`・`<a>` には `style` 属性を**付けない**。
+     見た目は WordPress テーマの `.cta-block` で決まる。既存記事の CTA と違っていても、このマークアップに従う。
+     (後ろの Open VSX 案内の段落は CTA の枠外の文で、この `style` 属性は既存記事どおり残す)
+     ```
+     <!-- wp:html -->
+     <div class="cta-block">
+       <p>休憩のタイミングを自動で知らせるポモドーロタイマー。無料でインストールできます。</p>
+       <a href="https://marketplace.visualstudio.com/items?itemName=donut-service.brainsync-focus-timer" target="_blank" rel="noopener">BrainSync Focus Timer をインストールする →</a>
+     </div>
+     <!-- /wp:html -->
+
+     <!-- wp:paragraph -->
+     <p style="font-size:14px;text-align:center;">Cursor をお使いの場合は <a href="https://open-vsx.org/extension/donut-service/brainsync-focus-timer" target="_blank" rel="noopener">Open VSX 版</a> をご利用ください。</p>
+     <!-- /wp:paragraph -->
+     ```
    - **分量**: 3,000〜4,000 字程度。
    - **コード・コマンド名**: 必ず `<code>` を使う。`<strong>` で代用しない
      (2026-07-26 に `<code>i2cdetect</code>` が `<strong>` に置き換わる事故が発生している)。
@@ -74,6 +90,7 @@
    - [ ] 引用符で囲んだ箇所は原文と逐語一致している(切り詰めていない)
    - [ ] 出典より踏み込んだ断定をしていない(出典が「5.x」なら本文も「5.x」)
    - [ ] Gutenberg ブロックコメントの対応が取れている
+   - [ ] CTA は手順6の指定どおりのマークアップで、記事に `<style>` 要素がなく、`.cta-block` の div と中身に `style` 属性がない
    - [ ] コマンド名・コードは `<code>` で囲まれている
    - [ ] 内部リンクの URL は実在の permalink である
    - [ ] 医療助言に読める記述がない。免責の一文がある
