@@ -130,7 +130,7 @@ claude --version   # 2.1.281 (Claude Code)
 
 ### 版の固定は応急処置にすぎない
 
-ここは強調しておきます。FreeBSDのBug 298878とその修正コミットによれば、影響を受けるのはClaude Code 2.1.269以降で、原因はLinuxulator側（`linux64.ko`）にあります（FreeBSD Project, 2026d, 2026e）。amd64で修正を確認した利用者も、2.1.281は頻度が低いだけで同じ問題を抱えているはずだと書いています（FreeBSD Project, 2026d）。2.1.281への固定は発生頻度を下げる手当てで、根本的な修正はカーネル側です。この修正は2026年9月27日にFreeBSDのmainブランチへコミット済みで、コミットメッセージによればstable/15へは約1週間後に取り込まれる予定です（FreeBSD Project, 2026e）。詳細は第3部で扱います。
+ここは強調しておきます。FreeBSDのBug 298878とその修正コミットによれば、影響を受けるのはClaude Code 2.1.269以降で、原因はLinuxulator側（`linux64.ko`）にあります（FreeBSD Project, 2026d, 2026e）。amd64で修正を確認した利用者も、2.1.281は頻度が低いだけで同じ問題を抱えているはずだと書いています（FreeBSD Project, 2026d）。2.1.281への固定は発生頻度を下げる手当てで、根本的な修正はカーネル側です。この修正は2026年9月27日にFreeBSDのmainブランチへ（FreeBSD Project, 2026e）、10月4日にstable/15へコミットされました（FreeBSD Project, 2026f）。stable/15の修正は次のFreeBSD 15.2-RELEASEに含まれる見込みですが、15.1-RELEASEの利用者に届くかは、Errata Notice（正誤修正の告知）が出るかどうか次第です。詳細は第3部で扱います。
 
 ## まとめ
 
@@ -138,7 +138,7 @@ claude --version   # 2.1.281 (Claude Code)
 - ログの `grep` ヒットは「その時点で起きた」証拠ではない。行番号・時刻・セッションを確かめる
 - `ps -o stat,%cpu,wchan` で大枠を、`procstat -kk` でスレッドが何を待っているかを確定する
 - FreeBSDでは公式インストーラは弾かれるが、本体の `claude install <版>` で切り戻せる。固定は `DISABLE_AUTOUPDATER`
-- 版の固定は応急処置。本当の修正はLinuxulator側にあり、FreeBSDのmainでは修正済み
+- 版の固定は応急処置。本当の修正はLinuxulator側にあり、FreeBSDのmainとstable/15では修正済み（15.1-RELEASEへの提供は未定）
 
 次回（第2部）は、メインスレッドが「なぜ」futexで眠ったままになったのかを、ktraceとDTraceで追います。
 
@@ -158,6 +158,7 @@ claude --version   # 2.1.281 (Claude Code)
 - FreeBSD Project. (2026c). *procstat(1)*. FreeBSD Manual Pages（15.1-RELEASE）. 2026年9月閲覧. https://man.freebsd.org/cgi/man.cgi?query=procstat&sektion=1
 - FreeBSD Project. (2026d). *Bug 298878 - linux(4): epoll_pwait(2)/epoll_pwait2(2) with a sigmask leave a stale signal mask, deadlocking Bun apps (Claude Code, opencode)*. FreeBSD Bugzilla. 2026年9月閲覧. https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=298878
 - FreeBSD Project. (2026e). *linux(4): Fix signal mask restoration in epoll_pwait(2)/epoll_pwait2(2)*（commit 16a284b1cdfd）. 2026年9月閲覧. https://cgit.freebsd.org/src/commit/?id=16a284b1cdfd45ba99c2723e7f88497e76b235ad
+- FreeBSD Project. (2026f). *Bug 298878 - linux(4): epoll_pwait(2)/epoll_pwait2(2) with a sigmask leave a stale signal mask, deadlocking Bun apps (Claude Code, opencode)*, Comment #9（stable/15 へのコミット 0143078248bb の通知）. FreeBSD Bugzilla. 2026年10月閲覧. https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=298878#c9
 
 ### Web記事
 
