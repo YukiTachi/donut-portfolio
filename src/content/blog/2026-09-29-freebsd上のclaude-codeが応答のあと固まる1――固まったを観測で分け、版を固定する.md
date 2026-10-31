@@ -132,6 +132,8 @@ claude --version   # 2.1.281 (Claude Code)
 
 ここは強調しておきます。FreeBSDのBug 298878とその修正コミットによれば、影響を受けるのはClaude Code 2.1.269以降で、原因はLinuxulator側（`linux64.ko`）にあります（FreeBSD Project, 2026d, 2026e）。amd64で修正を確認した利用者も、2.1.281は頻度が低いだけで同じ問題を抱えているはずだと書いています（FreeBSD Project, 2026d）。2.1.281への固定は発生頻度を下げる手当てで、根本的な修正はカーネル側です。この修正は2026年9月27日にFreeBSDのmainブランチへ（FreeBSD Project, 2026e）、10月4日にstable/15へコミットされました（FreeBSD Project, 2026f）。stable/15の修正は次のFreeBSD 15.2-RELEASEに含まれる見込みですが、15.1-RELEASEの利用者に届くかは、Errata Notice（正誤修正の告知）が出るかどうか次第です。詳細は第3部で扱います。
 
+カーネルを入れ替えられない15.1-RELEASEの環境向けには、別の利用者から回避策の報告もあります。Claude Codeの起動時に環境変数 `BUN_JSC_useConcurrentGC=0` を渡してJavaScriptCoreの並行GCを止めると、修正前のカーネルでも2.1.301が固まらずに動いたというものです（morganwdavis, 2026）。この変数は `~/.claude/settings.json` の `env` に書いても効かず、`BUN_JSC_useConcurrentGC=0 claude` のように起動時の環境で渡す必要があると報告されています（morganwdavis, 2026）。筆者の環境ではまだ試していないため、ここでは報告の紹介にとどめます。
+
 ## まとめ
 
 - 「固まった」は、死んだ・入力が切り離された・詰まった・眠った、の4つに分けて観測する
@@ -164,4 +166,5 @@ claude --version   # 2.1.281 (Claude Code)
 
 - davidpmclaughlin. (2026). *Claude Code freezes/hangs with no input accepted — 100% write ratio in terminal renderer*（Issue #25286）. GitHub. 2026年9月閲覧. https://github.com/anthropics/claude-code/issues/25286
 - kharluu76. (2026). *[Bug] Input box stops accepting keystrokes in 2.1.282 after 0-90 seconds into session*（Issue #96931）. GitHub. 2026年9月閲覧. https://github.com/anthropics/claude-code/issues/96931
+- morganwdavis. (2026). *[BUG] Deadlock after a few turns under FreeBSD Linuxulator (Remote-SSH): JSC concurrent GC, regression after 2.1.281*（Issue #99132）. GitHub. 2026年10月閲覧. https://github.com/anthropics/claude-code/issues/99132
 - shinglokto. (2026). Comment on Issue #25286. GitHub. 2026年9月閲覧. https://github.com/anthropics/claude-code/issues/25286#issuecomment-4162092381
