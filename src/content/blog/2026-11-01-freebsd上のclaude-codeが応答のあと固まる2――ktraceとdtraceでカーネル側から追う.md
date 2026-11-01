@@ -1,7 +1,8 @@
 ---
 title: FreeBSD上のClaude Codeが応答のあと固まる（2）――ktraceとDTraceでカーネル側から追う
-description: Linuxulator上で固まったClaude Code 2.1.283を、FreeBSD側の道具だけで追いました。ktraceでfutexとシグナルを記録し、メインスレッドと別スレッドの相互待ち、保留されたままブロックされたSIGPWR、DTraceで見えたマスク操作の3段パターンまでを観測した記録です。この時点で立てた「アプリ側の手順上の競合」という仮説と、それが誤りだったことまでを扱う3部作の第2部です。
-pubDate: 2026-11-01T03:00:00.000+09:00
+description: Linuxulator上で固まったClaude Code
+  2.1.283を、FreeBSD側の道具だけで追いました。ktraceでfutexとシグナルを記録し、メインスレッドと別スレッドの相互待ち、保留されたままブロックされたSIGPWR、DTraceで見えたマスク操作の3段パターンまでを観測した記録です。この時点で立てた「アプリ側の手順上の競合」という仮説と、それが誤りだったことまでを扱う3部作の第2部です。
+pubDate: 2026-11-13T06:00:00.000+09:00
 author: Yuki Tachi
 tags:
   - FreeBSD
@@ -10,7 +11,7 @@ tags:
   - DTrace
   - ktrace
   - トラブルシューティング
-draft: true
+draft: false
 ---
 
 ## はじめに
