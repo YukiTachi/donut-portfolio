@@ -82,23 +82,23 @@ AST（ユーザーモードへ戻る直前に実行されるカーネルの後�
 186043 2.1.283 974.937826 RET  linux_rt_sigsuspend -1 errno -4 Interrupted system call
 ```
 
-SIGPWR（kdump上は `SIGRT33`）のハンドラの中で `rt_sigsuspend` が呼ばれ、入れ子のSIGPWRで戻っています。`kern_sigsuspend()` は呼び出し時のマスクを `td_oldsigmask` に保存するので（FreeBSD Project, 2026c）、ここに「ハンドラ実行中＝SIGPWRをブロックしたマスク」が残ります。以後、メインが `epoll_pwait2` から戻るたびにASTがそのマスクを復元し、メインはSIGPWRをブロックした状態になります。約30秒後の2回目の停止要求は、`EINTR` ごと消え、`PB`（保留・ブロック中）のまま誰も応答しません。
+SIGPWR（kdump上は `SIGRT33`）のハンドラの中で `rt_sigsuspend` が呼ばれ、入れ子のSIGPWRで戻っています。`kern_sigsuspend()` は呼び出し時のマスクを `td_oldsigmask` に保存するので（FreeBSD Project, 2026c）、ここに「ハンドラ実行中＝SIGPWRをブロックしたマスク」が残ります。以後、メインが `epoll_pwait2` から戻るたびにASTがそのマスクを復元し、メインはSIGPWRをブロックした状態になります。約30秒後の次の停止要求は、`EINTR` ごと消え、`PB`（保留・ブロック中）のまま誰も応答しません。
 
 修正コミットの説明も同じ筋道を述べています。JavaScriptCore（BunのJSエンジン）はGCのスタック走査のためSIGPWRでスレッドを止め、ハンドラ内でSIGPWRをブロックしたまま `sigsuspend` する。Bunは常に空のマスクを `epoll_pwait2` に渡す。影響はClaude Code 2.1.269以降とopencodeだとしています（Junka, 2026a）。
 
-この鎖で、「1回目は動き、2回目で固まる」「本物のLinuxでは起きない」「amd64・arm64の両方で起きる」がすべて説明できます。第2部のDTraceで見た3段のマスク変化も、スタックは取っていないので推定ですが、epollの一時マスクの出し入れとASTによる復元だったと考えられます。2.1.282で頻度が上がった理由は、筆者には分かっていません。
+この鎖で、「しばらく動いたあと、ある停止要求で固まる」「本物のLinuxでは起きない」「amd64・arm64の両方で起きる」がすべて説明できます。第2部のDTraceで見た3段のマスク変化も、スタックは取っていないので推定ですが、epollの一時マスクの出し入れとASTによる復元だったと考えられます。2.1.282で頻度が上がった理由は、筆者には分かっていません。
 
 ### 最小再現
 
-Claude Codeなしの再現プログラムをCで書きました。WSL上で `aarch64-linux-gnu-gcc -O2 -static -pthread` でビルドし、同じバイナリをLinux（WSL2、5.15系）とFreeBSD 15.1（arm64）で実行します。
+Claude Codeなしの再現プログラムをCで書きました。同じソースをWSL上でx86_64用とaarch64用にそれぞれビルドし（aarch64用は `aarch64-linux-gnu-gcc -O2 -static -pthread`）、x86_64版をLinux（WSL2、5.15系）で、aarch64版をFreeBSD 15.1（arm64）で実行しました。
 
 - テストA：通常はブロックしているSIGUSR1を一時マスクでのみ許可し、`epoll_pwait` 中に別スレッドから送る
 - テストB：`sigsuspend` の後に単純な `epoll_pwait` を呼び、目印のSIGUSR2がブロック状態に化けないか見る
 
 | 環境 | テストA | テストB |
 |------|---------|---------|
-| Linux 5.15（WSL2） | -1・EINTR、マスク正常 | 目印ブロックなし |
-| FreeBSD 15.1（修正前） | 0を返しマスクが壊れる | 目印がブロックされる |
+| Linux 5.15（WSL2、x86_64） | -1・EINTR、マスク正常 | 目印ブロックなし |
+| FreeBSD 15.1（arm64、修正前） | 0を返しマスクが壊れる | 目印がブロックされる |
 
 ソースはBug 298878の[Comment 8](https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=298878#c8)に添付しています。
 
@@ -110,11 +110,14 @@ GitHubのissue #96931では、第2部の仮説を投稿した当日のうちに�
 
 ### パッチを当てて確かめる
 
-修正コミットをreleng/15.1のソースに当て、`linux64.ko` だけを作り直しました。
+cgitからmainの修正コミット（16a284b1cdfd）をパッチ形式で取得してreleng/15.1のソースに当て、`linux64.ko` だけを作り直しました。stable/15のコミット（0143078248bb）も同じ変更です。
 
 ```sh
 git clone --depth 1 --filter=blob:none --sparse -b releng/15.1 https://git.freebsd.org/src.git ~/src
 cd ~/src && git sparse-checkout set sys && git sparse-checkout add include
+fetch -o /tmp/pr298878.patch \
+  'https://cgit.freebsd.org/src/patch/?id=16a284b1cdfd45ba99c2723e7f88497e76b235ad'
+cd ~/src && git apply --check /tmp/pr298878.patch && git apply /tmp/pr298878.patch
 cd ~/src/sys/arm64/conf && config -d /tmp/kbuild-generic GENERIC
 cd ~/src/sys/modules/linux64
 make SRCTOP=$HOME/src SYSDIR=$HOME/src/sys KERNBUILDDIR=/tmp/kbuild-generic
