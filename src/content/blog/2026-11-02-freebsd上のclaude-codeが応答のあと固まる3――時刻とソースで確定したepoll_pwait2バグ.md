@@ -1,7 +1,8 @@
 ---
 title: FreeBSD上のClaude Codeが応答のあと固まる（3）――時刻とソースで確定したepoll_pwait2バグ
-description: 第2部で立てた「アプリ側の競合」という仮説は誤りでした。ktraceを時刻順に並べ直すと、イベントループのepoll_pwait2がシグナルを受けたのにEINTRではなく0を返していました。Linuxulatorのソースを読み、古いシグナルマスクが復元される仕組みを特定し、最小再現でLinuxと比較し、同じ日に報告されていたFreeBSD Bug 298878に確認結果で合流するまでの記録です。3部作の第3部です。
-pubDate: 2026-11-02T06:00:00.000+09:00
+description: 第2部で立てた「アプリ側の競合」という仮説は誤りでした。ktraceを時刻順に並べ直すと、イベントループのepoll_pwait2がシグナルを受けたのにEINTRではなく0を返していました。Linuxulatorのソースを読み、古いシグナルマスクが復元される仕組みを特定し、最小再現でLinuxと比較し、同じ日に報告されていたFreeBSD
+  Bug 298878に確認結果で合流するまでの記録です。3部作の第3部です。
+pubDate: 2026-11-20T06:00:00.000+09:00
 author: Yuki Tachi
 tags:
   - FreeBSD
@@ -10,7 +11,7 @@ tags:
   - ktrace
   - カーネル
   - トラブルシューティング
-draft: true
+draft: false
 ---
 
 ## はじめに
