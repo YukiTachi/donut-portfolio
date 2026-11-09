@@ -46,6 +46,7 @@ WP_ADMIN_BASE="https://donut-service.com/wp-admin"
 # Astro 版と衝突しないよう、ロック・ログはすべて別名にする
 LOCKFILE="/tmp/brainsync-blog-cron.lock"
 TIMEOUT_SECS=3600            # Claude Code 実行のタイムアウト(60 分)
+SNAPSHOT_BEFORE_SECS=300     # タイムアウトの何秒前にプロセス状態をログへ記録するか
 LOG_DIR="${HOME}/log"
 LOG_PREFIX="brainsync-cron"
 LOG_RETENTION_DAYS=30
@@ -98,6 +99,39 @@ acquire_lock() {
   fi
   log "ロックの取得に失敗しました。起動を中止します。"
   exit 1
+}
+
+# ===== 終了しない Claude Code の状態記録 =========================================
+# 結果を出力したあとプロセスが終了せずタイムアウトした例がある(2026-11-09)。
+# 強制終了後は原因を追えないため、タイムアウト前に子孫プロセスの状態をログへ残す。
+
+# descendants <pid> : 子孫プロセスの PID を列挙する
+descendants() {
+  local child
+  for child in $(pgrep -P "$1" 2>/dev/null); do
+    echo "${child}"
+    descendants "${child}"
+  done
+}
+
+# snapshot_processes <root_pid> : ps と procstat -kk の結果をログへ追記する
+snapshot_processes() {
+  local root_pid="$1"
+  local pids
+  pids="$(descendants "${root_pid}" | tr '\n' ' ')"
+  log "Claude Code が終了していません。プロセス状態を記録します(対象 PID: ${pids:-なし})。"
+  [[ -z "${pids}" ]] && return 0
+  {
+    echo "----- ps (stat / wchan) -----"
+    # shellcheck disable=SC2086
+    ps -o pid,ppid,stat,wchan,%cpu,etime,command -p "$(echo ${pids} | tr ' ' ',')" | cut -c1-200   # 引数のプロンプト全文を省く
+    local pid
+    for pid in ${pids}; do
+      echo "----- procstat -kk ${pid} -----"
+      procstat -kk "${pid}" 2>&1
+    done
+    echo "----- 記録ここまで -----"
+  } >> "${LOG_FILE}" 2>&1
 }
 
 # ===== ログローテーション =======================================================
@@ -398,8 +432,21 @@ main() {
   "${TIMEOUT_BIN}" -k 30s "${TIMEOUT_SECS}s" \
     "${CLAUDE_BIN}" --print \
     --dangerously-skip-permissions \
-    "${prompt_text}" > "${CLAUDE_OUT}" 2>&1
+    "${prompt_text}" > "${CLAUDE_OUT}" 2>&1 < /dev/null &
+  local timeout_pid=$!
+
+  # タイムアウトの SNAPSHOT_BEFORE_SECS 秒前になっても動いていれば状態を記録する
+  (
+    sleep $(( TIMEOUT_SECS - SNAPSHOT_BEFORE_SECS ))
+    kill -0 "${timeout_pid}" 2>/dev/null && snapshot_processes "${timeout_pid}"
+  ) &
+  local watcher_pid=$!
+
+  wait "${timeout_pid}"
   local cc_rc=$?
+  pkill -P "${watcher_pid}" 2>/dev/null   # 待機中の sleep を止める
+  kill "${watcher_pid}" 2>/dev/null
+  wait "${watcher_pid}" 2>/dev/null
 
   # 生出力を当日ログへ追記
   {
@@ -409,18 +456,26 @@ main() {
   } >> "${LOG_FILE}"
 
   # --- タイムアウト判定 ---
+  # 結果ブロック(RESULT=SUCCESS)まで出ていれば、作業は完了しており
+  # 終了だけしなかったものとして扱い、以降の検証と成功メールに進む。
+  local hung_after_result=0
   if [[ ${cc_rc} -eq 124 || ${cc_rc} -eq 137 ]]; then
     log "Claude Code がタイムアウトしました(rc=${cc_rc})。"
     extract_result_block   # 途中まで出ていれば ORPHAN_POST_ID を拾えることがある
-    send_mail "[brainsync-cron] 記事生成失敗: 実行タイムアウト(${TIMEOUT_SECS}秒)" \
-      "$(build_failure_body "実行タイムアウト" "Claude Code が ${TIMEOUT_SECS} 秒以内に完了しませんでした。")"
-    exit 1
+    if [[ "$(get_field RESULT)" == "SUCCESS" ]]; then
+      log "結果ブロック(RESULT=SUCCESS)は出力済み。完了後に終了しなかったものとして処理を続けます。"
+      hung_after_result=1
+    else
+      send_mail "[brainsync-cron] 記事生成失敗: 実行タイムアウト(${TIMEOUT_SECS}秒)" \
+        "$(build_failure_body "実行タイムアウト" "Claude Code が ${TIMEOUT_SECS} 秒以内に完了しませんでした。")"
+      exit 1
+    fi
   fi
 
   # --- 認証切れ(401)判定 ---
   # Claude Code 自体の OAuth 失効。WordPress MCP の 401 とは復旧手段が異なるため、
   # MCP 側のエラー文言(mcp / donut-wp)を含む場合はここでは拾わない。
-  if [[ ${cc_rc} -ne 0 ]] \
+  if [[ ${cc_rc} -ne 0 && ${hung_after_result} -eq 0 ]] \
      && grep -qiE '401|Invalid authentication credentials|Failed to authenticate' "${CLAUDE_OUT}" \
      && ! grep -qiE 'donut-wp|wp-json|mcp server' "${CLAUDE_OUT}"; then
     log "Claude Code の認証が切れています(401, rc=${cc_rc})。"
@@ -430,7 +485,7 @@ main() {
   fi
 
   # --- Claude プロセス自体の失敗 ---
-  if [[ ${cc_rc} -ne 0 ]]; then
+  if [[ ${cc_rc} -ne 0 && ${hung_after_result} -eq 0 ]]; then
     log "Claude Code が異常終了しました(rc=${cc_rc})。"
     extract_result_block
     send_mail "[brainsync-cron] 記事生成失敗: Claude Code 実行エラー" \
@@ -482,12 +537,21 @@ main() {
         exit 1
       fi
 
+      local warn_note=""
+      if [[ ${hung_after_result} -eq 1 ]]; then
+        warn_note="⚠ 注意: 記事の投稿と結果の出力は完了しましたが、Claude Code が終了せず ${TIMEOUT_SECS} 秒でタイムアウトしました。手動での再実行や Notion の「未処理」への差し戻しは不要です。終了しなかった時点のプロセス状態はログに記録しています: ${LOG_FILE}"
+      fi
       if [[ "${notion}" == "FAILED" ]]; then
         # 記事投入は成功だが Notion 更新に失敗 → 警告つき成功メール
         # (次回実行で同じネタが再生成されるおそれがあるため、手動対応を促す)
-        log "成功(ただし Notion 更新に失敗): ${title}"
+        warn_note="${warn_note:+${warn_note}
+}⚠ 注意: Notion「BrainSyncブログ」の完了処理に失敗しました。対象行を手動で「処理中」へ移動してください。放置すると次回実行で同じネタが再生成されます。"
+      fi
+
+      if [[ -n "${warn_note}" ]]; then
+        log "成功(警告あり: タイムアウト=${hung_after_result} Notion=${notion}): ${title}"
         send_mail "[brainsync-cron] 記事生成成功(警告): ${title}" \
-          "$(build_success_body "⚠ 注意: Notion「BrainSyncブログ」の完了処理に失敗しました。対象行を手動で「処理中」へ移動してください。放置すると次回実行で同じネタが再生成されます。")"
+          "$(build_success_body "${warn_note}")"
       else
         log "成功: ${title} (投稿 ID ${post_id})"
         send_mail "[brainsync-cron] 記事生成成功: ${title}" \
