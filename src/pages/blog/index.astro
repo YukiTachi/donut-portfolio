@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import SiteNav from '../../components/SiteNav.astro';
 import { isPublished } from '../../lib/posts';
+import { formatDate } from '../../lib/formatDate';
 
 const allPosts = await getCollection('blog', isPublished);
 
@@ -44,9 +45,7 @@ const NAV_LINKS: [string, string][] = [
               <div class="post__meta">
                 <span class="post__num">{String(i + 1).padStart(2, '0')}</span>
                 <time class="post__date">
-                  {new Date(post.data.pubDate).toLocaleDateString('ja-JP', {
-                    year: 'numeric', month: 'long', day: 'numeric',
-                  })}
+                  {formatDate(post.data.pubDate)}
                 </time>
                 <span class="post__author">— {post.data.author}</span>
               </div>

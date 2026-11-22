@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import SiteNav from '../../components/SiteNav.astro';
 import { isPublished } from '../../lib/posts';
+import { formatDate } from '../../lib/formatDate';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', isPublished);
@@ -46,9 +47,7 @@ const NAV_LINKS: [string, string][] = [
 
         <div class="post-meta">
           <time>
-            {new Date(post.data.pubDate).toLocaleDateString('ja-JP', {
-              year: 'numeric', month: 'long', day: 'numeric',
-            })}
+            {formatDate(post.data.pubDate)}
           </time>
           <span class="separator">·</span>
           <span>{post.data.author}</span>
