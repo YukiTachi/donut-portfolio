@@ -1085,6 +1085,7 @@ const NUTRI_STATS = [
   /* HERO */
   .hero {
     padding: 108px 48px 120px;
+    position: relative; /* グロー（absolute）をヒーロー内でクリップするため */
     overflow: hidden; min-height: 100vh;
     display: flex; flex-direction: column; justify-content: center;
   }
@@ -1208,9 +1209,9 @@ const NUTRI_STATS = [
   }
 
   @media (max-width: 900px) {
-    .hero__grid { grid-template-columns: 1fr; gap: 48px; }
-    .hero__portrait-wrap { justify-self: start; }
-    .portrait { width: 280px; }
+    .hero__grid { grid-template-columns: minmax(0, 1fr); gap: 48px; }
+    .hero__portrait-wrap { justify-self: start; max-width: 100%; }
+    .portrait { width: 280px; max-width: 100%; }
     .meta-rail { grid-template-columns: repeat(2, 1fr); }
   }
 
@@ -1429,7 +1430,8 @@ const NUTRI_STATS = [
   }
   .exp__work-num { font-family: var(--ff-mono); opacity: 0.6; }
   @media (max-width: 900px) {
-    .exp__grid { grid-template-columns: 1fr; }
+    .exp__grid { grid-template-columns: minmax(0, 1fr); }
+    .exp__org { overflow-wrap: anywhere; }
     .exp__alloc { flex-direction: column; gap: 16px; }
   }
 
@@ -2022,6 +2024,8 @@ const NUTRI_STATS = [
     .other { padding: 60px 24px; }
     .contact { padding: 100px 24px; }
     .hero { padding: 100px 24px 80px; }
+    /* 折り返さない見出し（最長7文字）が画面幅に収まるサイズにする */
+    .hero__title { font-size: clamp(34px, 12vw, 56px); }
     .rfooter { padding: 24px; }
     .meta-rail { grid-template-columns: 1fr 1fr; }
   }
