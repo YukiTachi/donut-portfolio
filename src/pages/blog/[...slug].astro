@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import SiteNav from '../../components/SiteNav.astro';
 import { isPublished } from '../../lib/posts';
 
 export async function getStaticPaths() {
@@ -13,6 +14,14 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await post.render();
+
+const NAV_LINKS: [string, string][] = [
+  ['/#about', 'About'],
+  ['/#walk', 'Walk'],
+  ['/#stack', 'Stack'],
+  ['/#brainsync', 'BrainSync'],
+  ['/blog/', 'Blog'],
+];
 ---
 
 <Layout
@@ -25,20 +34,7 @@ const { Content } = await post.render();
   publishedTime={post.data.pubDate.toISOString()}
   tags={post.data.tags}
 >
-  <nav class="rnav" id="rnav">
-    <div class="rnav__brand">
-      <span class="rnav__logo">y</span>
-      <span class="rnav__name">Tachi</span>
-    </div>
-    <div class="rnav__links">
-      <a href="/#about">About</a>
-      <a href="/#walk">Walk</a>
-      <a href="/#stack">Stack</a>
-      <a href="/#brainsync">BrainSync</a>
-      <a href="/blog/">Blog</a>
-    </div>
-    <a href="/#contact" class="rnav__cta">Contact <span>→</span></a>
-  </nav>
+  <SiteNav links={NAV_LINKS} ctaHref="/#contact" />
 
   <main class="post-page">
     <article class="post-inner">
@@ -87,54 +83,9 @@ const { Content } = await post.render();
     <span>Set in Fraunces, Inter, JetBrains Mono</span>
   </footer>
 
-  <script is:inline>
-    (function () {
-      const nav = document.getElementById('rnav');
-      if (nav) {
-        const onS = () => nav.classList.toggle('is-scrolled', window.scrollY > 40);
-        onS();
-        window.addEventListener('scroll', onS, { passive: true });
-      }
-    })();
-  </script>
 </Layout>
 
 <style>
-  /* NAV */
-  .rnav {
-    position: fixed; top: 12px; left: 50%; transform: translateX(-50%);
-    z-index: 100; transition: all .3s;
-    background: rgba(244, 237, 224, 0.4);
-    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--c-rule); border-radius: 999px;
-    padding: 10px 14px 10px 18px;
-    display: flex; align-items: center; gap: 24px; font-size: 13px;
-    max-width: min(900px, calc(100vw - 32px));
-  }
-  .rnav.is-scrolled {
-    background: rgba(244, 237, 224, 0.85);
-    box-shadow: 0 8px 24px rgba(34, 26, 63, 0.08);
-  }
-  .rnav__brand { display: flex; align-items: center; gap: 10px; }
-  .rnav__logo {
-    width: 22px; height: 22px; border-radius: 50%; background: var(--c-accent);
-    display: inline-flex; align-items: center; justify-content: center;
-    color: var(--c-cream); font-family: var(--ff-serif);
-    font-size: 13px; font-weight: 600; font-style: italic;
-  }
-  .rnav__name { font-family: var(--ff-serif); font-size: 16px; font-weight: 500; }
-  .rnav__links { display: flex; gap: 20px; }
-  .rnav__links a { color: var(--c-ink); text-decoration: none; font-size: 13px; }
-  .rnav__cta {
-    background: var(--c-ink); color: var(--c-cream); padding: 8px 14px;
-    border-radius: 999px; font-size: 12px; text-decoration: none;
-    display: inline-flex; gap: 6px; align-items: center;
-  }
-  @media (max-width: 768px) {
-    .rnav { gap: 12px; padding: 8px 8px 8px 14px; font-size: 12px; }
-    .rnav__links { display: none; }
-  }
-
   /* PAGE */
   .post-page { min-height: 100vh; background: var(--c-cream); padding: 140px 48px 80px; }
   .post-inner { max-width: 760px; margin: 0 auto; }
