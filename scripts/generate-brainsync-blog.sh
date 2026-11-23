@@ -30,6 +30,18 @@ SCRIPT_DIR="${WORKDIR}/scripts"
 PROMPT_FILE="${SCRIPT_DIR}/cron-brainsync-prompt.md"
 
 CLAUDE_BIN="/home/yukit/.local/bin/claude"   # cron は PATH が異なるためフルパス指定
+
+# 無人実行用の長期トークン(claude setup-token で発行、約1年有効)。
+# ファイルがあれば CLAUDE_CODE_OAUTH_TOKEN として読み込み、なければ /login のログイン情報で動く。
+# 中身は「CLAUDE_CODE_OAUTH_TOKEN=sk-ant-oat01-…」の1行、権限 600。
+TOKEN_ENV="${HOME}/.config/claude-cron/token.env"
+if [[ -r "${TOKEN_ENV}" ]]; then
+  set -a; . "${TOKEN_ENV}"; set +a
+  AUTH_MODE="長期トークン(${TOKEN_ENV})"
+else
+  AUTH_MODE="/login のログイン情報(token.env なし)"
+fi
+
 MSMTP_BIN="/usr/local/bin/msmtp"
 TIMEOUT_BIN="/usr/bin/timeout"
 
@@ -322,16 +334,23 @@ build_auth_failure_body() {
 BrainSync ブログ記事の自動生成に失敗しました(原因: Claude Code の認証切れ)。
 
 ■ 原因
-  Claude Code の OAuth トークンが失効しているため、記事生成を開始できませんでした。
+  Claude Code の認証情報が失効しているため、記事生成を開始できませんでした。
+  認証方式: ${AUTH_MODE}
   (出力に "401 Invalid authentication credentials" を検出)
   ※ Notion・WordPress には一切変更を加えていません(着手前に停止)。
 
-■ 復旧手順
+■ 復旧手順(長期トークンの再発行)
   1. このサーバーに SSH ログイン
-  2. claude を対話起動して再認証: claude → /login(ブラウザ認証を完了)
-  3. 疎通確認: ${CLAUDE_BIN} --print "Reply with exactly: AUTH_OK"
+  2. トークンを再発行: claude setup-token
+     (ブラウザ認証を完了し、表示された sk-ant-oat01-… を控える。メール等に貼らない)
+  3. ${TOKEN_ENV} を差し替え(権限 600 のまま):
+     ( umask 077; printf 'CLAUDE_CODE_OAUTH_TOKEN=%s\n' '控えたトークン' > ${TOKEN_ENV} )
+  4. 疎通確認(bash で):
+     set -a; . ${TOKEN_ENV}; set +a; ${CLAUDE_BIN} --print "Reply with exactly: AUTH_OK"
      → "AUTH_OK" が返れば復旧。次回 cron から自動で再開します。
-  4. すぐ流したい場合は手動再実行: bash ${SCRIPT_DIR}/generate-brainsync-blog.sh
+  5. すぐ流したい場合は手動再実行: bash ${SCRIPT_DIR}/generate-brainsync-blog.sh
+  ※ token.env を使っていない場合は、2〜3 の代わりに claude → /login で再認証する。
+  ※ トークンの有効期限は約1年。期限前に 2〜4 で更新しておくと止まらない。
 
 ■ 処理ログ
   開始 : ${START_HUMAN}
@@ -425,7 +444,7 @@ main() {
   }
 
   # Claude Code を非対話モードで起動(30 分タイムアウト)
-  log "Claude Code を起動します(timeout ${TIMEOUT_SECS}s)。"
+  log "Claude Code を起動します(timeout ${TIMEOUT_SECS}s、認証: ${AUTH_MODE})。"
   local prompt_text
   prompt_text="$(cat "${PROMPT_FILE}")"
 
@@ -479,7 +498,7 @@ main() {
      && grep -qiE '401|Invalid authentication credentials|Failed to authenticate' "${CLAUDE_OUT}" \
      && ! grep -qiE 'donut-wp|wp-json|mcp server' "${CLAUDE_OUT}"; then
     log "Claude Code の認証が切れています(401, rc=${cc_rc})。"
-    send_mail "[brainsync-cron] 記事生成失敗: 認証切れ(/login で復旧してください)" \
+    send_mail "[brainsync-cron] 記事生成失敗: 認証切れ(setup-token で再発行してください)" \
       "$(build_auth_failure_body)"
     exit 1
   fi
